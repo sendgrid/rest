@@ -91,7 +91,52 @@ func main() {
 		Method:         method,
 		BaseURL:        baseURL + "/" + apiKey,
 		RequestHeaders: requestHeaders,
-		QueryParams:    queryParams,
+	}
+	response, e = rest.API(request)
+	if e != nil {
+		fmt.Println(e)
+	} else {
+		fmt.Println(response.StatusCode)
+		fmt.Println(response.ResponseBody)
+		fmt.Println(response.ResponseHeaders)
+	}
+
+	// PATCH
+	method = "PATCH"
+
+	requestBody = []byte(`{
+        "name": "A New Hope"
+    }`)
+	request = rest.Request{
+		Method:         method,
+		BaseURL:        baseURL + "/" + apiKey,
+		RequestHeaders: requestHeaders,
+		RequestBody:    requestBody,
+	}
+	response, e = rest.API(request)
+	if e != nil {
+		fmt.Println(e)
+	} else {
+		fmt.Println(response.StatusCode)
+		fmt.Println(response.ResponseBody)
+		fmt.Println(response.ResponseHeaders)
+	}
+
+	// PUT
+	method = "PUT"
+
+	requestBody = []byte(`{
+        "name": "A New Hope",
+        "scopes": [
+            "user.profile.read",
+            "user.profile.update"
+        ]
+    }`)
+	request = rest.Request{
+		Method:         method,
+		BaseURL:        baseURL + "/" + apiKey,
+		RequestHeaders: requestHeaders,
+		RequestBody:    requestBody,
 	}
 	response, e = rest.API(request)
 	if e != nil {
