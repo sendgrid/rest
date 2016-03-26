@@ -9,11 +9,11 @@ import (
 
 // Request holds the request to an API Call
 type Request struct {
-    Method string
-    BaseURL string
-    RequestHeaders map[string]string
-    QueryParams map[string]string
-    RequestBody []byte
+	Method         string
+	BaseURL        string
+	RequestHeaders map[string]string
+	QueryParams    map[string]string
+	RequestBody    []byte
 }
 
 // Response holds the response from an API call
@@ -24,27 +24,27 @@ type Response struct {
 }
 
 // BuildURL adds query paramaters to the URL
-func BuildURL(baseURL string, queryParams map[string]string) (string) {
-    baseURL += "?"
-    params := url.Values{}
-    for key, value := range queryParams {
-        params.Add(key, value)
-    }
-    return baseURL + params.Encode()
+func BuildURL(baseURL string, queryParams map[string]string) string {
+	baseURL += "?"
+	params := url.Values{}
+	for key, value := range queryParams {
+		params.Add(key, value)
+	}
+	return baseURL + params.Encode()
 }
 
 // BuildRequest creates the HTTP request object
 func BuildRequest(request Request) (*http.Request, error) {
-    req, e := http.NewRequest(request.Method, request.BaseURL, bytes.NewBuffer(request.RequestBody))
+	req, e := http.NewRequest(request.Method, request.BaseURL, bytes.NewBuffer(request.RequestBody))
 	for key, value := range request.RequestHeaders {
 		req.Header.Set(key, value)
 	}
-    return req, e
+	return req, e
 }
 
 // MakeRequest makes the API call
 func MakeRequest(req *http.Request) (*http.Response, error) {
-    var Client = &http.Client{
+	var Client = &http.Client{
 		Transport: http.DefaultTransport,
 	}
 	res, e := Client.Do(req)
@@ -53,18 +53,18 @@ func MakeRequest(req *http.Request) (*http.Response, error) {
 
 // BuildResponse builds the response struct
 func BuildResponse(res *http.Response) (Response, error) {
-    var response Response
-    response.StatusCode = res.StatusCode
+	var response Response
+	response.StatusCode = res.StatusCode
 	body, e := ioutil.ReadAll(res.Body)
 	defer res.Body.Close()
 	response.ResponseBody = string(body)
 	response.ResponseHeaders = res.Header
-    return response, e
+	return response, e
 }
 
 // API allows for quick and easy access any REST or REST-like API.
 func API(request Request) (Response, error) {
-	
+
 	// Build the final URL
 	if len(request.QueryParams) != 0 {
 		request.BaseURL = BuildURL(request.BaseURL, request.QueryParams)
@@ -77,7 +77,7 @@ func API(request Request) (Response, error) {
 	res, e := MakeRequest(req)
 
 	// Build Response object
-    response, e := BuildResponse(res)
+	response, e := BuildResponse(res)
 
 	return response, e
 }
