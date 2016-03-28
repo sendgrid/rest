@@ -12,4 +12,4 @@ Navigate to your go workspace + `/src/github.com/sendgrid/rest`
 
 `source ./sendgrid.env`
 
-`go run example/example.go`
+`go run examples/example.go`
