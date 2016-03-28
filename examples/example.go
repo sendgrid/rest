@@ -12,9 +12,8 @@ func main() {
 	// Build the URL
 	//host := "https://api.sendgrid.com"
 	host := "https://e9sk3d3bfaikbpdq7.stoplight-proxy.io"
-	version := "/v3"
-	endpoint := "/api_keys"
-	baseURL := host + version + endpoint
+	endpoint := "/v3/api_keys"
+	baseURL := host + endpoint
 
 	// Build the request headers
 	key := os.Getenv("SENDGRID_API_KEY")

@@ -8,9 +8,10 @@ import (
 )
 
 // Request holds the request to an API Call
+// Currently, only GET, PUT, PATCH, POST and DELETE are supported methods
 type Request struct {
 	Method         string
-	BaseURL        string
+	BaseURL        string // e.g. https://api.sendgrid.com
 	RequestHeaders map[string]string
 	QueryParams    map[string]string
 	RequestBody    []byte
