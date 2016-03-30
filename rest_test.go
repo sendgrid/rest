@@ -12,7 +12,7 @@ func TestBuildURL(t *testing.T) {
 	queryParams := make(map[string]string)
 	queryParams["test"] = "1"
 	queryParams["test2"] = "2"
-	testURL := BuildURL(host, queryParams)
+	testURL := AddQueryParameters(host, queryParams)
 	if testURL != "http://api.test.com?test=1&test2=2" {
 		t.Error("Bad BuildURL result")
 	}
@@ -34,14 +34,13 @@ func TestBuildRequest(t *testing.T) {
 		RequestHeaders: requestHeaders,
 		QueryParams:    queryParams,
 	}
-	req, e := BuildRequest(request)
+	req, e := BuildRequestObject(request)
 	if e != nil {
 		t.Errorf("Rest failed to BuildRequest. Returned error: %v", e)
 	}
 	if req == nil {
 		t.Errorf("Failed to BuildRequest.")
 	}
-
 }
 
 func TestBuildResponse(t *testing.T) {
@@ -54,7 +53,7 @@ func TestBuildResponse(t *testing.T) {
 		Method:  method,
 		BaseURL: baseURL,
 	}
-	req, e := BuildRequest(request)
+	req, e := BuildRequestObject(request)
 	res, e := MakeRequest(req)
 	response, e := BuildResponse(res)
 	if response.StatusCode != 200 {

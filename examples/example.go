@@ -72,7 +72,9 @@ func main() {
 		fmt.Println(response.ResponseHeaders)
 	}
 
-	// Get a perticular return value
+	// Get a particular return value.
+	// Note that you can unmarshall into a struct if
+	// you know the JSON structure in advance.
 	b := []byte(response.ResponseBody)
 	var f interface{}
 	err := json.Unmarshal(b, &f)

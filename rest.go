@@ -1,3 +1,4 @@
+// Package rest allows for quick and easy access any REST or REST-like API.
 package rest
 
 import (
@@ -24,8 +25,8 @@ type Response struct {
 	ResponseHeaders map[string][]string // e.g. map[X-Ratelimit-Limit:[600]]
 }
 
-// BuildURL adds query paramaters to the URL
-func BuildURL(baseURL string, queryParams map[string]string) string {
+// AddQueryParameters adds query paramaters to the URL
+func AddQueryParameters(baseURL string, queryParams map[string]string) string {
 	baseURL += "?"
 	params := url.Values{}
 	for key, value := range queryParams {
@@ -34,8 +35,8 @@ func BuildURL(baseURL string, queryParams map[string]string) string {
 	return baseURL + params.Encode()
 }
 
-// BuildRequest creates the HTTP request object
-func BuildRequest(request Request) (*http.Request, error) {
+// BuildRequestObject creates the HTTP request object
+func BuildRequestObject(request Request) (*http.Request, error) {
 	req, e := http.NewRequest(request.Method, request.BaseURL, bytes.NewBuffer(request.RequestBody))
 	for key, value := range request.RequestHeaders {
 		req.Header.Set(key, value)
@@ -54,25 +55,25 @@ func MakeRequest(req *http.Request) (*http.Response, error) {
 
 // BuildResponse builds the response struct
 func BuildResponse(res *http.Response) (Response, error) {
-	var response Response
-	response.StatusCode = res.StatusCode
 	body, e := ioutil.ReadAll(res.Body)
 	defer res.Body.Close()
-	response.ResponseBody = string(body)
-	response.ResponseHeaders = res.Header
+	response := Response{
+		StatusCode:      res.StatusCode,
+		ResponseBody:    string(body),
+		ResponseHeaders: res.Header,
+	}
 	return response, e
 }
 
-// API allows for quick and easy access any REST or REST-like API.
+// API is the main interface to the API.
 func API(request Request) (Response, error) {
-
-	// Build the final URL
+	// Add any query parameters to the URL
 	if len(request.QueryParams) != 0 {
-		request.BaseURL = BuildURL(request.BaseURL, request.QueryParams)
+		request.BaseURL = AddQueryParameters(request.BaseURL, request.QueryParams)
 	}
 
-	// Build the http request object
-	req, e := BuildRequest(request)
+	// Build the HTTP request object
+	req, e := BuildRequestObject(request)
 
 	// Build the HTTP client and make the request
 	res, e := MakeRequest(req)
