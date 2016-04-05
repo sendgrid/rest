@@ -10,8 +10,7 @@ import (
 func main() {
 
 	// Build the URL
-	//host := "https://api.sendgrid.com"
-	host := "https://e9sk3d3bfaikbpdq7.stoplight-proxy.io"
+	host := "https://api.sendgrid.com"
 	endpoint := "/v3/api_keys"
 	baseURL := host + endpoint
 
