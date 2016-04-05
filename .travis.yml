@@ -14,3 +14,4 @@ notifications:
       <a href="https://github.com/sendgrid/%{repository}/commits/%{commit}">View on GitHub</a>'
     format: html
     notify: true
+    
