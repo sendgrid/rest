@@ -222,11 +222,11 @@ func main() {
 
 # Roadmap
 
-[Milestones](https://github.com/sendgrid/python-http-client/milestones)
+[Milestones](https://github.com/sendgrid/rest/milestones)
 
 # How to Contribute
 
-We encourage contribution to our libraries, please see our [CONTRIBUTING](https://github.com/sendgrid/python-http-client/blob/master/CONTRIBUTING.md) guide for details.
+We encourage contribution to our libraries, please see our [CONTRIBUTING](https://github.com/sendgrid/rest/blob/master/CONTRIBUTING.md) guide for details.
 
 * [Feature Request](https://github.com/sendgrid/rest/blob/master/CONTRIBUTING.md#feature_request)
 * [Bug Reports](https://github.com/sendgrid/rest/blob/master/CONTRIBUTING.md#submit_a_bug_report)
