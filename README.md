@@ -8,23 +8,25 @@ Here is a quick example:
 
 ```go
 package main
+
 import "github.com/sendgrid/rest"
 import "fmt"
+
 func main() {
-    host := "https://api.example.com"
+	const host = "https://api.example.com"
 	endpoint := "/your/api/" + param + "/rest"
 	baseURL := host + endpoint
 	requestHeaders := make(map[string]string)
 	requestHeaders["Authorization"] = "Bearer " + Key
-    method := "GET"
-    request := rest.Request{
+	method := rest.Get
+	request := rest.Request{
 		Method:         method,
 		BaseURL:        baseURL,
-		RequestHeaders: requestHeaders
+		RequestHeaders: requestHeaders,
 	}
-    response, e := rest.API(request)
-	if e != nil {
-		fmt.Println(e)
+	response, err := rest.API(request)
+	if err != nil {
+		fmt.Println(err)
 	} else {
 		fmt.Println(response.StatusCode)
 		fmt.Println(response.ResponseBody)
@@ -37,20 +39,22 @@ func main() {
 
 ```go
 package main
+
 import "github.com/sendgrid/rest"
 import "fmt"
+
 func main() {
-    host := "https://api.example.com"
+	const host = "https://api.example.com"
 	endpoint := "/your/api/" + param + "/rest"
 	baseURL := host + endpoint
 	requestHeaders := make(map[string]string)
 	requestHeaders["Authorization"] = "Bearer " + Key
-    requestHeaders["X-Test"] = "Test"
-    var requestBody = []byte(`{"some": 0, "awesome": 1, "data": 3}`)
-    queryParams := make(map[string]string)
+	requestHeaders["X-Test"] = "Test"
+	var requestBody = []byte(`{"some": 0, "awesome": 1, "data": 3}`)
+	queryParams := make(map[string]string)
 	queryParams["hello"] = 0
-    queryParams["world"] = 1
-    method := "POST"
+	queryParams["world"] = 1
+	method := "POST"
 	request = rest.Request{
 		Method:         method,
 		BaseURL:        baseURL,
@@ -58,9 +62,9 @@ func main() {
 		QueryParams:    queryParams,
 		RequestBody:    requestBody,
 	}
-    response, e := rest.API(request)
-	if e != nil {
-		fmt.Println(e)
+	response, err := rest.API(request)
+	if err != nil {
+		fmt.Println(err)
 	} else {
 		fmt.Println(response.StatusCode)
 		fmt.Println(response.ResponseBody)
@@ -100,7 +104,7 @@ import (
 func main() {
 
 	// Build the URL
-	host := "https://api.sendgrid.com"
+	const host = "https://api.sendgrid.com"
 	endpoint := "/v3/api_keys"
 	baseURL := host + endpoint
 
@@ -111,7 +115,7 @@ func main() {
 	requestHeaders["Authorization"] = "Bearer " + key
 
 	// GET Collection
-	method := "GET"
+	method := rest.Get
 
 	// Build the query parameters
 	queryParams := make(map[string]string)
@@ -125,10 +129,10 @@ func main() {
 		RequestHeaders: requestHeaders,
 		QueryParams:    queryParams,
 	}
-	response, e := rest.API(request)
+	response, err := rest.API(request)
 
 	// POST
-	method = "POST"
+	method = rest.Post
 
 	var requestBody = []byte(` {
         "name": "My API Key",
@@ -145,14 +149,14 @@ func main() {
 		QueryParams:    queryParams,
 		RequestBody:    requestBody,
 	}
-	response, e = rest.API(request)
+	response, err = rest.API(request)
 
 	// Get a particular return value.
 	// Note that you can unmarshall into a struct if
 	// you know the JSON structure in advance.
 	b := []byte(response.ResponseBody)
 	var f interface{}
-	err := json.Unmarshal(b, &f)
+	err = json.Unmarshal(b, &f)
 	if err != nil {
 		fmt.Println(err)
 	}
@@ -160,7 +164,7 @@ func main() {
 	apiKey := m["api_key_id"].(string)
 
 	// GET Single
-	method = "GET"
+	method = rest.Get
 
 	// Make the API call
 	request = rest.Request{
@@ -168,10 +172,10 @@ func main() {
 		BaseURL:        baseURL + "/" + apiKey,
 		RequestHeaders: requestHeaders,
 	}
-	response, e = rest.API(request)
+	response, err = rest.API(request)
 
 	// PATCH
-	method = "PATCH"
+	method = rest.Patch
 
 	requestBody = []byte(`{
         "name": "A New Hope"
@@ -182,10 +186,10 @@ func main() {
 		RequestHeaders: requestHeaders,
 		RequestBody:    requestBody,
 	}
-	response, e = rest.API(request)
+	response, err = rest.API(request)
 
 	// PUT
-	method = "PUT"
+	method = rest.Put
 
 	requestBody = []byte(`{
         "name": "A New Hope",
@@ -200,10 +204,10 @@ func main() {
 		RequestHeaders: requestHeaders,
 		RequestBody:    requestBody,
 	}
-	response, e = rest.API(request)
+	response, err = rest.API(request)
 
 	// DELETE
-	method = "DELETE"
+	method = rest.Delete
 
 	request = rest.Request{
 		Method:         method,
@@ -212,8 +216,9 @@ func main() {
 		QueryParams:    queryParams,
 		RequestBody:    requestBody,
 	}
-	response, e = rest.API(request)
+	response, err = rest.API(request)
 }
+
 ```
 
 # Announcements
