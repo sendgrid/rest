@@ -19,7 +19,7 @@ func TestBuildURL(t *testing.T) {
 }
 
 func TestBuildRequest(t *testing.T) {
-	method := "GET"
+	method := Get
 	baseURL := "http://api.test.com"
 	key := "API_KEY"
 	requestHeaders := make(map[string]string)
@@ -48,7 +48,7 @@ func TestBuildResponse(t *testing.T) {
 		fmt.Fprintln(w, "{\"message\": \"success\"}")
 	}))
 	baseURL := fakeServer.URL
-	method := "GET"
+	method := Get
 	request := Request{
 		Method:  method,
 		BaseURL: baseURL,
@@ -81,7 +81,7 @@ func TestRest(t *testing.T) {
 	requestHeaders := make(map[string]string)
 	requestHeaders["Content-Type"] = "application/json"
 	requestHeaders["Authorization"] = "Bearer " + key
-	method := "GET"
+	method := Get
 	queryParams := make(map[string]string)
 	queryParams["test"] = "1"
 	queryParams["test2"] = "2"

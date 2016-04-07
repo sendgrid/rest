@@ -10,7 +10,7 @@ import (
 func main() {
 
 	// Build the URL
-	host := "https://api.sendgrid.com"
+	const host = "https://api.sendgrid.com"
 	endpoint := "/v3/api_keys"
 	baseURL := host + endpoint
 
@@ -21,7 +21,7 @@ func main() {
 	requestHeaders["Authorization"] = "Bearer " + key
 
 	// GET Collection
-	method := "GET"
+	method := rest.Get
 
 	// Build the query parameters
 	queryParams := make(map[string]string)
@@ -35,9 +35,9 @@ func main() {
 		RequestHeaders: requestHeaders,
 		QueryParams:    queryParams,
 	}
-	response, e := rest.API(request)
-	if e != nil {
-		fmt.Println(e)
+	response, err := rest.API(request)
+	if err != nil {
+		fmt.Println(err)
 	} else {
 		fmt.Println(response.StatusCode)
 		fmt.Println(response.ResponseBody)
@@ -45,7 +45,7 @@ func main() {
 	}
 
 	// POST
-	method = "POST"
+	method = rest.Post
 
 	var requestBody = []byte(` {
         "name": "My API Key",
@@ -62,9 +62,9 @@ func main() {
 		QueryParams:    queryParams,
 		RequestBody:    requestBody,
 	}
-	response, e = rest.API(request)
-	if e != nil {
-		fmt.Println(e)
+	response, err = rest.API(request)
+	if err != nil {
+		fmt.Println(err)
 	} else {
 		fmt.Println(response.StatusCode)
 		fmt.Println(response.ResponseBody)
@@ -76,7 +76,7 @@ func main() {
 	// you know the JSON structure in advance.
 	b := []byte(response.ResponseBody)
 	var f interface{}
-	err := json.Unmarshal(b, &f)
+	err = json.Unmarshal(b, &f)
 	if err != nil {
 		fmt.Println(err)
 	}
@@ -84,7 +84,7 @@ func main() {
 	apiKey := m["api_key_id"].(string)
 
 	// GET Single
-	method = "GET"
+	method = rest.Get
 
 	// Make the API call
 	request = rest.Request{
@@ -92,9 +92,9 @@ func main() {
 		BaseURL:        baseURL + "/" + apiKey,
 		RequestHeaders: requestHeaders,
 	}
-	response, e = rest.API(request)
-	if e != nil {
-		fmt.Println(e)
+	response, err = rest.API(request)
+	if err != nil {
+		fmt.Println(err)
 	} else {
 		fmt.Println(response.StatusCode)
 		fmt.Println(response.ResponseBody)
@@ -102,7 +102,7 @@ func main() {
 	}
 
 	// PATCH
-	method = "PATCH"
+	method = rest.Patch
 
 	requestBody = []byte(`{
         "name": "A New Hope"
@@ -113,9 +113,9 @@ func main() {
 		RequestHeaders: requestHeaders,
 		RequestBody:    requestBody,
 	}
-	response, e = rest.API(request)
-	if e != nil {
-		fmt.Println(e)
+	response, err = rest.API(request)
+	if err != nil {
+		fmt.Println(err)
 	} else {
 		fmt.Println(response.StatusCode)
 		fmt.Println(response.ResponseBody)
@@ -123,7 +123,7 @@ func main() {
 	}
 
 	// PUT
-	method = "PUT"
+	method = rest.Put
 
 	requestBody = []byte(`{
         "name": "A New Hope",
@@ -138,9 +138,9 @@ func main() {
 		RequestHeaders: requestHeaders,
 		RequestBody:    requestBody,
 	}
-	response, e = rest.API(request)
-	if e != nil {
-		fmt.Println(e)
+	response, err = rest.API(request)
+	if err != nil {
+		fmt.Println(err)
 	} else {
 		fmt.Println(response.StatusCode)
 		fmt.Println(response.ResponseBody)
@@ -148,7 +148,7 @@ func main() {
 	}
 
 	// DELETE
-	method = "DELETE"
+	method = rest.Delete
 
 	request = rest.Request{
 		Method:         method,
@@ -157,9 +157,9 @@ func main() {
 		QueryParams:    queryParams,
 		RequestBody:    requestBody,
 	}
-	response, e = rest.API(request)
-	if e != nil {
-		fmt.Println(e)
+	response, err = rest.API(request)
+	if err != nil {
+		fmt.Println(err)
 	} else {
 		fmt.Println(response.StatusCode)
 		fmt.Println(response.ResponseHeaders)

@@ -8,10 +8,20 @@ import (
 	"net/url"
 )
 
+// Method contains the supported HTTP verbs
+type Method string
+const (
+	Get    Method = "GET"
+	Post   Method = "POST"
+	Put    Method = "PUT"
+	Patch  Method = "PATCH"
+	Delete Method = "DELETE"
+)
+
 // Request holds the request to an API Call
 // Currently, only GET, PUT, PATCH, POST and DELETE are supported methods
 type Request struct {
-	Method         string
+	Method         Method
 	BaseURL        string // e.g. https://api.sendgrid.com
 	RequestHeaders map[string]string
 	QueryParams    map[string]string
@@ -37,11 +47,11 @@ func AddQueryParameters(baseURL string, queryParams map[string]string) string {
 
 // BuildRequestObject creates the HTTP request object
 func BuildRequestObject(request Request) (*http.Request, error) {
-	req, e := http.NewRequest(request.Method, request.BaseURL, bytes.NewBuffer(request.RequestBody))
+	req, err := http.NewRequest(string(request.Method), request.BaseURL, bytes.NewBuffer(request.RequestBody))
 	for key, value := range request.RequestHeaders {
 		req.Header.Set(key, value)
 	}
-	return req, e
+	return req, err
 }
 
 // MakeRequest makes the API call
@@ -49,24 +59,27 @@ func MakeRequest(req *http.Request) (*http.Response, error) {
 	var Client = &http.Client{
 		Transport: http.DefaultTransport,
 	}
-	res, e := Client.Do(req)
-	return res, e
+	res, err := Client.Do(req)
+	return res, err
 }
 
 // BuildResponse builds the response struct
-func BuildResponse(res *http.Response) (Response, error) {
-	body, e := ioutil.ReadAll(res.Body)
+func BuildResponse(res *http.Response) (*Response, error) {
+	body, err := ioutil.ReadAll(res.Body)
+	if err != nil {
+		return nil, err
+	}
 	defer res.Body.Close()
 	response := Response{
 		StatusCode:      res.StatusCode,
 		ResponseBody:    string(body),
 		ResponseHeaders: res.Header,
 	}
-	return response, e
+	return &response, err
 }
 
 // API is the main interface to the API.
-func API(request Request) (Response, error) {
+func API(request Request) (*Response, error) {
 	// Add any query parameters to the URL
 	if len(request.QueryParams) != 0 {
 		request.BaseURL = AddQueryParameters(request.BaseURL, request.QueryParams)
