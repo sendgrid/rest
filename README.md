@@ -14,7 +14,7 @@ import "fmt"
 
 func main() {
 	const host = "https://api.example.com"
-	endpoint := "/your/api/" + param + "/rest"
+	endpoint := "/your/api/" + param + "/call"
 	baseURL := host + endpoint
 	requestHeaders := make(map[string]string)
 	requestHeaders["Authorization"] = "Bearer " + Key
@@ -45,7 +45,7 @@ import "fmt"
 
 func main() {
 	const host = "https://api.example.com"
-	endpoint := "/your/api/" + param + "/rest"
+	endpoint := "/your/api/" + param + "/call"
 	baseURL := host + endpoint
 	requestHeaders := make(map[string]string)
 	requestHeaders["Authorization"] = "Bearer " + Key
