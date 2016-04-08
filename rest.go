@@ -10,6 +10,7 @@ import (
 
 // Method contains the supported HTTP verbs
 type Method string
+
 const (
 	Get    Method = "GET"
 	Post   Method = "POST"
@@ -75,7 +76,7 @@ func BuildResponse(res *http.Response) (*Response, error) {
 		ResponseBody:    string(body),
 		ResponseHeaders: res.Header,
 	}
-	return &response, err
+	return &response, nil
 }
 
 // API is the main interface to the API.
@@ -86,13 +87,22 @@ func API(request Request) (*Response, error) {
 	}
 
 	// Build the HTTP request object
-	req, e := BuildRequestObject(request)
+	req, err := BuildRequestObject(request)
+	if err != nil {
+		return nil, err
+	}
 
 	// Build the HTTP client and make the request
-	res, e := MakeRequest(req)
+	res, err := MakeRequest(req)
+	if err != nil {
+		return nil, err
+	}
 
 	// Build Response object
-	response, e := BuildResponse(res)
+	response, err := BuildResponse(res)
+	if err != nil {
+		return nil, err
+	}
 
-	return response, e
+	return response, nil
 }
