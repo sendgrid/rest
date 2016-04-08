@@ -8,7 +8,7 @@ import (
 	"net/url"
 )
 
-// Method contains the supported HTTP verbs
+// Method contains the supported HTTP verbs.
 type Method string
 
 const (
@@ -19,8 +19,7 @@ const (
 	Delete Method = "DELETE"
 )
 
-// Request holds the request to an API Call
-// Currently, only GET, PUT, PATCH, POST and DELETE are supported methods
+// Request holds the request to an API Call.
 type Request struct {
 	Method         Method
 	BaseURL        string // e.g. https://api.sendgrid.com
@@ -29,14 +28,14 @@ type Request struct {
 	RequestBody    []byte
 }
 
-// Response holds the response from an API call
+// Response holds the response from an API call.
 type Response struct {
 	StatusCode      int                 // e.g. 200
 	ResponseBody    string              // e.g. {"result: success"}
 	ResponseHeaders map[string][]string // e.g. map[X-Ratelimit-Limit:[600]]
 }
 
-// AddQueryParameters adds query paramaters to the URL
+// AddQueryParameters adds query paramaters to the URL.
 func AddQueryParameters(baseURL string, queryParams map[string]string) string {
 	baseURL += "?"
 	params := url.Values{}
@@ -46,7 +45,7 @@ func AddQueryParameters(baseURL string, queryParams map[string]string) string {
 	return baseURL + params.Encode()
 }
 
-// BuildRequestObject creates the HTTP request object
+// BuildRequestObject creates the HTTP request object.
 func BuildRequestObject(request Request) (*http.Request, error) {
 	req, err := http.NewRequest(string(request.Method), request.BaseURL, bytes.NewBuffer(request.RequestBody))
 	for key, value := range request.RequestHeaders {
@@ -55,7 +54,7 @@ func BuildRequestObject(request Request) (*http.Request, error) {
 	return req, err
 }
 
-// MakeRequest makes the API call
+// MakeRequest makes the API call.
 func MakeRequest(req *http.Request) (*http.Response, error) {
 	var Client = &http.Client{
 		Transport: http.DefaultTransport,
@@ -64,7 +63,7 @@ func MakeRequest(req *http.Request) (*http.Response, error) {
 	return res, err
 }
 
-// BuildResponse builds the response struct
+// BuildResponse builds the response struct.
 func BuildResponse(res *http.Response) (*Response, error) {
 	body, err := ioutil.ReadAll(res.Body)
 	if err != nil {
@@ -81,24 +80,24 @@ func BuildResponse(res *http.Response) (*Response, error) {
 
 // API is the main interface to the API.
 func API(request Request) (*Response, error) {
-	// Add any query parameters to the URL
+	// Add any query parameters to the URL.
 	if len(request.QueryParams) != 0 {
 		request.BaseURL = AddQueryParameters(request.BaseURL, request.QueryParams)
 	}
 
-	// Build the HTTP request object
+	// Build the HTTP request object.
 	req, err := BuildRequestObject(request)
 	if err != nil {
 		return nil, err
 	}
 
-	// Build the HTTP client and make the request
+	// Build the HTTP client and make the request.
 	res, err := MakeRequest(req)
 	if err != nil {
 		return nil, err
 	}
 
-	// Build Response object
+	// Build Response object.
 	response, err := BuildResponse(res)
 	if err != nil {
 		return nil, err
