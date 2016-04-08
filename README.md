@@ -81,7 +81,7 @@ func main() {
 
 Following is an example using SendGrid. You can get your free account [here](https://sendgrid.com/free?source=python-http-client).
 
-First, update your environment with your [SENDGRID_API_KEY](https://app.sendgrid.com/settings/api_keys) and HOST. For this example HOST=https://api.sendgrid.com.
+First, update your environment with your [SENDGRID_API_KEY](https://app.sendgrid.com/settings/api_keys).
 
 ```bash
 echo "export SENDGRID_API_KEY='YOUR_API_KEY'" > sendgrid.env
@@ -90,6 +90,10 @@ source ./sendgrid.env
 ```
 
 Following is an abridged example, here is the [full working code](https://github.com/sendgrid/rest/tree/master/examples).
+
+```bash
+go run examples/example.go
+```
 
 ```go
 package main
@@ -244,4 +248,4 @@ We encourage contribution to our libraries, please see our [CONTRIBUTING](https:
 
 rest is guided and supported by the SendGrid [Developer Experience Team](mailto:dx@sendgrid.com).
 
-rest is maintained and funded by SendGrid, Inc. The names and logos for python-http-client are trademarks of SendGrid, Inc.
+rest is maintained and funded by SendGrid, Inc. The names and logos for rest are trademarks of SendGrid, Inc.
