@@ -14,15 +14,13 @@ import "fmt"
 
 func main() {
 	const host = "https://api.example.com"
+	param := "myparam"
 	endpoint := "/your/api/" + param + "/call"
 	baseURL := host + endpoint
-	requestHeaders := make(map[string]string)
-	requestHeaders["Authorization"] = "Bearer " + Key
 	method := rest.Get
 	request := rest.Request{
 		Method:         method,
 		BaseURL:        baseURL,
-		RequestHeaders: requestHeaders,
 	}
 	response, err := rest.API(request)
 	if err != nil {
@@ -45,16 +43,18 @@ import "fmt"
 
 func main() {
 	const host = "https://api.example.com"
+	param := "myparam"
 	endpoint := "/your/api/" + param + "/call"
 	baseURL := host + endpoint
 	requestHeaders := make(map[string]string)
-	requestHeaders["Authorization"] = "Bearer " + Key
+	key := os.Getenv("API_KEY")
+	requestHeaders["Authorization"] = "Bearer " + key
 	requestHeaders["X-Test"] = "Test"
 	var requestBody = []byte(`{"some": 0, "awesome": 1, "data": 3}`)
 	queryParams := make(map[string]string)
-	queryParams["hello"] = 0
-	queryParams["world"] = 1
-	method := "POST"
+	queryParams["hello"] = "0"
+	queryParams["world"] = "1"
+	method := rest.Post
 	request = rest.Request{
 		Method:         method,
 		BaseURL:        baseURL,
