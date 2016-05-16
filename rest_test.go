@@ -7,20 +7,9 @@ import (
 	"testing"
 )
 
-func TestBuildURL(t *testing.T) {
-	host := "http://api.test.com"
-	queryParams := make(map[string]string)
-	queryParams["test"] = "1"
-	queryParams["test2"] = "2"
-	testURL := AddQueryParameters(host, queryParams)
-	if testURL != "http://api.test.com?test=1&test2=2" {
-		t.Error("Bad BuildURL result")
-	}
-}
-
 func TestBuildRequest(t *testing.T) {
 	method := Get
-	baseURL := "http://api.test.com"
+	baseURL := "http://api.test.com?test3=3"
 	key := "API_KEY"
 	requestHeaders := make(map[string]string)
 	requestHeaders["Content-Type"] = "application/json"
@@ -41,6 +30,10 @@ func TestBuildRequest(t *testing.T) {
 	if req == nil {
 		t.Errorf("Failed to BuildRequest.")
 	}
+
+	if req.URL.String() != "http://api.test.com?test=1&test2=2&test3=3" {
+		t.Error("Bad BuildURL result")
+	}
 }
 
 func TestBuildResponse(t *testing.T) {
@@ -49,9 +42,11 @@ func TestBuildResponse(t *testing.T) {
 	}))
 	baseURL := fakeServer.URL
 	method := Get
+	queryParams := make(map[string]string)
 	request := Request{
 		Method:  method,
 		BaseURL: baseURL,
+		QueryParams: queryParams,
 	}
 	req, e := BuildRequestObject(request)
 	res, e := MakeRequest(req)

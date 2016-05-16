@@ -5,7 +5,6 @@ import (
 	"bytes"
 	"io/ioutil"
 	"net/http"
-	"net/url"
 )
 
 // Method contains the supported HTTP verbs.
@@ -35,22 +34,24 @@ type Response struct {
 	ResponseHeaders map[string][]string // e.g. map[X-Ratelimit-Limit:[600]]
 }
 
-// AddQueryParameters adds query paramaters to the URL.
-func AddQueryParameters(baseURL string, queryParams map[string]string) string {
-	baseURL += "?"
-	params := url.Values{}
-	for key, value := range queryParams {
-		params.Add(key, value)
-	}
-	return baseURL + params.Encode()
-}
 
 // BuildRequestObject creates the HTTP request object.
 func BuildRequestObject(request Request) (*http.Request, error) {
 	req, err := http.NewRequest(string(request.Method), request.BaseURL, bytes.NewBuffer(request.RequestBody))
+
+	// adds query paramaters to the URL.
+	if len(request.QueryParams) != 0 {
+		q := req.URL.Query()
+		for key, value := range request.QueryParams {
+			q.Add(key, value)
+		}
+		req.URL.RawQuery = q.Encode()
+	}
+
 	for key, value := range request.RequestHeaders {
 		req.Header.Set(key, value)
 	}
+
 	return req, err
 }
 
@@ -80,10 +81,6 @@ func BuildResponse(res *http.Response) (*Response, error) {
 
 // API is the main interface to the API.
 func API(request Request) (*Response, error) {
-	// Add any query parameters to the URL.
-	if len(request.QueryParams) != 0 {
-		request.BaseURL = AddQueryParameters(request.BaseURL, request.QueryParams)
-	}
 
 	// Build the HTTP request object.
 	req, err := BuildRequestObject(request)
