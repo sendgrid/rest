@@ -21,18 +21,18 @@ const (
 
 // Request holds the request to an API Call.
 type Request struct {
-	Method         Method
-	BaseURL        string // e.g. https://api.sendgrid.com
-	RequestHeaders map[string]string
-	QueryParams    map[string]string
-	RequestBody    []byte
+	Method      Method
+	BaseURL     string // e.g. https://api.sendgrid.com
+	Headers     map[string]string
+	QueryParams map[string]string
+	Body        []byte
 }
 
 // Response holds the response from an API call.
 type Response struct {
-	StatusCode      int                 // e.g. 200
-	ResponseBody    string              // e.g. {"result: success"}
-	ResponseHeaders map[string][]string // e.g. map[X-Ratelimit-Limit:[600]]
+	StatusCode int                 // e.g. 200
+	Body       string              // e.g. {"result: success"}
+	Headers    map[string][]string // e.g. map[X-Ratelimit-Limit:[600]]
 }
 
 // AddQueryParameters adds query paramaters to the URL.
@@ -47,8 +47,8 @@ func AddQueryParameters(baseURL string, queryParams map[string]string) string {
 
 // BuildRequestObject creates the HTTP request object.
 func BuildRequestObject(request Request) (*http.Request, error) {
-	req, err := http.NewRequest(string(request.Method), request.BaseURL, bytes.NewBuffer(request.RequestBody))
-	for key, value := range request.RequestHeaders {
+	req, err := http.NewRequest(string(request.Method), request.BaseURL, bytes.NewBuffer(request.Body))
+	for key, value := range request.Headers {
 		req.Header.Set(key, value)
 	}
 	return req, err
@@ -71,9 +71,9 @@ func BuildResponse(res *http.Response) (*Response, error) {
 	}
 	defer res.Body.Close()
 	response := Response{
-		StatusCode:      res.StatusCode,
-		ResponseBody:    string(body),
-		ResponseHeaders: res.Header,
+		StatusCode: res.StatusCode,
+		Body:       string(body),
+		Headers:    res.Header,
 	}
 	return &response, nil
 }

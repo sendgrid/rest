@@ -22,17 +22,17 @@ func TestBuildRequest(t *testing.T) {
 	method := Get
 	baseURL := "http://api.test.com"
 	key := "API_KEY"
-	requestHeaders := make(map[string]string)
-	requestHeaders["Content-Type"] = "application/json"
-	requestHeaders["Authorization"] = "Bearer " + key
+	Headers := make(map[string]string)
+	Headers["Content-Type"] = "application/json"
+	Headers["Authorization"] = "Bearer " + key
 	queryParams := make(map[string]string)
 	queryParams["test"] = "1"
 	queryParams["test2"] = "2"
 	request := Request{
-		Method:         method,
-		BaseURL:        baseURL,
-		RequestHeaders: requestHeaders,
-		QueryParams:    queryParams,
+		Method:      method,
+		BaseURL:     baseURL,
+		Headers:     Headers,
+		QueryParams: queryParams,
 	}
 	req, e := BuildRequestObject(request)
 	if e != nil {
@@ -59,10 +59,10 @@ func TestBuildResponse(t *testing.T) {
 	if response.StatusCode != 200 {
 		t.Error("Invalid status code in BuildResponse")
 	}
-	if len(response.ResponseBody) == 0 {
+	if len(response.Body) == 0 {
 		t.Error("Invalid response body in BuildResponse")
 	}
-	if len(response.ResponseHeaders) == 0 {
+	if len(response.Headers) == 0 {
 		t.Error("Invalid response headers in BuildResponse")
 	}
 	if e != nil {
@@ -78,27 +78,27 @@ func TestRest(t *testing.T) {
 	endpoint := "/test_endpoint"
 	baseURL := host + endpoint
 	key := "API_KEY"
-	requestHeaders := make(map[string]string)
-	requestHeaders["Content-Type"] = "application/json"
-	requestHeaders["Authorization"] = "Bearer " + key
+	Headers := make(map[string]string)
+	Headers["Content-Type"] = "application/json"
+	Headers["Authorization"] = "Bearer " + key
 	method := Get
 	queryParams := make(map[string]string)
 	queryParams["test"] = "1"
 	queryParams["test2"] = "2"
 	request := Request{
-		Method:         method,
-		BaseURL:        baseURL,
-		RequestHeaders: requestHeaders,
-		QueryParams:    queryParams,
+		Method:      method,
+		BaseURL:     baseURL,
+		Headers:     Headers,
+		QueryParams: queryParams,
 	}
 	response, e := API(request)
 	if response.StatusCode != 200 {
 		t.Error("Invalid status code")
 	}
-	if len(response.ResponseBody) == 0 {
+	if len(response.Body) == 0 {
 		t.Error("Invalid response body")
 	}
-	if len(response.ResponseHeaders) == 0 {
+	if len(response.Headers) == 0 {
 		t.Error("Invalid response headers")
 	}
 	if e != nil {

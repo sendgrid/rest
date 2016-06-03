@@ -29,16 +29,16 @@ func main() {
 	baseURL := host + endpoint
 	method := rest.Get
 	request := rest.Request{
-		Method:         method,
-		BaseURL:        baseURL,
+		Method:  method,
+		BaseURL: baseURL,
 	}
 	response, err := rest.API(request)
 	if err != nil {
 		fmt.Println(err)
 	} else {
 		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
+		fmt.Println(response.Body)
+		fmt.Println(response.Headers)
 	}
 }
 ```
@@ -56,29 +56,29 @@ func main() {
 	param := "myparam"
 	endpoint := "/your/api/" + param + "/call"
 	baseURL := host + endpoint
-	requestHeaders := make(map[string]string)
+	Headers := make(map[string]string)
 	key := os.Getenv("API_KEY")
-	requestHeaders["Authorization"] = "Bearer " + key
-	requestHeaders["X-Test"] = "Test"
-	var requestBody = []byte(`{"some": 0, "awesome": 1, "data": 3}`)
+	Headers["Authorization"] = "Bearer " + key
+	Headers["X-Test"] = "Test"
+	var Body = []byte(`{"some": 0, "awesome": 1, "data": 3}`)
 	queryParams := make(map[string]string)
 	queryParams["hello"] = "0"
 	queryParams["world"] = "1"
 	method := rest.Post
 	request = rest.Request{
-		Method:         method,
-		BaseURL:        baseURL,
-		RequestHeaders: requestHeaders,
-		QueryParams:    queryParams,
-		RequestBody:    requestBody,
+		Method:      method,
+		BaseURL:     baseURL,
+		Headers:     Headers,
+		QueryParams: queryParams,
+		Body:        Body,
 	}
 	response, err := rest.API(request)
 	if err != nil {
 		fmt.Println(err)
 	} else {
 		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
+		fmt.Println(response.Body)
+		fmt.Println(response.Headers)
 	}
 }
 ```

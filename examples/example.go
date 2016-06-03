@@ -16,9 +16,9 @@ func main() {
 
 	// Build the request headers
 	key := os.Getenv("SENDGRID_API_KEY")
-	requestHeaders := make(map[string]string)
-	requestHeaders["Content-Type"] = "application/json"
-	requestHeaders["Authorization"] = "Bearer " + key
+	Headers := make(map[string]string)
+	Headers["Content-Type"] = "application/json"
+	Headers["Authorization"] = "Bearer " + key
 
 	// GET Collection
 	method := rest.Get
@@ -30,24 +30,24 @@ func main() {
 
 	// Make the API call
 	request := rest.Request{
-		Method:         method,
-		BaseURL:        baseURL,
-		RequestHeaders: requestHeaders,
-		QueryParams:    queryParams,
+		Method:      method,
+		BaseURL:     baseURL,
+		Headers:     Headers,
+		QueryParams: queryParams,
 	}
 	response, err := rest.API(request)
 	if err != nil {
 		fmt.Println(err)
 	} else {
 		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
+		fmt.Println(response.Body)
+		fmt.Println(response.Headers)
 	}
 
 	// POST
 	method = rest.Post
 
-	var requestBody = []byte(` {
+	var Body = []byte(` {
         "name": "My API Key",
         "scopes": [
             "mail.send",
@@ -56,25 +56,25 @@ func main() {
         ]
     }`)
 	request = rest.Request{
-		Method:         method,
-		BaseURL:        baseURL,
-		RequestHeaders: requestHeaders,
-		QueryParams:    queryParams,
-		RequestBody:    requestBody,
+		Method:      method,
+		BaseURL:     baseURL,
+		Headers:     Headers,
+		QueryParams: queryParams,
+		Body:        Body,
 	}
 	response, err = rest.API(request)
 	if err != nil {
 		fmt.Println(err)
 	} else {
 		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
+		fmt.Println(response.Body)
+		fmt.Println(response.Headers)
 	}
 
 	// Get a particular return value.
 	// Note that you can unmarshall into a struct if
 	// you know the JSON structure in advance.
-	b := []byte(response.ResponseBody)
+	b := []byte(response.Body)
 	var f interface{}
 	err = json.Unmarshal(b, &f)
 	if err != nil {
@@ -88,44 +88,44 @@ func main() {
 
 	// Make the API call
 	request = rest.Request{
-		Method:         method,
-		BaseURL:        baseURL + "/" + apiKey,
-		RequestHeaders: requestHeaders,
+		Method:  method,
+		BaseURL: baseURL + "/" + apiKey,
+		Headers: Headers,
 	}
 	response, err = rest.API(request)
 	if err != nil {
 		fmt.Println(err)
 	} else {
 		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
+		fmt.Println(response.Body)
+		fmt.Println(response.Headers)
 	}
 
 	// PATCH
 	method = rest.Patch
 
-	requestBody = []byte(`{
+	Body = []byte(`{
         "name": "A New Hope"
     }`)
 	request = rest.Request{
-		Method:         method,
-		BaseURL:        baseURL + "/" + apiKey,
-		RequestHeaders: requestHeaders,
-		RequestBody:    requestBody,
+		Method:  method,
+		BaseURL: baseURL + "/" + apiKey,
+		Headers: Headers,
+		Body:    Body,
 	}
 	response, err = rest.API(request)
 	if err != nil {
 		fmt.Println(err)
 	} else {
 		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
+		fmt.Println(response.Body)
+		fmt.Println(response.Headers)
 	}
 
 	// PUT
 	method = rest.Put
 
-	requestBody = []byte(`{
+	Body = []byte(`{
         "name": "A New Hope",
         "scopes": [
             "user.profile.read",
@@ -133,35 +133,35 @@ func main() {
         ]
     }`)
 	request = rest.Request{
-		Method:         method,
-		BaseURL:        baseURL + "/" + apiKey,
-		RequestHeaders: requestHeaders,
-		RequestBody:    requestBody,
+		Method:  method,
+		BaseURL: baseURL + "/" + apiKey,
+		Headers: Headers,
+		Body:    Body,
 	}
 	response, err = rest.API(request)
 	if err != nil {
 		fmt.Println(err)
 	} else {
 		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
+		fmt.Println(response.Body)
+		fmt.Println(response.Headers)
 	}
 
 	// DELETE
 	method = rest.Delete
 
 	request = rest.Request{
-		Method:         method,
-		BaseURL:        baseURL + "/" + apiKey,
-		RequestHeaders: requestHeaders,
-		QueryParams:    queryParams,
-		RequestBody:    requestBody,
+		Method:      method,
+		BaseURL:     baseURL + "/" + apiKey,
+		Headers:     Headers,
+		QueryParams: queryParams,
+		Body:        Body,
 	}
 	response, err = rest.API(request)
 	if err != nil {
 		fmt.Println(err)
 	} else {
 		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseHeaders)
+		fmt.Println(response.Headers)
 	}
 }
