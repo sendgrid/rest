@@ -1,6 +1,8 @@
 [![Build Status](https://travis-ci.org/sendgrid/rest.svg?branch=master)](https://travis-ci.org/sendgrid/rest) [![GoDoc](https://godoc.org/github.com/sendgrid/rest?status.png)](http://godoc.org/github.com/sendgrid/rest)
 
-**HTTP REST client, simplified for Go**
+**Quickly and easily access any RESTful or RESTful-like API.**
+
+If you are looking for the SendGrid API client library, please see [this repo](https://github.com/sendgrid/sendgrid-go).
 
 # Announcements
 
