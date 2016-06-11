@@ -17,7 +17,6 @@ func main() {
 	// Build the request headers
 	key := os.Getenv("SENDGRID_API_KEY")
 	Headers := make(map[string]string)
-	Headers["Content-Type"] = "application/json"
 	Headers["Authorization"] = "Bearer " + key
 
 	// GET Collection
@@ -155,7 +154,6 @@ func main() {
 		BaseURL:     baseURL + "/" + apiKey,
 		Headers:     Headers,
 		QueryParams: queryParams,
-		Body:        Body,
 	}
 	response, err = rest.API(request)
 	if err != nil {
