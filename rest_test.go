@@ -1,9 +1,11 @@
 package rest
 
 import (
+	"errors"
 	"fmt"
 	"net/http"
 	"net/http/httptest"
+	"net/url"
 	"testing"
 )
 
@@ -47,6 +49,7 @@ func TestBuildResponse(t *testing.T) {
 	fakeServer := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprintln(w, "{\"message\": \"success\"}")
 	}))
+	defer fakeServer.Close()
 	baseURL := fakeServer.URL
 	method := Get
 	request := Request{
@@ -74,6 +77,7 @@ func TestRest(t *testing.T) {
 	fakeServer := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprintln(w, "{\"message\": \"success\"}")
 	}))
+	defer fakeServer.Close()
 	host := fakeServer.URL
 	endpoint := "/test_endpoint"
 	baseURL := host + endpoint
@@ -104,4 +108,30 @@ func TestRest(t *testing.T) {
 	if e != nil {
 		t.Errorf("Rest failed to make a valid API request. Returned error: %v", e)
 	}
+}
+
+func TestCustomClient(t *testing.T) {
+	fakeServer := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		fmt.Fprintln(w, "{\"message\": \"success\"}")
+	}))
+	defer fakeServer.Close()
+	wantErr := errors.New("pass")
+	c := &Client{&http.Client{Transport: errorTransport{wantErr}}}
+	_, err := c.API(Request{BaseURL: fakeServer.URL})
+	if err == nil {
+		t.Error("got nil err, want %q", wantErr)
+	}
+	if urlError, ok := err.(*url.Error); ok {
+		if urlError.Err != wantErr {
+			t.Errorf("err: got %#v, want %q", err, wantErr)
+		}
+	}
+}
+
+type errorTransport struct {
+	err error
+}
+
+func (t errorTransport) RoundTrip(r *http.Request) (*http.Response, error) {
+	return nil, t.err
 }

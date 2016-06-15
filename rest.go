@@ -19,6 +19,13 @@ const (
 	Delete Method = "DELETE"
 )
 
+var defaultClient = &Client{HTTPClient: http.DefaultClient}
+
+// Client performs API calls using its HTTP client.
+type Client struct {
+	HTTPClient *http.Client
+}
+
 // Request holds the request to an API Call.
 type Request struct {
 	Method      Method
@@ -59,11 +66,7 @@ func BuildRequestObject(request Request) (*http.Request, error) {
 
 // MakeRequest makes the API call.
 func MakeRequest(req *http.Request) (*http.Response, error) {
-	var Client = &http.Client{
-		Transport: http.DefaultTransport,
-	}
-	res, err := Client.Do(req)
-	return res, err
+	return defaultClient.HTTPClient.Do(req)
 }
 
 // BuildResponse builds the response struct.
@@ -83,6 +86,11 @@ func BuildResponse(res *http.Response) (*Response, error) {
 
 // API is the main interface to the API.
 func API(request Request) (*Response, error) {
+	return defaultClient.API(request)
+}
+
+// API is the main interface to the API.
+func (c *Client) API(request Request) (*Response, error) {
 	// Add any query parameters to the URL.
 	if len(request.QueryParams) != 0 {
 		request.BaseURL = AddQueryParameters(request.BaseURL, request.QueryParams)
@@ -95,7 +103,7 @@ func API(request Request) (*Response, error) {
 	}
 
 	// Build the HTTP client and make the request.
-	res, err := MakeRequest(req)
+	res, err := c.HTTPClient.Do(req)
 	if err != nil {
 		return nil, err
 	}
