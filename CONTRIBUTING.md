@@ -64,7 +64,7 @@ We welcome direct contributions to the rest code base. Thank you!
 
 ##### Prerequisites #####
 
-- Go 1.3 through 1.5
+- Go version 1.6
 
 ##### Initial setup: #####
 
