@@ -10,6 +10,12 @@ All updates to this library is documented in our [CHANGELOG](https://github.com/
 
 # Installation
 
+## Prerequisites
+
+- Go version 1.6
+
+## Install Package
+
 ```bash
 go get github.com/sendgrid/rest
 ```
