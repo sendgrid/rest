@@ -2,10 +2,11 @@ package rest
 
 import (
 	"fmt"
+	"io/ioutil"
 	"net/http"
 	"net/http/httptest"
-	"testing"
 	"strings"
+	"testing"
 )
 
 func TestBuildURL(t *testing.T) {
@@ -114,10 +115,17 @@ type fakeTransport struct {
 func (f fakeTransport) RoundTrip(req *http.Request) (*http.Response, error) {
 	r := httptest.NewRecorder()
 	f.mux.ServeHTTP(r, req)
-	return r.Result(), nil
+	return &http.Response{
+		Proto:      "HTTP/1.1",
+		ProtoMajor: 1,
+		ProtoMinor: 1,
+		StatusCode: r.Code,
+		Header:     r.HeaderMap,
+		Body:       ioutil.NopCloser(r.Body),
+	}, nil
 }
 
-func verifyAPICall(t *testing.T, client *Client, url, expected string)  {
+func verifyAPICall(t *testing.T, client *Client, url, expected string) {
 	resp, err := client.API(Request{Method: Get, BaseURL: url})
 	if err != nil {
 		t.Fatal("API called failed", err)
@@ -146,5 +154,5 @@ func TestNilHTTPClient(t *testing.T) {
 		fmt.Fprintln(w, msg)
 	}))
 	defer fakeServer.Close()
-	verifyAPICall(t, &Client{}, fakeServer.URL + "/test", msg)
+	verifyAPICall(t, &Client{}, fakeServer.URL+"/test", msg)
 }
