@@ -19,6 +19,13 @@ const (
 	Delete Method = "DELETE"
 )
 
+var (
+	// DefaultHTTPClient is used when no custom HTTP client is specified.
+	DefaultHTTPClient = &http.Client{Transport: http.DefaultTransport}
+	// DefaultClient is used as the default for package level API calls.
+	DefaultClient     = &Client{DefaultHTTPClient}
+)
+
 // Request holds the request to an API Call.
 type Request struct {
 	Method      Method
@@ -58,11 +65,12 @@ func BuildRequestObject(request Request) (*http.Request, error) {
 }
 
 // MakeRequest makes the API call.
-func MakeRequest(req *http.Request) (*http.Response, error) {
-	var Client = &http.Client{
-		Transport: http.DefaultTransport,
+func (c *Client) MakeRequest(req *http.Request) (*http.Response, error) {
+	client := c.HTTPClient
+	if client == nil {
+		client = DefaultHTTPClient
 	}
-	res, err := Client.Do(req)
+	res, err := client.Do(req)
 	return res, err
 }
 
@@ -81,8 +89,14 @@ func BuildResponse(res *http.Response) (*Response, error) {
 	return &response, nil
 }
 
+// Client provides support for custom API call configurations.
+type Client struct {
+	// HTTPClient is a custom *http.Client. If nil, DefaultHTTPClient will be used.
+	HTTPClient *http.Client
+}
+
 // API is the main interface to the API.
-func API(request Request) (*Response, error) {
+func (c *Client) API(request Request) (*Response, error) {
 	// Add any query parameters to the URL.
 	if len(request.QueryParams) != 0 {
 		request.BaseURL = AddQueryParameters(request.BaseURL, request.QueryParams)
@@ -95,7 +109,7 @@ func API(request Request) (*Response, error) {
 	}
 
 	// Build the HTTP client and make the request.
-	res, err := MakeRequest(req)
+	res, err := c.MakeRequest(req)
 	if err != nil {
 		return nil, err
 	}
@@ -107,4 +121,15 @@ func API(request Request) (*Response, error) {
 	}
 
 	return response, nil
+}
+
+// API is the main interface to the API. DefaultClient is used to perform
+// API requests.
+func API(request Request) (*Response, error) {
+	return DefaultClient.API(request)
+}
+
+// MakeRequest makes the API call. DefaultClient is used to perform the API call.
+func MakeRequest(req *http.Request) (*http.Response, error) {
+	return DefaultClient.MakeRequest(req)
 }

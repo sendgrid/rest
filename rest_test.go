@@ -5,6 +5,7 @@ import (
 	"net/http"
 	"net/http/httptest"
 	"testing"
+	"strings"
 )
 
 func TestBuildURL(t *testing.T) {
@@ -104,4 +105,46 @@ func TestRest(t *testing.T) {
 	if e != nil {
 		t.Errorf("Rest failed to make a valid API request. Returned error: %v", e)
 	}
+}
+
+type fakeTransport struct {
+	mux http.Handler
+}
+
+func (f fakeTransport) RoundTrip(req *http.Request) (*http.Response, error) {
+	r := httptest.NewRecorder()
+	f.mux.ServeHTTP(r, req)
+	return r.Result(), nil
+}
+
+func verifyAPICall(t *testing.T, client *Client, url, expected string)  {
+	resp, err := client.API(Request{Method: Get, BaseURL: url})
+	if err != nil {
+		t.Fatal("API called failed", err)
+	}
+	if resp.StatusCode != 200 {
+		t.Error("Invalid status code", resp.StatusCode)
+	}
+	if strings.TrimSpace(resp.Body) != expected {
+		t.Error("Received invalid message:", strings.TrimSpace(resp.Body))
+	}
+}
+
+func TestCustomHTTPClient(t *testing.T) {
+	mux := http.NewServeMux()
+	const msg = `{"message": "custom-client"}`
+	mux.HandleFunc("/test", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		fmt.Fprintln(w, msg)
+	}))
+	client := &Client{HTTPClient: &http.Client{Transport: fakeTransport{mux}}}
+	verifyAPICall(t, client, "/test", msg)
+}
+
+func TestNilHTTPClient(t *testing.T) {
+	const msg = `{"message": "nil-client"}`
+	fakeServer := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		fmt.Fprintln(w, msg)
+	}))
+	defer fakeServer.Close()
+	verifyAPICall(t, &Client{}, fakeServer.URL + "/test", msg)
 }
