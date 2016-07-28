@@ -5,6 +5,7 @@ import (
 	"net/http"
 	"net/http/httptest"
 	"testing"
+	"time"
 )
 
 func TestBuildURL(t *testing.T) {
@@ -47,6 +48,7 @@ func TestBuildResponse(t *testing.T) {
 	fakeServer := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprintln(w, "{\"message\": \"success\"}")
 	}))
+	defer fakeServer.Close()
 	baseURL := fakeServer.URL
 	method := Get
 	request := Request{
@@ -74,6 +76,7 @@ func TestRest(t *testing.T) {
 	fakeServer := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprintln(w, "{\"message\": \"success\"}")
 	}))
+	defer fakeServer.Close()
 	host := fakeServer.URL
 	endpoint := "/test_endpoint"
 	baseURL := host + endpoint
@@ -103,5 +106,26 @@ func TestRest(t *testing.T) {
 	}
 	if e != nil {
 		t.Errorf("Rest failed to make a valid API request. Returned error: %v", e)
+	}
+}
+
+func TestCustomHTTPClient(t *testing.T) {
+	fakeServer := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		time.Sleep(time.Second * 2)
+		fmt.Fprintln(w, "{\"message\": \"success\"}")
+	}))
+	defer fakeServer.Close()
+	host := fakeServer.URL
+	endpoint := "/test_endpoint"
+	baseURL := host + endpoint
+	method := Get
+	request := Request{
+		Method:  method,
+		BaseURL: baseURL,
+	}
+	customClient := &Client{&http.Client{Timeout: time.Second * 1}}
+	_, e := customClient.API(request)
+	if e == nil {
+		t.Error("Timeout did not trigger as expected")
 	}
 }

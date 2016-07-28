@@ -11,6 +11,7 @@ import (
 // Method contains the supported HTTP verbs.
 type Method string
 
+// Supported HTTP verbs.
 const (
 	Get    Method = "GET"
 	Post   Method = "POST"
@@ -26,6 +27,16 @@ type Request struct {
 	Headers     map[string]string
 	QueryParams map[string]string
 	Body        []byte
+}
+
+// DefaultClient is used if no custom HTTP client is defined
+var DefaultClient = &Client{HTTPClient: http.DefaultClient}
+
+// Client allows modification of client headers, redirect policy
+// and other settings
+// See https://golang.org/pkg/net/http
+type Client struct {
+	HTTPClient *http.Client
 }
 
 // Response holds the response from an API call.
@@ -59,11 +70,7 @@ func BuildRequestObject(request Request) (*http.Request, error) {
 
 // MakeRequest makes the API call.
 func MakeRequest(req *http.Request) (*http.Response, error) {
-	var Client = &http.Client{
-		Transport: http.DefaultTransport,
-	}
-	res, err := Client.Do(req)
-	return res, err
+	return DefaultClient.HTTPClient.Do(req)
 }
 
 // BuildResponse builds the response struct.
@@ -83,6 +90,19 @@ func BuildResponse(res *http.Response) (*Response, error) {
 
 // API is the main interface to the API.
 func API(request Request) (*Response, error) {
+	return DefaultClient.API(request)
+}
+
+// The following functions enable the ability to define a
+// custom HTTP Client
+
+// MakeRequest makes the API call.
+func (c *Client) MakeRequest(req *http.Request) (*http.Response, error) {
+	return c.HTTPClient.Do(req)
+}
+
+// API is the main interface to the API.
+func (c *Client) API(request Request) (*Response, error) {
 	// Add any query parameters to the URL.
 	if len(request.QueryParams) != 0 {
 		request.BaseURL = AddQueryParameters(request.BaseURL, request.QueryParams)
@@ -95,7 +115,7 @@ func API(request Request) (*Response, error) {
 	}
 
 	// Build the HTTP client and make the request.
-	res, err := MakeRequest(req)
+	res, err := c.MakeRequest(req)
 	if err != nil {
 		return nil, err
 	}
