@@ -3,6 +3,13 @@ All notable changes to this project will be documented in this file.
 
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [2.2.0] - 2016-07-28
+### Added
+- Pull [#9](https://github.com/sendgrid/rest/pull/9): Allow for setting a custom HTTP client
+- [Here](https://github.com/sendgrid/rest/blob/master/rest_test.go#L127) is an example of usage
+- This enables usage of the [sendgrid-go library](https://github.com/sendgrid/sendgrid-go) on [Google App Engine (GAE)](https://cloud.google.com/appengine/)
+- Special thanks to [Chris Broadfoot](https://github.com/broady) and [Sridhar Venkatakrishnan](https://github.com/sridharv) for providing code and feedback!
+
 ## [2.1.0] - 2016-06-10
 ### Added
 - Automatically add Content-Type: application/json when there is a request body
