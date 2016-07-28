@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"net/http"
 	"net/http/httptest"
+	"strings"
 	"testing"
 	"time"
 )
@@ -111,7 +112,7 @@ func TestRest(t *testing.T) {
 
 func TestCustomHTTPClient(t *testing.T) {
 	fakeServer := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		time.Sleep(time.Second * 2)
+		time.Sleep(time.Millisecond * 20)
 		fmt.Fprintln(w, "{\"message\": \"success\"}")
 	}))
 	defer fakeServer.Close()
@@ -123,9 +124,12 @@ func TestCustomHTTPClient(t *testing.T) {
 		Method:  method,
 		BaseURL: baseURL,
 	}
-	customClient := &Client{&http.Client{Timeout: time.Second * 1}}
-	_, e := customClient.API(request)
-	if e == nil {
-		t.Error("Timeout did not trigger as expected")
+	customClient := &Client{&http.Client{Timeout: time.Millisecond * 10}}
+	_, err := customClient.API(request)
+	if err == nil {
+		t.Error("A timeout did not trigger as expected")
+	}
+	if strings.Contains(err.Error(), "Client.Timeout exceeded while awaiting headers") == false {
+		t.Error("We did not receive the Timeout error")
 	}
 }
