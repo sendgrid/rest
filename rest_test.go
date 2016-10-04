@@ -110,6 +110,37 @@ func TestRest(t *testing.T) {
 	}
 }
 
+func TestDefaultContentTypeWithBody(t *testing.T) {
+	host := "http://localhost"
+	method := Get
+	request := Request{
+		Method:  method,
+		BaseURL: host,
+		Body:    []byte("Hello World"),
+	}
+	response, _ := BuildRequestObject(request)
+	if response.Header.Get("Content-Type") != "application/json" {
+		t.Error("Content-Type not set to the correct default value when a body is set.")
+	}
+}
+
+func TestCustomContentType(t *testing.T) {
+	host := "http://localhost"
+	Headers := make(map[string]string)
+	Headers["Content-Type"] = "custom"
+	method := Get
+	request := Request{
+		Method:  method,
+		BaseURL: host,
+		Headers: Headers,
+		Body:    []byte("Hello World"),
+	}
+	response, _ := BuildRequestObject(request)
+	if response.Header.Get("Content-Type") != "custom" {
+		t.Error("Content-Type not modified correctly")
+	}
+}
+
 func TestCustomHTTPClient(t *testing.T) {
 	fakeServer := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		time.Sleep(time.Millisecond * 20)
