@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [2.3.0] - 2016-10-04
+### Added
+- Pull [#10] [Allow for custom Content-Types](https://github.com/sendgrid/rest/issues/10)
+
 ## [2.2.0] - 2016-07-28
 ### Added
 - Pull [#9](https://github.com/sendgrid/rest/pull/9): Allow for setting a custom HTTP client
