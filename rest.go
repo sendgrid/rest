@@ -62,7 +62,8 @@ func BuildRequestObject(request Request) (*http.Request, error) {
 	for key, value := range request.Headers {
 		req.Header.Set(key, value)
 	}
-	if len(request.Body) > 0 {
+	_, exists := req.Header["Content-Type"]
+	if len(request.Body) > 0 && !exists {
 		req.Header.Set("Content-Type", "application/json")
 	}
 	return req, err
