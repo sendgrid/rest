@@ -27,20 +27,24 @@ go get github.com/sendgrid/rest
 ```go
 package main
 
-import "github.com/sendgrid/rest"
-import "fmt"
+import (
+	"fmt"
+	"net/http"
+	"net/url"
+
+	"github.com/sendgrid/rest"
+)
 
 func main() {
 	const host = "https://api.example.com"
 	param := "myparam"
 	endpoint := "/your/api/" + param + "/call"
-	baseURL := host + endpoint
-	method := rest.Get
-	request := rest.Request{
-		Method:  method,
-		BaseURL: baseURL,
-	}
+
+	baseURL, _ := url.Parse(host + endpoint)
+
+	request, err := http.NewRequest(http.MethodGet, baseURL.String(), nil)
 	response, err := rest.API(request)
+
 	if err != nil {
 		fmt.Println(err)
 	} else {
@@ -56,30 +60,33 @@ func main() {
 ```go
 package main
 
-import "github.com/sendgrid/rest"
-import "fmt"
+import (
+	"fmt"
+	"net/http"
+	"net/url"
+
+	"github.com/sendgrid/rest"
+)
 
 func main() {
 	const host = "https://api.example.com"
 	param := "myparam"
 	endpoint := "/your/api/" + param + "/call"
-	baseURL := host + endpoint
-	Headers := make(map[string]string)
+
+	baseURL, _ := url.Parse(host + endpoint)
+
 	key := os.Getenv("API_KEY")
-	Headers["Authorization"] = "Bearer " + key
-	Headers["X-Test"] = "Test"
-	var Body = []byte(`{"some": 0, "awesome": 1, "data": 3}`)
-	queryParams := make(map[string]string)
-	queryParams["hello"] = "0"
-	queryParams["world"] = "1"
-	method := rest.Post
-	request = rest.Request{
-		Method:      method,
-		BaseURL:     baseURL,
-		Headers:     Headers,
-		QueryParams: queryParams,
-		Body:        Body,
-	}
+	var body = []byte(`{"some": 0, "awesome": 1, "data": 3}`)
+
+	params := url.Values{}
+	params.Add("hello", "0")
+	params.Add("world", "1")
+	baseURL.RawQuery = params.Encode()
+
+	request, err = http.NewRequest(http.MethodPost, baseURL.String(), bytes.NewReader(body))
+	request.Header.Set("Authorization", "Bearer "+key)
+	request.Header.Set("X-Test", "Test")
+
 	response, err := rest.API(request)
 	if err != nil {
 		fmt.Println(err)
