@@ -89,7 +89,7 @@ func BuildResponse(res *http.Response) (*Response, error) {
 	return &response, nil
 }
 
-// API is the main interface to the API.
+// Send is the main interface to the API.
 func Send(request Request) (*Response, error) {
 	return DefaultClient.Send(request)
 }
@@ -102,7 +102,7 @@ func (c *Client) MakeRequest(req *http.Request) (*http.Response, error) {
 	return c.HTTPClient.Do(req)
 }
 
-// API is the main interface to the API.
+// Send is the main interface to the API.
 func (c *Client) Send(request Request) (*Response, error) {
 	// Add any query parameters to the URL.
 	if len(request.QueryParams) != 0 {
