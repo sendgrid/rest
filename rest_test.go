@@ -95,7 +95,7 @@ func TestRest(t *testing.T) {
 		Headers:     Headers,
 		QueryParams: queryParams,
 	}
-	response, e := API(request)
+	response, e := Send(request)
 	if response.StatusCode != 200 {
 		t.Error("Invalid status code")
 	}
