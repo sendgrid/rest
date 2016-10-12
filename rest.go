@@ -91,7 +91,7 @@ func BuildResponse(res *http.Response) (*Response, error) {
 
 // API is the main interface to the API.
 func Send(request Request) (*Response, error) {
-	return DefaultClient.API(request)
+	return DefaultClient.Send(request)
 }
 
 // The following functions enable the ability to define a
