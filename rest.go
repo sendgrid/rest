@@ -58,6 +58,10 @@ func AddQueryParameters(baseURL string, queryParams map[string]string) string {
 
 // BuildRequestObject creates the HTTP request object.
 func BuildRequestObject(request Request) (*http.Request, error) {
+	// Add any query parameters to the URL.
+	if len(request.QueryParams) != 0 {
+		request.BaseURL = AddQueryParameters(request.BaseURL, request.QueryParams)
+	}
 	req, err := http.NewRequest(string(request.Method), request.BaseURL, bytes.NewBuffer(request.Body))
 	for key, value := range request.Headers {
 		req.Header.Set(key, value)
@@ -104,11 +108,6 @@ func (c *Client) MakeRequest(req *http.Request) (*http.Response, error) {
 
 // API is the main interface to the API.
 func (c *Client) API(request Request) (*Response, error) {
-	// Add any query parameters to the URL.
-	if len(request.QueryParams) != 0 {
-		request.BaseURL = AddQueryParameters(request.BaseURL, request.QueryParams)
-	}
-
 	// Build the HTTP request object.
 	req, err := BuildRequestObject(request)
 	if err != nil {
