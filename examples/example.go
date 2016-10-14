@@ -1,29 +1,35 @@
 package main
 
 import (
-	"bytes"
 	"encoding/json"
 	"fmt"
 	"net/http"
 	"net/url"
 	"os"
+	"path"
+	"strings"
 
 	"github.com/sendgrid/rest"
 )
 
 func main() {
 	// Build the URL
-	const host = "https://api.sendgrid.com"
+	const host = "api.sendgrid.com"
 	endpoint := "/v3/api_keys"
 	key := os.Getenv("SENDGRID_API_KEY")
 
 	// GET
-	baseURL, _ := url.Parse(host + endpoint)
+	params := url.Values{
+		"limit":  {"100"},
+		"offset": {"0"},
+	}
 
-	params := url.Values{}
-	params.Add("limit", "100")
-	params.Add("offset", "0")
-	baseURL.RawQuery = params.Encode()
+	baseURL := &url.URL{
+		Scheme:   "https",
+		Host:     host,
+		Path:     endpoint,
+		RawQuery: params.Encode(),
+	}
 
 	request, err := http.NewRequest(http.MethodGet, baseURL.String(), nil)
 	request.Header.Set("Authorization", "Bearer "+key)
@@ -38,16 +44,16 @@ func main() {
 	}
 
 	// POST
-	body := []byte(` {
+	body := `{
         "name": "My API Key",
         "scopes": [
             "mail.send",
             "alerts.create",
             "alerts.read"
         ]
-    }`)
+    }`
 
-	request, err = http.NewRequest(http.MethodPost, baseURL.String(), bytes.NewReader(body))
+	request, err = http.NewRequest(http.MethodPost, baseURL.String(), strings.NewReader(body))
 	request.Header.Set("Authorization", "Bearer "+key)
 
 	response, err = rest.API(request)
@@ -63,17 +69,21 @@ func main() {
 	// Note that you can unmarshall into a struct if
 	// you know the JSON structure in advance.
 	b := []byte(response.Body)
-	var f struct {
+	var payload struct {
 		APIKeyID string `json:"api_key_id"`
 	}
-	err = json.Unmarshal(b, &f)
+	err = json.Unmarshal(b, &payload)
 	if err != nil {
 		fmt.Println(err)
 	}
 
-	apiKey := f.APIKeyID
+	apiKey := payload.APIKeyID
 
-	baseURL, err = url.Parse(host + endpoint + "/" + apiKey)
+	baseURL = &url.URL{
+		Scheme: "https",
+		Host:   host,
+		Path:   path.Join(endpoint, apiKey),
+	}
 
 	request, err = http.NewRequest(http.MethodGet, baseURL.String(), nil)
 	request.Header.Set("Authorization", "Bearer "+key)
@@ -88,12 +98,11 @@ func main() {
 	}
 
 	// PATCH
-	body = []byte(`{
+	body = `{
         "name": "A New Hope"
-    }`)
+    }`
 
-	baseURL, err = url.Parse(host + endpoint + "/" + apiKey)
-	request, err = http.NewRequest(http.MethodPatch, baseURL.String(), bytes.NewReader(body))
+	request, err = http.NewRequest(http.MethodPatch, baseURL.String(), strings.NewReader(body))
 	request.Header.Set("Authorization", "Bearer "+key)
 
 	response, err = rest.API(request)
@@ -107,16 +116,15 @@ func main() {
 	}
 
 	// PUT
-	body = []byte(`{
+	body = `{
         "name": "A New Hope",
         "scopes": [
             "user.profile.read",
             "user.profile.update"
         ]
-    }`)
+    }`
 
-	baseURL, err = url.Parse(host + endpoint + "/" + apiKey)
-	request, err = http.NewRequest(http.MethodPut, baseURL.String(), bytes.NewReader(body))
+	request, err = http.NewRequest(http.MethodPut, baseURL.String(), strings.NewReader(body))
 	request.Header.Set("Authorization", "Bearer "+key)
 
 	response, err = rest.API(request)
@@ -129,7 +137,6 @@ func main() {
 	}
 
 	// DELETE
-	baseURL, err = url.Parse(host + endpoint + "/" + apiKey)
 	request, err = http.NewRequest(http.MethodDelete, baseURL.String(), nil)
 	request.Header.Set("Authorization", "Bearer "+key)
 

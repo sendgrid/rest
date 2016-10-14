@@ -13,7 +13,7 @@ import (
 
 func TestBuildResponse(t *testing.T) {
 	fakeServer := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		fmt.Fprintln(w, "{\"message\": \"success\"}")
+		fmt.Fprintln(w, `{"message": "success"}`)
 	}))
 	defer fakeServer.Close()
 
@@ -47,7 +47,7 @@ func TestBuildResponse(t *testing.T) {
 
 func TestRest(t *testing.T) {
 	fakeServer := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		fmt.Fprintln(w, "{\"message\": \"success\"}")
+		fmt.Fprintln(w, `{"message": "success"}`)
 	}))
 	defer fakeServer.Close()
 
@@ -89,7 +89,7 @@ func TestRest(t *testing.T) {
 
 func TestDefaultContentTypeWithBody(t *testing.T) {
 	fakeServer := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		fmt.Fprintln(w, "{\"message\": \"success\"}")
+		fmt.Fprintln(w, `{"message": "success"}`)
 	}))
 	defer fakeServer.Close()
 
@@ -113,8 +113,9 @@ func TestDefaultContentTypeWithBody(t *testing.T) {
 func TestCustomHTTPClient(t *testing.T) {
 	fakeServer := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		time.Sleep(time.Millisecond * 20)
-		fmt.Fprintln(w, "{\"message\": \"success\"}")
+		fmt.Fprintln(w, `{"message": "success"}`)
 	}))
+
 	defer fakeServer.Close()
 	host := fakeServer.URL
 	endpoint := "/test_endpoint"
