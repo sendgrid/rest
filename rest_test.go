@@ -3,6 +3,7 @@ package rest
 import (
 	"bytes"
 	"fmt"
+	"io/ioutil"
 	"net/http"
 	"net/http/httptest"
 	"net/url"
@@ -27,19 +28,26 @@ func TestBuildResponse(t *testing.T) {
 		t.Fatal("unable to formulate request:", err)
 	}
 
-	res, e := makeRequest(request)
-
-	response, e := buildResponse(res)
+	response, e := makeRequest(request)
 
 	if response.StatusCode != 200 {
 		t.Error("Invalid status code in BuildResponse")
 	}
-	if len(response.Body) == 0 {
+
+	body, err := ioutil.ReadAll(response.Body)
+	if err != nil {
+		t.Fatal("unable to read response body:", err)
+	}
+	defer response.Body.Close()
+
+	if len(body) == 0 {
 		t.Error("Invalid response body in BuildResponse")
 	}
-	if len(response.Headers) == 0 {
+
+	if len(response.Header) == 0 {
 		t.Error("Invalid response headers in BuildResponse")
 	}
+
 	if e != nil {
 		t.Errorf("Rest failed to make a valid API request. Returned error: %v", e)
 	}
@@ -76,12 +84,21 @@ func TestRest(t *testing.T) {
 	if response.StatusCode != 200 {
 		t.Error("Invalid status code")
 	}
-	if len(response.Body) == 0 {
-		t.Error("Invalid response body")
+
+	body, err := ioutil.ReadAll(response.Body)
+	if err != nil {
+		t.Fatal("unable to read response body:", err)
 	}
-	if len(response.Headers) == 0 {
+	defer response.Body.Close()
+
+	if len(body) == 0 {
+		t.Error("Invalid response body in BuildResponse")
+	}
+
+	if len(response.Header) == 0 {
 		t.Error("Invalid response headers")
 	}
+
 	if e != nil {
 		t.Errorf("Rest failed to make a valid API request. Returned error: %v", e)
 	}

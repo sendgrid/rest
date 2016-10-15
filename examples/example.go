@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"io/ioutil"
 	"net/http"
 	"net/url"
 	"os"
@@ -38,9 +39,14 @@ func main() {
 	if err != nil {
 		fmt.Println(err)
 	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.Body)
-		fmt.Println(response.Headers)
+		defer response.Body.Close()
+		b, err := ioutil.ReadAll(response.Body)
+		if err != nil {
+			fmt.Println(err)
+		}
+		fmt.Println(response.Status)
+		fmt.Println(string(b))
+		fmt.Println(response.Header)
 	}
 
 	// POST
@@ -60,15 +66,25 @@ func main() {
 	if err != nil {
 		fmt.Println(err)
 	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.Body)
-		fmt.Println(response.Headers)
+		defer response.Body.Close()
+		b, err := ioutil.ReadAll(response.Body)
+		if err != nil {
+			fmt.Println(err)
+		}
+		fmt.Println(response.Status)
+		fmt.Println(string(b))
+		fmt.Println(response.Header)
 	}
 
 	// Get a particular return value.
 	// Note that you can unmarshall into a struct if
 	// you know the JSON structure in advance.
-	b := []byte(response.Body)
+
+	defer response.Body.Close()
+	b, err := ioutil.ReadAll(response.Body)
+	if err != nil {
+		fmt.Println(err)
+	}
 	var payload struct {
 		APIKeyID string `json:"api_key_id"`
 	}
@@ -92,9 +108,14 @@ func main() {
 	if err != nil {
 		fmt.Println(err)
 	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.Body)
-		fmt.Println(response.Headers)
+		defer response.Body.Close()
+		b, err := ioutil.ReadAll(response.Body)
+		if err != nil {
+			fmt.Println(err)
+		}
+		fmt.Println(response.Status)
+		fmt.Println(string(b))
+		fmt.Println(response.Header)
 	}
 
 	// PATCH
@@ -110,9 +131,14 @@ func main() {
 	if err != nil {
 		fmt.Println(err)
 	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.Body)
-		fmt.Println(response.Headers)
+		defer response.Body.Close()
+		b, err := ioutil.ReadAll(response.Body)
+		if err != nil {
+			fmt.Println(err)
+		}
+		fmt.Println(response.Status)
+		fmt.Println(string(b))
+		fmt.Println(response.Header)
 	}
 
 	// PUT
@@ -131,9 +157,14 @@ func main() {
 	if err != nil {
 		fmt.Println(err)
 	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.Body)
-		fmt.Println(response.Headers)
+		defer response.Body.Close()
+		b, err := ioutil.ReadAll(response.Body)
+		if err != nil {
+			fmt.Println(err)
+		}
+		fmt.Println(response.Status)
+		fmt.Println(string(b))
+		fmt.Println(response.Header)
 	}
 
 	// DELETE
@@ -144,7 +175,7 @@ func main() {
 	if err != nil {
 		fmt.Println(err)
 	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.Headers)
+		fmt.Println(response.Status)
+		fmt.Println(response.Header)
 	}
 }

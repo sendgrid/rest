@@ -48,9 +48,14 @@ func main() {
 	if err != nil {
 		fmt.Println(err)
 	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.Body)
-		fmt.Println(response.Headers)
+		defer response.Body.Close()
+		b, err := ioutil.ReadAll(response.Body)
+		if err != nil {
+			fmt.Println(err)
+		}
+		fmt.Println(response.Status)
+		fmt.Println(string(b))
+		fmt.Println(response.Header)
 	}
 }
 ```
@@ -91,9 +96,14 @@ func main() {
 	if err != nil {
 		fmt.Println(err)
 	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.Body)
-		fmt.Println(response.Headers)
+		defer response.Body.Close()
+		b, err := ioutil.ReadAll(response.Body)
+		if err != nil {
+			fmt.Println(err)
+		}
+		fmt.Println(response.Status)
+		fmt.Println(string(b))
+		fmt.Println(response.Header)
 	}
 }
 ```
