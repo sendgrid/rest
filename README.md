@@ -36,11 +36,15 @@ import (
 )
 
 func main() {
-	const host = "https://api.example.com"
+	const host = "api.example.com"
 	param := "myparam"
 	endpoint := "/your/api/" + param + "/call"
 
-	baseURL, _ := url.Parse(host + endpoint)
+	baseURL := &url.URL{
+		Scheme: "https",
+		Host:   host,
+		Path:   endpoint,
+	}
 
 	request, err := http.NewRequest(http.MethodGet, baseURL.String(), nil)
 	response, err := rest.API(request)
@@ -74,11 +78,9 @@ import (
 )
 
 func main() {
-	const host = "https://api.example.com"
+	const host = "api.example.com"
 	param := "myparam"
 	endpoint := "/your/api/" + param + "/call"
-
-	baseURL, _ := url.Parse(host + endpoint)
 
 	key := os.Getenv("API_KEY")
 	var body = []byte(`{"some": 0, "awesome": 1, "data": 3}`)
@@ -86,8 +88,13 @@ func main() {
 	params := url.Values{}
 	params.Add("hello", "0")
 	params.Add("world", "1")
-	baseURL.RawQuery = params.Encode()
 
+	baseURL := &url.URL{
+		Scheme: "https",
+		Host:   host,
+		Path:   endpoint,
+		RawQuery: params.Encode(),
+	}
 	request, err = http.NewRequest(http.MethodPost, baseURL.String(), bytes.NewReader(body))
 	request.Header.Set("Authorization", "Bearer "+key)
 	request.Header.Set("X-Test", "Test")
