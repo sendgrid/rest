@@ -29,6 +29,16 @@ type Request struct {
 	Body        []byte
 }
 
+// RestError is a struct for an error handling.
+type RestError struct {
+	Response *Response
+}
+
+// Error is the implementation of the error interface.
+func (e *RestError) Error() string {
+	return e.Response.Body
+}
+
 // DefaultClient is used if no custom HTTP client is defined
 var DefaultClient = &Client{HTTPClient: http.DefaultClient}
 
