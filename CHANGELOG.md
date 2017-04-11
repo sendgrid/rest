@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [2.4.0] - 2017-4-10
-### Changed
+### Added
 - Pull #18, Solves #17
 - Add RestError Struct for an error handling
 - Special thanks to [Takahiro Ikeuchi](https://github.com/iktakahiro) for the PR!
