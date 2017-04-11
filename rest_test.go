@@ -164,3 +164,27 @@ func TestCustomHTTPClient(t *testing.T) {
 		t.Error("We did not receive the Timeout error")
 	}
 }
+
+func TestRestError(t *testing.T) {
+	headers := make(map[string][]string)
+	headers["Content-Type"] = []string{"application/json"}
+
+	response := &Response{
+		StatusCode: 400,
+		Body:       `{"result": "failure"}`,
+		Headers:    headers,
+	}
+
+	restErr := &RestError{Response: response}
+
+	var err error
+	err = restErr
+
+	if _, ok := err.(*RestError); !ok {
+		t.Error("RestError does not satisfiy the error interface.")
+	}
+
+	if err.Error() != `{"result": "failure"}` {
+		t.Error("Invalid error message.")
+	}
+}
