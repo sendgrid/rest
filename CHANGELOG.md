@@ -3,6 +3,18 @@ All notable changes to this project will be documented in this file.
 
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [2.4.0] - 2017-4-10
+### Added
+- Pull #18, Solves #17
+- Add RestError Struct for an error handling
+- Special thanks to [Takahiro Ikeuchi](https://github.com/iktakahiro) for the PR!
+
+## [2.3.1] - 2016-10-14
+### Changed
+- Pull #15, solves Issue #7
+- Moved QueryParams processing into BuildRequestObject
+- Special thanks to [Gábor Lipták](https://github.com/gliptak) for the PR!
+
 ## [2.3.0] - 2016-10-04
 ### Added
 - Pull [#10] [Allow for custom Content-Types](https://github.com/sendgrid/rest/issues/10)

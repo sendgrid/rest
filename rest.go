@@ -29,6 +29,16 @@ type Request struct {
 	Body        []byte
 }
 
+// RestError is a struct for an error handling.
+type RestError struct {
+	Response *Response
+}
+
+// Error is the implementation of the error interface.
+func (e *RestError) Error() string {
+	return e.Response.Body
+}
+
 // DefaultClient is used if no custom HTTP client is defined
 var DefaultClient = &Client{HTTPClient: http.DefaultClient}
 
@@ -58,6 +68,10 @@ func AddQueryParameters(baseURL string, queryParams map[string]string) string {
 
 // BuildRequestObject creates the HTTP request object.
 func BuildRequestObject(request Request) (*http.Request, error) {
+	// Add any query parameters to the URL.
+	if len(request.QueryParams) != 0 {
+		request.BaseURL = AddQueryParameters(request.BaseURL, request.QueryParams)
+	}
 	req, err := http.NewRequest(string(request.Method), request.BaseURL, bytes.NewBuffer(request.Body))
 	for key, value := range request.Headers {
 		req.Header.Set(key, value)
