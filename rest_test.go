@@ -95,7 +95,7 @@ func TestRest(t *testing.T) {
 		Headers:     Headers,
 		QueryParams: queryParams,
 	}
-	response, e := API(request)
+	response, e := Send(request)
 	if response.StatusCode != 200 {
 		t.Error("Invalid status code")
 	}
@@ -156,7 +156,7 @@ func TestCustomHTTPClient(t *testing.T) {
 		BaseURL: baseURL,
 	}
 	customClient := &Client{&http.Client{Timeout: time.Millisecond * 10}}
-	_, err := customClient.API(request)
+	_, err := customClient.Send(request)
 	if err == nil {
 		t.Error("A timeout did not trigger as expected")
 	}

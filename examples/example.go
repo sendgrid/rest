@@ -34,7 +34,7 @@ func main() {
 		Headers:     Headers,
 		QueryParams: queryParams,
 	}
-	response, err := rest.API(request)
+	response, err := rest.Send(request)
 	if err != nil {
 		fmt.Println(err)
 	} else {
@@ -61,7 +61,7 @@ func main() {
 		QueryParams: queryParams,
 		Body:        Body,
 	}
-	response, err = rest.API(request)
+	response, err = rest.Send(request)
 	if err != nil {
 		fmt.Println(err)
 	} else {
@@ -91,7 +91,7 @@ func main() {
 		BaseURL: baseURL + "/" + apiKey,
 		Headers: Headers,
 	}
-	response, err = rest.API(request)
+	response, err = rest.Send(request)
 	if err != nil {
 		fmt.Println(err)
 	} else {
@@ -112,7 +112,7 @@ func main() {
 		Headers: Headers,
 		Body:    Body,
 	}
-	response, err = rest.API(request)
+	response, err = rest.Send(request)
 	if err != nil {
 		fmt.Println(err)
 	} else {
@@ -137,7 +137,7 @@ func main() {
 		Headers: Headers,
 		Body:    Body,
 	}
-	response, err = rest.API(request)
+	response, err = rest.Send(request)
 	if err != nil {
 		fmt.Println(err)
 	} else {
@@ -155,7 +155,7 @@ func main() {
 		Headers:     Headers,
 		QueryParams: queryParams,
 	}
-	response, err = rest.API(request)
+	response, err = rest.Send(request)
 	if err != nil {
 		fmt.Println(err)
 	} else {
