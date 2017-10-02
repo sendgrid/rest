@@ -149,10 +149,16 @@ func TestBuildBadResponse(t *testing.T) {
 
 func TestRest(t *testing.T) {
 	t.Parallel()
+	testingApi(t, Send)
+	testingApi(t, API)
+}
+
+func testingApi(t *testing.T, fn func(request Request) (*Response, error)) {
 	fakeServer := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprintln(w, "{\"message\": \"success\"}")
 	}))
 	defer fakeServer.Close()
+
 	host := fakeServer.URL
 	endpoint := "/test_endpoint"
 	baseURL := host + endpoint
@@ -180,7 +186,8 @@ func TestRest(t *testing.T) {
 	fmt.Println("Request :", string(requestDump))
 	//End Print Request
 
-	response, e := API(request)
+	response, e := fn(request)
+
 	if response.StatusCode != 200 {
 		t.Error("Invalid status code")
 	}
@@ -264,7 +271,7 @@ func TestCustomHTTPClient(t *testing.T) {
 	}
 
 	customClient := &Client{&http.Client{Timeout: time.Millisecond * 10}}
-	_, err := customClient.API(request)
+	_, err := customClient.Send(request)
 	if err == nil {
 		t.Error("A timeout did not trigger as expected")
 	}
