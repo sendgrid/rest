@@ -51,10 +51,12 @@ You can do this right before you call
 `response, err := rest.API(request)` like so:
 
 ```go
-req, e := BuildRequestObject(request.Body)
+fmt.Printf("Request Body: %v \n", string(request.Body))
+
+req, e := BuildRequestObject(request)
 requestDump, err := httputil.DumpRequest(req, true)
-	if err != nil {
-		t.Errorf("Error : %v", err)
-	}
-	fmt.Printf("Request Body : %v \n", string(requestDump))
+if err != nil {
+	t.Errorf("Error : %v", err)
+}
+fmt.Printf("Request : %v \n", string(requestDump))
 ```

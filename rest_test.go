@@ -44,6 +44,7 @@ func TestBuildRequest(t *testing.T) {
 	if req == nil {
 		t.Errorf("Failed to BuildRequest.")
 	}
+
 	//Start PrintRequest
 	requestDump, err := httputil.DumpRequest(req, true)
 	if err != nil {
@@ -152,6 +153,8 @@ func TestDefaultContentTypeWithBody(t *testing.T) {
 	}
 
 	//Start Print Request
+	fmt.Println("Request Body: ", string(request.Body))
+
 	requestDump, err := httputil.DumpRequest(response, true)
 	if err != nil {
 		t.Errorf("Error : %v", err)
