@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"net/http"
 	"net/http/httptest"
+	"net/http/httputil"
 	"strings"
 	"testing"
 	"time"
@@ -43,6 +44,13 @@ func TestBuildRequest(t *testing.T) {
 	if req == nil {
 		t.Errorf("Failed to BuildRequest.")
 	}
+	//Start PrintRequest
+	requestDump, err := httputil.DumpRequest(req, true)
+	if err != nil {
+		t.Errorf("Error : %v", err)
+	}
+	fmt.Println("Request : ", string(requestDump))
+	//End Print Request
 }
 
 func TestBuildResponse(t *testing.T) {
@@ -71,6 +79,15 @@ func TestBuildResponse(t *testing.T) {
 	if e != nil {
 		t.Errorf("Rest failed to make a valid API request. Returned error: %v", e)
 	}
+
+	//Start Print Request
+	requestDump, err := httputil.DumpRequest(req, true)
+	if err != nil {
+		t.Errorf("Error : %v", err)
+	}
+	fmt.Println("Request :", string(requestDump))
+	//End Print Request
+
 }
 
 func TestRest(t *testing.T) {
@@ -95,6 +112,16 @@ func TestRest(t *testing.T) {
 		Headers:     Headers,
 		QueryParams: queryParams,
 	}
+
+	//Start Print Request
+	req, e := BuildRequestObject(request)
+	requestDump, err := httputil.DumpRequest(req, true)
+	if err != nil {
+		t.Errorf("Error : %v", err)
+	}
+	fmt.Println("Request :", string(requestDump))
+	//End Print Request
+
 	response, e := API(request)
 	if response.StatusCode != 200 {
 		t.Error("Invalid status code")
@@ -118,10 +145,19 @@ func TestDefaultContentTypeWithBody(t *testing.T) {
 		BaseURL: host,
 		Body:    []byte("Hello World"),
 	}
+
 	response, _ := BuildRequestObject(request)
 	if response.Header.Get("Content-Type") != "application/json" {
 		t.Error("Content-Type not set to the correct default value when a body is set.")
 	}
+
+	//Start Print Request
+	requestDump, err := httputil.DumpRequest(response, true)
+	if err != nil {
+		t.Errorf("Error : %v", err)
+	}
+	fmt.Println("Request :", string(requestDump))
+	//End Print Request
 }
 
 func TestCustomContentType(t *testing.T) {
@@ -139,6 +175,14 @@ func TestCustomContentType(t *testing.T) {
 	if response.Header.Get("Content-Type") != "custom" {
 		t.Error("Content-Type not modified correctly")
 	}
+
+	//Start Print Request
+	requestDump, err := httputil.DumpRequest(response, true)
+	if err != nil {
+		t.Errorf("Error : %v", err)
+	}
+	fmt.Println("Request :", string(requestDump))
+	//End Print Request
 }
 
 func TestCustomHTTPClient(t *testing.T) {
@@ -155,6 +199,7 @@ func TestCustomHTTPClient(t *testing.T) {
 		Method:  method,
 		BaseURL: baseURL,
 	}
+
 	customClient := &Client{&http.Client{Timeout: time.Millisecond * 10}}
 	_, err := customClient.API(request)
 	if err == nil {
