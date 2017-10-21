@@ -1,6 +1,7 @@
 package rest
 
 import (
+	"bytes"
 	"fmt"
 	"net/http"
 	"net/http/httptest"
@@ -45,6 +46,32 @@ func TestBuildRequest(t *testing.T) {
 	}
 }
 
+func TestBuildBadRequest(t *testing.T) {
+	request := Request{
+		Method: Method("@"),
+	}
+	req, e := BuildRequestObject(request)
+	if e == nil {
+		t.Errorf("Expected an error for a bad HTTP Method")
+	}
+	if req != nil {
+		t.Errorf("If there's an error there shouldn't be a Request.")
+	}
+}
+
+func TestBuildBadAPI(t *testing.T) {
+	request := Request{
+		Method: Method("@"),
+	}
+	res, e := API(request)
+	if e == nil {
+		t.Errorf("Expected an error for a bad HTTP Method")
+	}
+	if res != nil {
+		t.Errorf("If there's an error there shouldn't be a Response.")
+	}
+}
+
 func TestBuildResponse(t *testing.T) {
 	fakeServer := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprintln(w, "{\"message\": \"success\"}")
@@ -70,6 +97,29 @@ func TestBuildResponse(t *testing.T) {
 	}
 	if e != nil {
 		t.Errorf("Rest failed to make a valid API request. Returned error: %v", e)
+	}
+}
+
+type panicResponse struct{}
+
+func (*panicResponse) Read(p []byte) (n int, err error) {
+	panic(bytes.ErrTooLarge)
+}
+
+func (*panicResponse) Close() error {
+	return nil
+}
+
+func TestBuildBadResponse(t *testing.T) {
+	res := &http.Response{
+		Body: new(panicResponse),
+	}
+	response, e := BuildResponse(res)
+	if e == nil {
+		t.Errorf("This was a bad response and error should be returned")
+	}
+	if response != nil {
+		t.Errorf("Response is not nil which shouldn't be possible")
 	}
 }
 
