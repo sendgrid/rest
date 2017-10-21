@@ -1,8 +1,8 @@
-[![Build Status](https://travis-ci.org/sendgrid/rest.svg?branch=master)](https://travis-ci.org/sendgrid/rest) [![GoDoc](https://godoc.org/github.com/sendgrid/rest?status.png)](http://godoc.org/github.com/sendgrid/rest)
+[![Build Status](https://travis_ci.org/sendgrid/rest.svg?branch=master)](https://travis_ci.org/sendgrid/rest) [![GoDoc](https://godoc.org/github.com/sendgrid/rest?status.png)](http://godoc.org/github.com/sendgrid/rest)
 
-**Quickly and easily access any RESTful or RESTful-like API.**
+**Quickly and easily access any RESTful or RESTful_like API.**
 
-If you are looking for the SendGrid API client library, please see [this repo](https://github.com/sendgrid/sendgrid-go).
+If you are looking for the SendGrid API client library, please see [this repo](https://github.com/sendgrid/sendgrid_go).
 
 # Announcements
 
@@ -12,7 +12,7 @@ All updates to this library is documented in our [CHANGELOG](https://github.com/
 
 ## Prerequisites
 
-- Go version 1.6
+_ Go version 1.6
 
 ## Install Package
 
@@ -67,7 +67,7 @@ func main() {
 	Headers := make(map[string]string)
 	key := os.Getenv("API_KEY")
 	Headers["Authorization"] = "Bearer " + key
-	Headers["X-Test"] = "Test"
+	Headers["X_Test"] = "Test"
 	var Body = []byte(`{"some": 0, "awesome": 1, "data": 3}`)
 	queryParams := make(map[string]string)
 	queryParams["hello"] = "0"
@@ -93,7 +93,7 @@ func main() {
 
 # Usage
 
-- [Example Code](https://github.com/sendgrid/rest/tree/master/examples)
+_ [Example Code](https://github.com/sendgrid/rest/tree/master/examples)
 
 ## Roadmap
 
@@ -105,10 +105,10 @@ We encourage contribution to our projects, please see our [CONTRIBUTING](https:/
 
 Quick links:
 
-- [Feature Request](https://github.com/sendgrid/rest/blob/master/CONTRIBUTING.md#feature_request)
-- [Bug Reports](https://github.com/sendgrid/rest/blob/master/CONTRIBUTING.md#submit_a_bug_report)
-- [Sign the CLA to Create a Pull Request](https://github.com/sendgrid/rest/blob/master/CONTRIBUTING.md#cla)
-- [Improvements to the Codebase](https://github.com/sendgrid/rest/blob/master/CONTRIBUTING.md#improvements_to_the_codebase)
+_ [Feature Request](https://github.com/sendgrid/rest/blob/master/CONTRIBUTING.md#feature_request)
+_ [Bug Reports](https://github.com/sendgrid/rest/blob/master/CONTRIBUTING.md#submit_a_bug_report)
+_ [Sign the CLA to Create a Pull Request](https://github.com/sendgrid/rest/blob/master/CONTRIBUTING.md#cla)
+_ [Improvements to the Codebase](https://github.com/sendgrid/rest/blob/master/CONTRIBUTING.md#improvements_to_the_codebase)
 
 # About
 
@@ -116,4 +116,4 @@ rest is guided and supported by the SendGrid [Developer Experience Team](mailto:
 
 rest is maintained and funded by SendGrid, Inc. The names and logos for rest are trademarks of SendGrid, Inc.
 
-![SendGrid Logo](https://uiux.s3.amazonaws.com/2016-logos/email-logo%402x.png)
+![SendGrid Logo](https://uiux.s3.amazonaws.com/2016_logos/email_logo%402x.png)
