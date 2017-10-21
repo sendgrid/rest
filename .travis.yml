@@ -2,7 +2,7 @@ language: go
 go:
 - '1.6'
 - tip
-script: go test -cover -v ./...
+script: go test -race -cover -v ./...
 notifications:
   hipchat:
     rooms:
