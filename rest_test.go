@@ -1,6 +1,7 @@
 package rest
 
 import (
+	"bytes"
 	"fmt"
 	"net/http"
 	"net/http/httptest"
@@ -11,6 +12,7 @@ import (
 )
 
 func TestBuildURL(t *testing.T) {
+	t.Parallel()
 	host := "http://api.test.com"
 	queryParams := make(map[string]string)
 	queryParams["test"] = "1"
@@ -22,6 +24,7 @@ func TestBuildURL(t *testing.T) {
 }
 
 func TestBuildRequest(t *testing.T) {
+	t.Parallel()
 	method := Get
 	baseURL := "http://api.test.com"
 	key := "API_KEY"
@@ -54,7 +57,36 @@ func TestBuildRequest(t *testing.T) {
 	//End Print Request
 }
 
+func TestBuildBadRequest(t *testing.T) {
+	t.Parallel()
+	request := Request{
+		Method: Method("@"),
+	}
+	req, e := BuildRequestObject(request)
+	if e == nil {
+		t.Errorf("Expected an error for a bad HTTP Method")
+	}
+	if req != nil {
+		t.Errorf("If there's an error there shouldn't be a Request.")
+	}
+}
+
+func TestBuildBadAPI(t *testing.T) {
+	t.Parallel()
+	request := Request{
+		Method: Method("@"),
+	}
+	res, e := API(request)
+	if e == nil {
+		t.Errorf("Expected an error for a bad HTTP Method")
+	}
+	if res != nil {
+		t.Errorf("If there's an error there shouldn't be a Response.")
+	}
+}
+
 func TestBuildResponse(t *testing.T) {
+	t.Parallel()
 	fakeServer := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprintln(w, "{\"message\": \"success\"}")
 	}))
@@ -91,7 +123,32 @@ func TestBuildResponse(t *testing.T) {
 
 }
 
+type panicResponse struct{}
+
+func (*panicResponse) Read(p []byte) (n int, err error) {
+	panic(bytes.ErrTooLarge)
+}
+
+func (*panicResponse) Close() error {
+	return nil
+}
+
+func TestBuildBadResponse(t *testing.T) {
+	t.Parallel()
+	res := &http.Response{
+		Body: new(panicResponse),
+	}
+	response, e := BuildResponse(res)
+	if e == nil {
+		t.Errorf("This was a bad response and error should be returned")
+	}
+	if response != nil {
+		t.Errorf("Response is not nil which shouldn't be possible")
+	}
+}
+
 func TestRest(t *testing.T) {
+	t.Parallel()
 	fakeServer := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprintln(w, "{\"message\": \"success\"}")
 	}))
@@ -139,6 +196,7 @@ func TestRest(t *testing.T) {
 }
 
 func TestDefaultContentTypeWithBody(t *testing.T) {
+	t.Parallel()
 	host := "http://localhost"
 	method := Get
 	request := Request{
@@ -164,6 +222,7 @@ func TestDefaultContentTypeWithBody(t *testing.T) {
 }
 
 func TestCustomContentType(t *testing.T) {
+	t.Parallel()
 	host := "http://localhost"
 	Headers := make(map[string]string)
 	Headers["Content-Type"] = "custom"
@@ -189,6 +248,7 @@ func TestCustomContentType(t *testing.T) {
 }
 
 func TestCustomHTTPClient(t *testing.T) {
+	t.Parallel()
 	fakeServer := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		time.Sleep(time.Millisecond * 20)
 		fmt.Fprintln(w, "{\"message\": \"success\"}")
@@ -214,6 +274,7 @@ func TestCustomHTTPClient(t *testing.T) {
 }
 
 func TestRestError(t *testing.T) {
+	t.Parallel()
 	headers := make(map[string][]string)
 	headers["Content-Type"] = []string{"application/json"}
 

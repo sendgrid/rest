@@ -73,6 +73,9 @@ func BuildRequestObject(request Request) (*http.Request, error) {
 		request.BaseURL = AddQueryParameters(request.BaseURL, request.QueryParams)
 	}
 	req, err := http.NewRequest(string(request.Method), request.BaseURL, bytes.NewBuffer(request.Body))
+	if err != nil {
+		return req, err
+	}
 	for key, value := range request.Headers {
 		req.Header.Set(key, value)
 	}
