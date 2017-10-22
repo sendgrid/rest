@@ -229,7 +229,7 @@ func TestRestError(t *testing.T) {
 	err = restErr
 
 	if _, ok := err.(*RestError); !ok {
-		t.Error("RestError does not satisfiy the error interface.")
+		t.Error("RestError does not satisfy the error interface.")
 	}
 
 	if err.Error() != `{"result": "failure"}` {

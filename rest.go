@@ -56,7 +56,7 @@ type Response struct {
 	Headers    map[string][]string // e.g. map[X-Ratelimit-Limit:[600]]
 }
 
-// AddQueryParameters adds query paramaters to the URL.
+// AddQueryParameters adds query parameters to the URL.
 func AddQueryParameters(baseURL string, queryParams map[string]string) string {
 	baseURL += "?"
 	params := url.Values{}
