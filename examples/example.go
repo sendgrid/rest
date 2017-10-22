@@ -3,8 +3,9 @@ package main
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/sendgrid/rest"
 	"os"
+
+	"github.com/sendgrid/rest"
 )
 
 func main() {
