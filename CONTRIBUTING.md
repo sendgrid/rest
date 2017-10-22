@@ -51,7 +51,7 @@ Before you decide to create a new issue, please try the following:
 
 ### Please use our Bug Report Template
 
-In order to make the process easier, we've included a [sample bug report template](https://github.com/sendgrid/rest/.github/ISSUE-TEMPLATE) (borrowed from [Ghost](https://github.com/TryGhost/Ghost/)). The template uses [GitHub flavored markdown](https://help.github.com/articles/github-flavored-markdown/) for formatting.
+In order to make the process easier, we've included a [sample bug report template](https://github.com/sendgrid/rest/.github/ISSUE_TEMPLATE) (borrowed from [Ghost](https://github.com/TryGhost/Ghost/)). The template uses [GitHub flavored markdown](https://help.github.com/articles/github-flavored-markdown/) for formatting.
 
 <a name="improvements-to-the-codebase"></a>
 ## Improvements to the Codebase
@@ -108,9 +108,9 @@ The main function that does the heavy lifting (and external entry point) is `API
 
 All PRs require passing tests before the PR will be reviewed.
 
-All test files are in [`rest-test.go`](https://github.com/sendgrid/rest/blob/master/rest-test.go).
+All test files are in [`rest-test.go`](https://github.com/sendgrid/rest/blob/master/rest_test.go).
 
-For the purposes of contributing to this repo, please update the [`rest-test.go`](https://github.com/sendgrid/rest/blob/master/rest-test.go) file with unit tests as you modify the code.
+For the purposes of contributing to this repo, please update the [`rest-test.go`](https://github.com/sendgrid/rest/blob/master/rest_test.go) file with unit tests as you modify the code.
 
 Run the test:
 
