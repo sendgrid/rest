@@ -113,7 +113,7 @@ func main() {
 <a name="usage"></a>
 # Usage
 
-- [Example Code](https://github.com/sendgrid/rest/tree/master/examples)
+- [Usage Examples](USAGE.md)
 
 <a name="roadmap"></a>
 # Roadmap
