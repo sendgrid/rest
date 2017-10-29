@@ -97,7 +97,9 @@ func BuildResponse(res *http.Response) (*Response, error) {
 	if err != nil {
 		return nil, err
 	}
-	defer res.Body.Close()
+	defer func() {
+		_ = res.Body.Close()
+	}()
 	response := Response{
 		StatusCode: res.StatusCode,
 		Body:       string(body),
