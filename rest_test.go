@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"net/http/httptest"
 	"net/http/httputil"
+	"os"
 	"strings"
 	"testing"
 	"time"
@@ -295,5 +296,18 @@ func TestRestError(t *testing.T) {
 
 	if err.Error() != `{"result": "failure"}` {
 		t.Error("Invalid error message.")
+	}
+}
+
+func TestRepoFiles(t *testing.T) {
+	files := []string{"docker/Docker", "docker/docker-compose.yml", ".env_sample",
+		".gitignore", ".travis.yml", ".codeclimate.yml", "CHANGELOG.md", "CODE_OF_CONDUCT.md",
+		"CONTRIBUTING.md", ".github/ISSUE_TEMPLATE", "LICENSE.md", ".github/PULL_REQUEST_TEMPLATE",
+		"README.md", "TROUBLESHOOTING.md", "USAGE.md", "USE_CASES.md"}
+
+	for _, file := range files {
+		if _, err := os.Stat(file); os.IsNotExist(err) {
+			t.Errorf("Repo file does not exist: %v", file)
+		}
 	}
 }
