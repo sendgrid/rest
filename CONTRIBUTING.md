@@ -73,15 +73,11 @@ git clone https://github.com/sendgrid/rest.git
 cd rest
 ```
 
-##### Execute: #####
-
-See the [examples folder](https://github.com/sendgrid/rest/tree/master/examples) to get started quickly.
-
-If you want to try the SendGrid example:
+### Environment Variables
 
 First, get your free SendGrid account [here](https://sendgrid.com/free?source=rest).
 
-You will need to setup the following environment to use the SendGrid example:
+Next, update your environment with your [SENDGRID_API_KEY](https://app.sendgrid.com/settings/api_keys) if you will test with Swift Mailer.
 
 ```
 echo "export SENDGRID-API-KEY='YOUR-API-KEY'" > sendgrid.env
@@ -89,6 +85,10 @@ echo "sendgrid.env" >> .gitignore
 source ./sendgrid.env
 go run examples/example.go
 ```
+
+##### Execute: #####
+
+See the [examples folder](https://github.com/sendgrid/rest/tree/master/examples) to get started quickly.
 
 <a name="understanding-the-codebase"></a>
 ## Understanding the Code Base
