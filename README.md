@@ -77,7 +77,7 @@ func main() {
 		Method:  method,
 		BaseURL: baseURL,
 	}
-	response, err := rest.API(request)
+	response, err := rest.Send(request)
 	if err != nil {
 		fmt.Println(err)
 	} else {
@@ -117,7 +117,7 @@ func main() {
 		QueryParams: queryParams,
 		Body:        Body,
 	}
-	response, err := rest.API(request)
+	response, err := rest.Send(request)
 	if err != nil {
 		fmt.Println(err)
 	} else {

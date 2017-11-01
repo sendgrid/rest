@@ -5,11 +5,18 @@ go:
 - 1.8.x
 - 1.9.x
 - tip
+<<<<<<< HEAD
 
 before_install:
   - go get -t -v ./...
 
-script: go test -race -cover -v ./...
+before_script:
+- go get -u github.com/alecthomas/gometalinter
+- gometalinter --install
+
+script:
+- gometalinter --disable=golint ./...
+- go test -race -cover -v ./...
 
 after_success:
   - bash <(curl -s https://codecov.io/bash)
