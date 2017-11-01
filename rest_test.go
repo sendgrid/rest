@@ -98,7 +98,13 @@ func TestBuildResponse(t *testing.T) {
 		BaseURL: baseURL,
 	}
 	req, e := BuildRequestObject(request)
+	if e != nil {
+		t.Error("Failed to BuildRequestObject", e)
+	}
 	res, e := MakeRequest(req)
+	if e != nil {
+		t.Error("Failed to MakeRequest", e)
+	}
 	response, e := BuildResponse(res)
 	if response.StatusCode != 200 {
 		t.Error("Invalid status code in BuildResponse")
@@ -179,6 +185,9 @@ func testingApi(t *testing.T, fn func(request Request) (*Response, error)) {
 
 	//Start Print Request
 	req, e := BuildRequestObject(request)
+	if e != nil {
+		t.Errorf("Error during BuildRequestObject: %v", e)
+	}
 	requestDump, err := httputil.DumpRequest(req, true)
 	if err != nil {
 		t.Errorf("Error : %v", err)
@@ -275,7 +284,7 @@ func TestCustomHTTPClient(t *testing.T) {
 	if err == nil {
 		t.Error("A timeout did not trigger as expected")
 	}
-	if strings.Contains(err.Error(), "Client.Timeout exceeded while awaiting headers") == false {
+	if !strings.Contains(err.Error(), "Client.Timeout exceeded while awaiting headers") {
 		t.Error("We did not receive the Timeout error")
 	}
 }
@@ -291,14 +300,7 @@ func TestRestError(t *testing.T) {
 		Headers:    headers,
 	}
 
-	restErr := &RestError{Response: response}
-
-	var err error
-	err = restErr
-
-	if _, ok := err.(*RestError); !ok {
-		t.Error("RestError does not satisfy the error interface.")
-	}
+	var err error = &RestError{Response: response}
 
 	if err.Error() != `{"result": "failure"}` {
 		t.Error("Invalid error message.")
