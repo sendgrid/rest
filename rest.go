@@ -124,6 +124,11 @@ func (c *Client) MakeRequest(req *http.Request) (*http.Response, error) {
 	return c.HTTPClient.Do(req)
 }
 
+// Function for support old implementation (deprecated)
+func (c *Client) API(request Request) (*Response, error) {
+	return Send(request)
+}
+
 // API is the main interface to the API.
 func (c *Client) Send(request Request) (*Response, error) {
 	// Build the HTTP request object.
