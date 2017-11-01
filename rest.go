@@ -97,7 +97,9 @@ func BuildResponse(res *http.Response) (*Response, error) {
 	if err != nil {
 		return nil, err
 	}
-	defer res.Body.Close()
+	defer func() {
+		_ = res.Body.Close()
+	}()
 	response := Response{
 		StatusCode: res.StatusCode,
 		Body:       string(body),
@@ -106,9 +108,14 @@ func BuildResponse(res *http.Response) (*Response, error) {
 	return &response, nil
 }
 
-// API is the main interface to the API.
+// Function for support old implementation (deprecated)
 func API(request Request) (*Response, error) {
-	return DefaultClient.API(request)
+	return Send(request)
+}
+
+// API is the main interface to the API.
+func Send(request Request) (*Response, error) {
+	return DefaultClient.Send(request)
 }
 
 // The following functions enable the ability to define a
@@ -119,8 +126,13 @@ func (c *Client) MakeRequest(req *http.Request) (*http.Response, error) {
 	return c.HTTPClient.Do(req)
 }
 
-// API is the main interface to the API.
+// Function for support old implementation (deprecated)
 func (c *Client) API(request Request) (*Response, error) {
+	return c.Send(request)
+}
+
+// API is the main interface to the API.
+func (c *Client) Send(request Request) (*Response, error) {
 	// Build the HTTP request object.
 	req, err := BuildRequestObject(request)
 	if err != nil {

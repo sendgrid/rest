@@ -98,7 +98,13 @@ func TestBuildResponse(t *testing.T) {
 		BaseURL: baseURL,
 	}
 	req, e := BuildRequestObject(request)
+	if e != nil {
+		t.Error("Failed to BuildRequestObject", e)
+	}
 	res, e := MakeRequest(req)
+	if e != nil {
+		t.Error("Failed to MakeRequest", e)
+	}
 	response, e := BuildResponse(res)
 	if response.StatusCode != 200 {
 		t.Error("Invalid status code in BuildResponse")
@@ -149,10 +155,16 @@ func TestBuildBadResponse(t *testing.T) {
 
 func TestRest(t *testing.T) {
 	t.Parallel()
+	testingApi(t, Send)
+	testingApi(t, API)
+}
+
+func testingApi(t *testing.T, fn func(request Request) (*Response, error)) {
 	fakeServer := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprintln(w, "{\"message\": \"success\"}")
 	}))
 	defer fakeServer.Close()
+
 	host := fakeServer.URL
 	endpoint := "/test_endpoint"
 	baseURL := host + endpoint
@@ -173,6 +185,9 @@ func TestRest(t *testing.T) {
 
 	//Start Print Request
 	req, e := BuildRequestObject(request)
+	if e != nil {
+		t.Errorf("Error during BuildRequestObject: %v", e)
+	}
 	requestDump, err := httputil.DumpRequest(req, true)
 	if err != nil {
 		t.Errorf("Error : %v", err)
@@ -180,7 +195,8 @@ func TestRest(t *testing.T) {
 	fmt.Println("Request :", string(requestDump))
 	//End Print Request
 
-	response, e := API(request)
+	response, e := fn(request)
+
 	if response.StatusCode != 200 {
 		t.Error("Invalid status code")
 	}
@@ -264,11 +280,11 @@ func TestCustomHTTPClient(t *testing.T) {
 	}
 
 	customClient := &Client{&http.Client{Timeout: time.Millisecond * 10}}
-	_, err := customClient.API(request)
+	_, err := customClient.Send(request)
 	if err == nil {
 		t.Error("A timeout did not trigger as expected")
 	}
-	if strings.Contains(err.Error(), "Client.Timeout exceeded while awaiting headers") == false {
+	if !strings.Contains(err.Error(), "Client.Timeout exceeded while awaiting headers") {
 		t.Error("We did not receive the Timeout error")
 	}
 }
@@ -284,14 +300,7 @@ func TestRestError(t *testing.T) {
 		Headers:    headers,
 	}
 
-	restErr := &RestError{Response: response}
-
-	var err error
-	err = restErr
-
-	if _, ok := err.(*RestError); !ok {
-		t.Error("RestError does not satisfy the error interface.")
-	}
+	var err error = &RestError{Response: response}
 
 	if err.Error() != `{"result": "failure"}` {
 		t.Error("Invalid error message.")
