@@ -1,13 +1,24 @@
-## Story
-Task: [Link to external story here.](link)
+<!--
+We appreciate the effort for this pull request but before that please make sure you read the contribution guidelines given above, then fill out the blanks below.
 
-## Description
-Describe your changes here.
 
-## Tasks
-- [x] Feature 1 
-- [x] Feature 2
-- [ ] Feature 3
+Please enter each Issue number you are resolving in your PR after one of the following words [Fixes, Closes, Resolves]. This will auto-link these issues and close them when this PR is merged!
+e.g. 
+Fixes #1
+Closes #2
+-->
+# Fixes # 
 
-## :warning:  Warning :warning:
-Write down warnings here.
+### Checklist
+- [ ] I have made a material change to the repo (functionality, testing, spelling, grammar)
+- [ ] I have read the [Contribution Guide] and my PR follows them.
+- [ ] I updated my branch with the master branch.
+- [ ] I have added tests that prove my fix is effective or that my feature works
+- [ ] I have added necessary documentation about the functionality in the appropriate .md file
+- [ ] I have added in line documentation to the code I modified
+
+### Short description of what this PR does:
+- 
+- 
+
+If you have questions, please send an email to [Sendgrid](mailto:dx@sendgrid.com), or file a Github Issue in this repository.
