@@ -300,7 +300,7 @@ func TestRestError(t *testing.T) {
 }
 
 func TestRepoFiles(t *testing.T) {
-	files := []string{"docker/Docker", "docker/docker-compose.yml", ".env_sample",
+	files := []string{"docker/Dockerfile", "docker/docker-compose.yml", ".env_sample",
 		".gitignore", ".travis.yml", ".codeclimate.yml", "CHANGELOG.md", "CODE_OF_CONDUCT.md",
 		"CONTRIBUTING.md", ".github/ISSUE_TEMPLATE", "LICENSE.md", ".github/PULL_REQUEST_TEMPLATE",
 		"README.md", "TROUBLESHOOTING.md", "USAGE.md", "USE_CASES.md"}
