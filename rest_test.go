@@ -3,9 +3,11 @@ package rest
 import (
 	"bytes"
 	"fmt"
+	"io/ioutil"
 	"net/http"
 	"net/http/httptest"
 	"net/http/httputil"
+	"regexp"
 	"strings"
 	"testing"
 	"time"
@@ -304,5 +306,21 @@ func TestRestError(t *testing.T) {
 
 	if err.Error() != `{"result": "failure"}` {
 		t.Error("Invalid error message.")
+	}
+}
+
+func TestLicenseYear(t *testing.T) {
+	t.Parallel()
+	dat, err := ioutil.ReadFile("LICENSE.txt")
+
+	currentYear := time.Now().Year()
+	r := fmt.Sprintf("%d", currentYear)
+	match, _ := regexp.MatchString(r, string(dat))
+
+	if err != nil {
+		t.Error("License File Not Found")
+	}
+	if !match {
+		t.Error("Incorrect Year in License Copyright")
 	}
 }
