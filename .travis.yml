@@ -5,7 +5,12 @@ go:
 - 1.8.x
 - 1.9.x
 - tip
-script: go test -race -cover -v ./...
+before_script:
+- go get -u github.com/alecthomas/gometalinter
+- gometalinter --install
+script:
+- gometalinter --disable=golint ./...
+- go test -race -cover -v ./...
 notifications:
   hipchat:
     rooms:
