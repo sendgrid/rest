@@ -320,6 +320,7 @@ func TestRepoFiles(t *testing.T) {
 		if _, err := os.Stat(file); os.IsNotExist(err) {
 			t.Errorf("Repo file does not exist: %v", file)
 		}
+	}
 }
   
 func TestLicenseYear(t *testing.T) {
