@@ -33,14 +33,26 @@ func main() {
 	}
 
 	req, err := http.NewRequest(http.MethodGet, baseURL.String(), nil)
+	if err != nil {
+		panic(err)
+	}
+
 	req.Header.Set("Authorization", "Bearer "+key)
 
 	response, err := rest.API(req)
 	if err != nil {
 		fmt.Println(err)
 	} else {
-		defer response.Body.Close()
-		b, err := ioutil.ReadAll(response.Body)
+		defer func() {
+			err = response.Body.Close()
+			if err != nil {
+				fmt.Println("encountered an error closing the response body:", err)
+			}
+		}()
+
+		var b []byte
+
+		b, err = ioutil.ReadAll(response.Body)
 		if err != nil {
 			fmt.Println(err)
 		}
@@ -60,14 +72,24 @@ func main() {
     }`
 
 	req, err = http.NewRequest(http.MethodPost, baseURL.String(), strings.NewReader(body))
+	if err != nil {
+		panic(err)
+	}
+
 	req.Header.Set("Authorization", "Bearer "+key)
 
 	response, err = rest.API(req)
 	if err != nil {
 		fmt.Println(err)
 	} else {
-		defer response.Body.Close()
-		b, err := ioutil.ReadAll(response.Body)
+		defer func() {
+			err = response.Body.Close()
+			if err != nil {
+				fmt.Println("encountered an error closing the response body:", err)
+			}
+		}()
+		var b []byte
+		b, err = ioutil.ReadAll(response.Body)
 		if err != nil {
 			fmt.Println(err)
 		}
@@ -80,7 +102,12 @@ func main() {
 	// Note that you can unmarshall into a struct if
 	// you know the JSON structure in advance.
 
-	defer response.Body.Close()
+	defer func() {
+		err = response.Body.Close()
+		if err != nil {
+			fmt.Println("encountered an error closing the response body:", err)
+		}
+	}()
 	b, err := ioutil.ReadAll(response.Body)
 	if err != nil {
 		fmt.Println(err)
@@ -102,14 +129,26 @@ func main() {
 	}
 
 	req, err = http.NewRequest(http.MethodGet, baseURL.String(), nil)
+	if err != nil {
+		panic(err)
+	}
+
 	req.Header.Set("Authorization", "Bearer "+key)
 
 	response, err = rest.API(req)
 	if err != nil {
 		fmt.Println(err)
 	} else {
-		defer response.Body.Close()
-		b, err := ioutil.ReadAll(response.Body)
+		defer func() {
+			err = response.Body.Close()
+			if err != nil {
+				fmt.Println("encountered an error closing the response body:", err)
+			}
+		}()
+
+		var b []byte
+
+		b, err = ioutil.ReadAll(response.Body)
 		if err != nil {
 			fmt.Println(err)
 		}
@@ -124,14 +163,25 @@ func main() {
     }`
 
 	req, err = http.NewRequest(http.MethodPatch, baseURL.String(), strings.NewReader(body))
+	if err != nil {
+		panic(err)
+	}
+
 	req.Header.Set("Authorization", "Bearer "+key)
 
 	response, err = rest.API(req)
 	if err != nil {
 		fmt.Println(err)
 	} else {
-		defer response.Body.Close()
-		b, err := ioutil.ReadAll(response.Body)
+		defer func() {
+			err = response.Body.Close()
+			if err != nil {
+				fmt.Println("encountered an error closing the response body:", err)
+			}
+		}()
+
+		var b []byte
+		b, err = ioutil.ReadAll(response.Body)
 		if err != nil {
 			fmt.Println(err)
 		}
@@ -150,14 +200,25 @@ func main() {
     }`
 
 	req, err = http.NewRequest(http.MethodPut, baseURL.String(), strings.NewReader(body))
+	if err != nil {
+		panic(err)
+	}
+
 	req.Header.Set("Authorization", "Bearer "+key)
 
 	response, err = rest.API(req)
 	if err != nil {
 		fmt.Println(err)
 	} else {
-		defer response.Body.Close()
-		b, err := ioutil.ReadAll(response.Body)
+		defer func() {
+			err = response.Body.Close()
+			if err != nil {
+				fmt.Println("encountered an error closing the response body:", err)
+			}
+		}()
+
+		var b []byte
+		b, err = ioutil.ReadAll(response.Body)
 		if err != nil {
 			fmt.Println(err)
 		}
@@ -168,6 +229,10 @@ func main() {
 
 	// DELETE
 	req, err = http.NewRequest(http.MethodDelete, baseURL.String(), nil)
+	if err != nil {
+		panic(err)
+	}
+
 	req.Header.Set("Authorization", "Bearer "+key)
 
 	response, err = rest.API(req)

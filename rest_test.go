@@ -42,7 +42,13 @@ func TestBuildResponse(t *testing.T) {
 	if err != nil {
 		t.Fatal("unable to read response body:", err)
 	}
-	defer response.Body.Close()
+
+	defer func() {
+		err = response.Body.Close()
+		if err != nil {
+			t.Fatal("encountered an error closing the response body:", err)
+		}
+	}()
 
 	if len(body) == 0 {
 		t.Error("Invalid response body in BuildResponse")
@@ -63,16 +69,6 @@ func TestBuildResponse(t *testing.T) {
 	}
 	fmt.Println("Request :", string(requestDump))
 	//End Print Request
-}
-
-type panicResponse struct{}
-
-func (*panicResponse) Read(p []byte) (n int, err error) {
-	panic(bytes.ErrTooLarge)
-}
-
-func (*panicResponse) Close() error {
-	return nil
 }
 
 func TestRest(t *testing.T) {
@@ -98,6 +94,9 @@ func TestRest(t *testing.T) {
 	baseURL.RawQuery = params.Encode()
 
 	req, err := http.NewRequest(http.MethodGet, baseURL.String(), nil)
+	if err != nil {
+		t.Fatal("invalid request:", err)
+	}
 
 	req.Header.Set("Content-Type", "application/json")
 	req.Header.Set("Authorization", "Bearer "+key)
@@ -112,7 +111,13 @@ func TestRest(t *testing.T) {
 	if err != nil {
 		t.Fatal("unable to read response body:", err)
 	}
-	defer response.Body.Close()
+
+	defer func() {
+		err := response.Body.Close()
+		if err != nil {
+			t.Fatal("encountered an error closing the response body:", err)
+		}
+	}()
 
 	if len(body) == 0 {
 		t.Error("Invalid response body in BuildResponse")
@@ -145,7 +150,10 @@ func TestDefaultContentTypeWithBody(t *testing.T) {
 		t.Fatal("unable to formulate request:", err)
 	}
 
-	API(request)
+	_, err = API(request)
+	if err != nil {
+		t.Fatal("encoutered unexpected api error:", err)
+	}
 
 	if request.Header.Get("Content-Type") != "application/json" {
 		t.Error("Content-Type not set to the correct default value when a body is set")
@@ -173,6 +181,9 @@ func TestCustomContentType(t *testing.T) {
 	}
 
 	req, err := http.NewRequest(http.MethodGet, baseURL.String(), strings.NewReader("Hello World"))
+	if err != nil {
+		t.Error("invalid request:", err)
+	}
 
 	req.Header.Set("Content-Type", "custom")
 
@@ -214,13 +225,16 @@ func TestCustomHTTPClient(t *testing.T) {
 	}
 
 	req, err := http.NewRequest(http.MethodGet, baseURL.String(), nil)
+	if err != nil {
+		t.Error("invalid request:", err)
+	}
 
 	_, err = customClient.API(req)
 	if err == nil {
 		t.Error("A timeout did not trigger as expected")
 	}
 
-	if strings.Contains(err.Error(), "Client.Timeout exceeded while awaiting headers") == false {
+	if !strings.Contains(err.Error(), "Client.Timeout exceeded while awaiting headers") {
 		t.Error("We did not receive the Timeout error")
 	}
 }
