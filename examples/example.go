@@ -32,10 +32,10 @@ func main() {
 		RawQuery: params.Encode(),
 	}
 
-	request, err := http.NewRequest(http.MethodGet, baseURL.String(), nil)
-	request.Header.Set("Authorization", "Bearer "+key)
+	req, err := http.NewRequest(http.MethodGet, baseURL.String(), nil)
+	req.Header.Set("Authorization", "Bearer "+key)
 
-	response, err := rest.API(request)
+	response, err := rest.API(req)
 	if err != nil {
 		fmt.Println(err)
 	} else {
@@ -59,10 +59,10 @@ func main() {
         ]
     }`
 
-	request, err = http.NewRequest(http.MethodPost, baseURL.String(), strings.NewReader(body))
-	request.Header.Set("Authorization", "Bearer "+key)
+	req, err = http.NewRequest(http.MethodPost, baseURL.String(), strings.NewReader(body))
+	req.Header.Set("Authorization", "Bearer "+key)
 
-	response, err = rest.API(request)
+	response, err = rest.API(req)
 	if err != nil {
 		fmt.Println(err)
 	} else {
@@ -101,10 +101,10 @@ func main() {
 		Path:   path.Join(endpoint, apiKey),
 	}
 
-	request, err = http.NewRequest(http.MethodGet, baseURL.String(), nil)
-	request.Header.Set("Authorization", "Bearer "+key)
+	req, err = http.NewRequest(http.MethodGet, baseURL.String(), nil)
+	req.Header.Set("Authorization", "Bearer "+key)
 
-	response, err = rest.API(request)
+	response, err = rest.API(req)
 	if err != nil {
 		fmt.Println(err)
 	} else {
@@ -123,10 +123,10 @@ func main() {
         "name": "A New Hope"
     }`
 
-	request, err = http.NewRequest(http.MethodPatch, baseURL.String(), strings.NewReader(body))
-	request.Header.Set("Authorization", "Bearer "+key)
+	req, err = http.NewRequest(http.MethodPatch, baseURL.String(), strings.NewReader(body))
+	req.Header.Set("Authorization", "Bearer "+key)
 
-	response, err = rest.API(request)
+	response, err = rest.API(req)
 	if err != nil {
 		fmt.Println(err)
 	} else {
@@ -149,10 +149,10 @@ func main() {
         ]
     }`
 
-	request, err = http.NewRequest(http.MethodPut, baseURL.String(), strings.NewReader(body))
-	request.Header.Set("Authorization", "Bearer "+key)
+	req, err = http.NewRequest(http.MethodPut, baseURL.String(), strings.NewReader(body))
+	req.Header.Set("Authorization", "Bearer "+key)
 
-	response, err = rest.API(request)
+	response, err = rest.API(req)
 	if err != nil {
 		fmt.Println(err)
 	} else {
@@ -167,10 +167,10 @@ func main() {
 	}
 
 	// DELETE
-	request, err = http.NewRequest(http.MethodDelete, baseURL.String(), nil)
-	request.Header.Set("Authorization", "Bearer "+key)
+	req, err = http.NewRequest(http.MethodDelete, baseURL.String(), nil)
+	req.Header.Set("Authorization", "Bearer "+key)
 
-	response, err = rest.API(request)
+	response, err = rest.API(req)
 	if err != nil {
 		fmt.Println(err)
 	} else {
