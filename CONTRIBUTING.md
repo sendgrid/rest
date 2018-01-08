@@ -2,13 +2,13 @@ Hello! Thank you for choosing to help contribute to one of the SendGrid open sou
 
 - [CLAs and CCLAs](#cla)
 - [Roadmap & Milestones](#roadmap)
-- [Feature Request](#feature_request)
-- [Submit a Bug Report](#submit_a_bug_report)
-- [Improvements to the Codebase](#improvements_to_the_codebase)
-- [Understanding the Code Base](#understanding_the_codebase)
+- [Feature Request](#feature-request)
+- [Submit a Bug Report](#submit-a-bug-report)
+- [Improvements to the Codebase](#improvements-to-the-codebase)
+- [Understanding the Code Base](#understanding-the-codebase)
 - [Testing](#testing)
-- [Style Guidelines & Naming Conventions](#style_guidelines_and_naming_conventions)
-- [Creating a Pull Request](#creating_a_pull_request)
+- [Style Guidelines & Naming Conventions](#style-guidelines-and-naming-conventions)
+- [Creating a Pull Request](#creating-a-pull-request)
 
 <a name="roadmap"></a>
 We use [Milestones](https://github.com/sendgrid/rest/milestones) to help define current roadmaps, please feel free to grab an issue from the current milestone. Please indicate that you have begun work on it to avoid collisions. Once a PR is made, community review, comments, suggestions and additional PRs are welcomed and encouraged.
@@ -20,13 +20,13 @@ Before you get started, SendGrid requires that a SendGrid Contributor License Ag
 
 Our goal with the CLA is to clarify the rights of our contributors and reduce other risks arising from inappropriate contributions.  The CLA also clarifies the rights SendGrid holds in each contribution and helps to avoid misunderstandings over what rights each contributor is required to grant to SendGrid when making a contribution.  In this way the CLA encourages broad participation by our open source community and helps us build strong open source projects, free from any individual contributor withholding or revoking rights to any contribution.
 
-SendGrid does not merge a pull request made against a SendGrid open source project until that pull request is associated with a signed CLA. Copies of the CLA are available [here](https://gist.github.com/SendGridDX/98b42c0a5d500058357b80278fde3be8#file-sendgrid_cla).
+SendGrid does not merge a pull request made against a SendGrid open source project until that pull request is associated with a signed CLA. Copies of the CLA are available [here](https://gist.github.com/SendGridDX/98b42c0a5d500058357b80278fde3be8#file-sendgrid-cla).
 
 When you create a Pull Request, after a few seconds, a comment will appear with a link to the CLA. Click the link and fill out the brief form and then click the "I agree" button and you are all set. You will not be asked to re-sign the CLA unless we make a change.
 
 There are a few ways to contribute, which we'll enumerate below:
 
-<a name="feature_request"></a>
+<a name="feature-request"></a>
 ## Feature Request
 
 If you'd like to make a feature request, please read this section.
@@ -36,7 +36,7 @@ The GitHub issue tracker is the preferred channel for library feature requests, 
 - Please **search for existing issues** in order to ensure we don't have duplicate bugs/feature requests.
 - Please be respectful and considerate of others when commenting on issues
 
-<a name="submit_a_bug_report"></a>
+<a name="submit-a-bug-report"></a>
 ## Submit a Bug Report
 
 Note: DO NOT include your credentials in ANY code examples, descriptions, or media you make public.
@@ -53,7 +53,7 @@ Before you decide to create a new issue, please try the following:
 
 In order to make the process easier, we've included a [sample bug report template](https://github.com/sendgrid/rest/.github/ISSUE_TEMPLATE) (borrowed from [Ghost](https://github.com/TryGhost/Ghost/)). The template uses [GitHub flavored markdown](https://help.github.com/articles/github-flavored-markdown/) for formatting.
 
-<a name="improvements_to_the_codebase"></a>
+<a name="improvements-to-the-codebase"></a>
 ## Improvements to the Codebase
 
 We welcome direct contributions to the rest code base. Thank you!
@@ -84,13 +84,13 @@ First, get your free SendGrid account [here](https://sendgrid.com/free?source=re
 You will need to setup the following environment to use the SendGrid example:
 
 ```
-echo "export SENDGRID_API_KEY='YOUR_API_KEY'" > sendgrid.env
+echo "export SENDGRID-API-KEY='YOUR-API-KEY'" > sendgrid.env
 echo "sendgrid.env" >> .gitignore
 source ./sendgrid.env
 go run examples/example.go
 ```
 
-<a name="understanding_the_codebase"></a>
+<a name="understanding-the-codebase"></a>
 ## Understanding the Code Base
 
 **/examples**
@@ -108,9 +108,9 @@ The main function that does the heavy lifting (and external entry point) is `API
 
 All PRs require passing tests before the PR will be reviewed.
 
-All test files are in [`rest_test.go`](https://github.com/sendgrid/rest/blob/master/rest_test.go).
+All test files are in [`rest-test.go`](https://github.com/sendgrid/rest/blob/master/rest_test.go).
 
-For the purposes of contributing to this repo, please update the [`rest_test.go`](https://github.com/sendgrid/rest/blob/master/rest_test.go) file with unit tests as you modify the code.
+For the purposes of contributing to this repo, please update the [`rest-test.go`](https://github.com/sendgrid/rest/blob/master/rest_test.go) file with unit tests as you modify the code.
 
 Run the test:
 
@@ -118,7 +118,7 @@ Run the test:
 go test -v
 ```
 
-<a name="style_guidelines_and_naming_conventions"></a>
+<a name="style-guidelines-and-naming-conventions"></a>
 ## Style Guidelines & Naming Conventions
 
 Generally, we follow the style guidelines as suggested by the official language. However, we ask that you conform to the styles that already exist in the library. If you wish to deviate, please explain your reasoning.
@@ -129,7 +129,7 @@ Please run your code through:
 
 - [fmt](https://blog.golang.org/go-fmt-your-code)
 
-## Creating a Pull Request<a name="creating_a_pull_request"></a>
+## Creating a Pull Request<a name="creating-a-pull-request"></a>
 
 1. [Fork](https://help.github.com/fork-a-repo/) the project, clone your fork,
    and configure the remotes:
@@ -138,7 +138,7 @@ Please run your code through:
    # Clone your fork of the repo into the current directory
    git clone https://github.com/sendgrid/rest
    # Navigate to the newly cloned directory
-   cd sendgrid-python
+   cd rest
    # Assign the original repo to a remote called "upstream"
    git remote add upstream https://github.com/sendgrid/rest
    ```

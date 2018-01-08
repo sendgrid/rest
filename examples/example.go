@@ -127,7 +127,6 @@ func main() {
 	request.Header.Set("Authorization", "Bearer "+key)
 
 	response, err = rest.API(request)
-
 	if err != nil {
 		fmt.Println(err)
 	} else {

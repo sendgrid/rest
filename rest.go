@@ -4,6 +4,7 @@ package rest
 import (
 	"errors"
 	"net/http"
+	"net/url"
 )
 
 // Method contains the supported HTTP verbs.
@@ -17,25 +18,6 @@ const (
 	Patch  Method = "PATCH"
 	Delete Method = "DELETE"
 )
-
-// Request holds the request to an API Call.
-type Request struct {
-	Method      Method
-	BaseURL     string // e.g. https://api.sendgrid.com
-	Headers     map[string]string
-	QueryParams map[string]string
-	Body        []byte
-}
-
-// RestError is a struct for an error handling.
-type RestError struct {
-	Response *Response
-}
-
-// Error is the implementation of the error interface.
-func (e *RestError) Error() string {
-	return e.Response.Body
-}
 
 // DefaultClient is used if no custom HTTP client is defined
 var DefaultClient = &Client{HTTPClient: http.DefaultClient}
@@ -56,8 +38,20 @@ func API(request *http.Request) (*http.Response, error) {
 	return DefaultClient.API(request)
 }
 
-// The following functions enable the ability to define a
-// custom HTTP Client
+// AddQueryParameters adds query parameters to the URL.
+func AddQueryParameters(baseURL string, queryParams map[string]string) string {
+	baseURL += "?"
+	params := url.Values{}
+	for key, value := range queryParams {
+		params.Add(key, value)
+	}
+	return baseURL + params.Encode()
+}
+
+// MakeRequest makes the API call.
+func MakeRequest(req *http.Request) (*http.Response, error) {
+	return DefaultClient.HTTPClient.Do(req)
+}
 
 // MakeRequest makes the API call.
 func (c *Client) makeRequest(req *http.Request) (*http.Response, error) {

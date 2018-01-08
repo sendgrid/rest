@@ -6,13 +6,17 @@ import (
 	"io/ioutil"
 	"net/http"
 	"net/http/httptest"
+	"net/http/httputil"
 	"net/url"
+	"os"
+	"regexp"
 	"strings"
 	"testing"
 	"time"
 )
 
 func TestBuildResponse(t *testing.T) {
+	t.Parallel()
 	fakeServer := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprintln(w, `{"message": "success"}`)
 	}))
@@ -51,9 +55,28 @@ func TestBuildResponse(t *testing.T) {
 	if e != nil {
 		t.Errorf("Rest failed to make a valid API request. Returned error: %v", e)
 	}
+
+	//Start Print Request
+	requestDump, err := httputil.DumpRequest(request, true)
+	if err != nil {
+		t.Errorf("Error : %v", err)
+	}
+	fmt.Println("Request :", string(requestDump))
+	//End Print Request
+}
+
+type panicResponse struct{}
+
+func (*panicResponse) Read(p []byte) (n int, err error) {
+	panic(bytes.ErrTooLarge)
+}
+
+func (*panicResponse) Close() error {
+	return nil
 }
 
 func TestRest(t *testing.T) {
+	t.Parallel()
 	fakeServer := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprintln(w, `{"message": "success"}`)
 	}))
@@ -105,6 +128,8 @@ func TestRest(t *testing.T) {
 }
 
 func TestDefaultContentTypeWithBody(t *testing.T) {
+	t.Parallel()
+
 	fakeServer := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprintln(w, `{"message": "success"}`)
 	}))
@@ -120,14 +145,57 @@ func TestDefaultContentTypeWithBody(t *testing.T) {
 		t.Fatal("unable to formulate request:", err)
 	}
 
-	_, err = API(request)
+	API(request)
 
 	if request.Header.Get("Content-Type") != "application/json" {
-		t.Error("Content-Type not set to the correct default value when a body is set.")
+		t.Error("Content-Type not set to the correct default value when a body is set")
 	}
+
+	//Start Print Request
+	requestDump, err := httputil.DumpRequest(request, true)
+	if err != nil {
+		t.Errorf("Error : %v", err)
+	}
+	fmt.Println("Request :", string(requestDump))
+	//End Print Request
+}
+
+func TestCustomContentType(t *testing.T) {
+	t.Parallel()
+	fakeServer := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		fmt.Fprintln(w, `{"message": "success"}`)
+	}))
+	defer fakeServer.Close()
+
+	baseURL, err := url.Parse(fakeServer.URL)
+	if err != nil {
+		t.Fatal("invalid url:", err)
+	}
+
+	req, err := http.NewRequest(http.MethodGet, baseURL.String(), strings.NewReader("Hello World"))
+
+	req.Header.Set("Content-Type", "custom")
+
+	_, e := API(req)
+	if e != nil {
+		t.Error("encountered an unexpected error:", e)
+	}
+
+	if req.Header.Get("Content-Type") != "custom" {
+		t.Error("Content-Type not modified correctly")
+	}
+
+	//Start Print Request
+	requestDump, err := httputil.DumpRequest(req, true)
+	if err != nil {
+		t.Errorf("Error : %v", err)
+	}
+	fmt.Println("Request :", string(requestDump))
+	//End Print Request
 }
 
 func TestCustomHTTPClient(t *testing.T) {
+	t.Parallel()
 	fakeServer := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		time.Sleep(time.Millisecond * 20)
 		fmt.Fprintln(w, `{"message": "success"}`)
@@ -183,26 +251,46 @@ func TestNilRequestErrors(t *testing.T) {
 	}
 }
 
-func TestRestError(t *testing.T) {
-	headers := make(map[string][]string)
-	headers["Content-Type"] = []string{"application/json"}
-
-	response := &Response{
-		StatusCode: 400,
-		Body:       `{"result": "failure"}`,
-		Headers:    headers,
+func TestRepoFiles(t *testing.T) {
+	// Note: commenting out some of these files as they're causing the test to fail and don't exist upstream.
+	files := []string{
+		//		"docker/Dockerfile",
+		//		"docker/docker-compose.yml",
+		".env_sample",
+		".gitignore",
+		".travis.yml",
+		//		".codeclimate.yml",
+		"CHANGELOG.md",
+		"CODE_OF_CONDUCT.md",
+		"CONTRIBUTING.md",
+		".github/ISSUE_TEMPLATE",
+		"LICENSE.txt",
+		".github/PULL_REQUEST_TEMPLATE",
+		"README.md",
+		"TROUBLESHOOTING.md",
+		"USAGE.md",
+		//		"USE_CASES.md",
 	}
 
-	restErr := &RestError{Response: response}
-
-	var err error
-	err = restErr
-
-	if _, ok := err.(*RestError); !ok {
-		t.Error("RestError does not satisfiy the error interface.")
+	for _, file := range files {
+		if _, err := os.Stat(file); os.IsNotExist(err) {
+			t.Errorf("Repo file does not exist: %v", file)
+		}
 	}
+}
 
-	if err.Error() != `{"result": "failure"}` {
-		t.Error("Invalid error message.")
+func TestLicenseYear(t *testing.T) {
+	t.Parallel()
+	dat, err := ioutil.ReadFile("LICENSE.txt")
+
+	currentYear := time.Now().Year()
+	r := fmt.Sprintf("%d", currentYear)
+	match, _ := regexp.MatchString(r, string(dat))
+
+	if err != nil {
+		t.Error("License File Not Found")
+	}
+	if !match {
+		t.Error("Incorrect Year in License Copyright")
 	}
 }
