@@ -322,7 +322,7 @@ func TestRepoFiles(t *testing.T) {
 		}
 	}
 }
-  
+
 func TestLicenseYear(t *testing.T) {
 	t.Parallel()
 	dat, err := ioutil.ReadFile("LICENSE.txt")
