@@ -158,11 +158,11 @@ func TestBuildBadResponse(t *testing.T) {
 
 func TestRest(t *testing.T) {
 	t.Parallel()
-	testingApi(t, Send)
-	testingApi(t, API)
+	testingAPI(t, Send)
+	testingAPI(t, API)
 }
 
-func testingApi(t *testing.T, fn func(request Request) (*Response, error)) {
+func testingAPI(t *testing.T, fn func(request Request) (*Response, error)) {
 	fakeServer := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprintln(w, "{\"message\": \"success\"}")
 	}))
