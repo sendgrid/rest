@@ -30,7 +30,7 @@ All updates to this library is documented in our [CHANGELOG](https://github.com/
 
 ## Prerequisites
 
-- Go version 1.6
+- Go version 1.6.X, 1.7.X, 1.8.X, 1.9.X or 1.10.X
 
 ## Install Package
 

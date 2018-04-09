@@ -3,6 +3,12 @@ All notable changes to this project will be documented in this file.
 
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [2.4.1] - 2018-4-09
+### Fixed
+- Pull #71, Solves #70
+- Fix Travis CI Build
+- Special thanks to [Vasko Zdravevski](https://github.com/vaskoz) for the PR!
+
 ## [2.4.0] - 2017-4-10
 ### Added
 - Pull #18, Solves #17
