@@ -98,7 +98,9 @@ func BuildResponse(res *http.Response) (*Response, error) {
 		return nil, err
 	}
 	defer func() {
-		_ = res.Body.Close()
+		if err := res.Body.Close(); err != nil {
+			return // maybe log in the future
+		}
 	}()
 	response := Response{
 		StatusCode: res.StatusCode,
@@ -108,12 +110,12 @@ func BuildResponse(res *http.Response) (*Response, error) {
 	return &response, nil
 }
 
-// Function for support old implementation (deprecated)
+// API supports old implementation (deprecated)
 func API(request Request) (*Response, error) {
 	return Send(request)
 }
 
-// API is the main interface to the API.
+// Send uses the DefaultClient to send your request
 func Send(request Request) (*Response, error) {
 	return DefaultClient.Send(request)
 }
@@ -126,12 +128,12 @@ func (c *Client) MakeRequest(req *http.Request) (*http.Response, error) {
 	return c.HTTPClient.Do(req)
 }
 
-// Function for support old implementation (deprecated)
+// API supports old implementation (deprecated)
 func (c *Client) API(request Request) (*Response, error) {
 	return c.Send(request)
 }
 
-// API is the main interface to the API.
+// Send will build your request, make the request, and build your response.
 func (c *Client) Send(request Request) (*Response, error) {
 	// Build the HTTP request object.
 	req, err := BuildRequestObject(request)
