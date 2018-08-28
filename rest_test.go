@@ -147,12 +147,9 @@ func TestBuildBadResponse(t *testing.T) {
 	res := &http.Response{
 		Body: new(panicResponse),
 	}
-	response, e := BuildResponse(res)
+	_, e := BuildResponse(res)
 	if e == nil {
 		t.Errorf("This was a bad response and error should be returned")
-	}
-	if response != nil {
-		t.Errorf("Response is not nil which shouldn't be possible")
 	}
 }
 
