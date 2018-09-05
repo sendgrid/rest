@@ -94,20 +94,13 @@ func MakeRequest(req *http.Request) (*http.Response, error) {
 // BuildResponse builds the response struct.
 func BuildResponse(res *http.Response) (*Response, error) {
 	body, err := ioutil.ReadAll(res.Body)
-	if err != nil {
-		return nil, err
-	}
-	defer func() {
-		if err := res.Body.Close(); err != nil {
-			return // maybe log in the future
-		}
-	}()
 	response := Response{
 		StatusCode: res.StatusCode,
 		Body:       string(body),
 		Headers:    res.Header,
 	}
-	return &response, nil
+	res.Body.Close() // nolint
+	return &response, err
 }
 
 // API supports old implementation (deprecated)
@@ -148,10 +141,5 @@ func (c *Client) Send(request Request) (*Response, error) {
 	}
 
 	// Build Response object.
-	response, err := BuildResponse(res)
-	if err != nil {
-		return nil, err
-	}
-
-	return response, nil
+	return BuildResponse(res)
 }
