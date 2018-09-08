@@ -53,6 +53,9 @@ func MakeRequest(req *http.Request) (*http.Response, error) {
 	return DefaultClient.HTTPClient.Do(req)
 }
 
+// The following functions enable the ability to define a
+// custom HTTP Client
+
 // MakeRequest makes the API call.
 func (c *Client) makeRequest(req *http.Request) (*http.Response, error) {
 	return c.HTTPClient.Do(req)

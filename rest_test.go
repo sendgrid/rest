@@ -73,6 +73,11 @@ func TestBuildResponse(t *testing.T) {
 
 func TestRest(t *testing.T) {
 	t.Parallel()
+
+	testingAPI(t, API)
+}
+
+func testingAPI(t *testing.T, fn func(request *http.Request) (*http.Response, error)) {
 	fakeServer := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprintln(w, `{"message": "success"}`)
 	}))
@@ -266,25 +271,10 @@ func TestNilRequestErrors(t *testing.T) {
 }
 
 func TestRepoFiles(t *testing.T) {
-	// Note: commenting out some of these files as they're causing the test to fail and don't exist upstream.
-	files := []string{
-		//		"docker/Dockerfile",
-		//		"docker/docker-compose.yml",
-		".env_sample",
-		".gitignore",
-		".travis.yml",
-		//		".codeclimate.yml",
-		"CHANGELOG.md",
-		"CODE_OF_CONDUCT.md",
-		"CONTRIBUTING.md",
-		".github/ISSUE_TEMPLATE",
-		"LICENSE.txt",
-		".github/PULL_REQUEST_TEMPLATE",
-		"README.md",
-		"TROUBLESHOOTING.md",
-		"USAGE.md",
-		//		"USE_CASES.md",
-	}
+	files := []string{".env_sample", ".gitignore", ".travis.yml", "CHANGELOG.md",
+		"CODE_OF_CONDUCT.md", "CONTRIBUTING.md", ".github/ISSUE_TEMPLATE",
+		"LICENSE.txt", ".github/PULL_REQUEST_TEMPLATE", "README.md",
+		"TROUBLESHOOTING.md", "USAGE.md"}
 
 	for _, file := range files {
 		if _, err := os.Stat(file); os.IsNotExist(err) {
