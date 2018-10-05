@@ -51,7 +51,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - these changes are thanks to [deckarep](https://github.com/deckarep). Thanks!
 - update error naming convention
 - explicitly define supported HTTP verbs
-- better error handing on HTTP request
+- better error handling on HTTP request
 
 ## [1.0.0] - 2016-04-05
 ### Added
