@@ -31,7 +31,7 @@ type Request struct {
 }
 
 // RestError is an error derived from an REST API response.
-type RestError struct {
+type RestError struct { //nolint: golint
 	Response *Response
 }
 
