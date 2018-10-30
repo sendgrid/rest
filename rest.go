@@ -3,6 +3,7 @@ package rest
 
 import (
 	"bytes"
+	"io"
 	"io/ioutil"
 	"net/http"
 	"net/url"
@@ -13,14 +14,14 @@ type Method string
 
 // Supported HTTP verbs.
 const (
-	Get    Method = "GET"
-	Post   Method = "POST"
-	Put    Method = "PUT"
-	Patch  Method = "PATCH"
-	Delete Method = "DELETE"
+	Get    Method = http.MethodGet
+	Post   Method = http.MethodPost
+	Put    Method = http.MethodPut
+	Patch  Method = http.MethodPatch
+	Delete Method = http.MethodDelete
 )
 
-// Request holds the request to an API Call.
+// Request holds REST API request data.
 type Request struct {
 	Method      Method
 	BaseURL     string // e.g. https://api.sendgrid.com
@@ -29,12 +30,12 @@ type Request struct {
 	Body        []byte
 }
 
-// RestError is a struct for an error handling.
+// RestError is an error derived from an REST API response.
 type RestError struct {
 	Response *Response
 }
 
-// Error is the implementation of the error interface.
+// Error returns an error message associated with an HTTP response.
 func (e *RestError) Error() string {
 	return e.Response.Body
 }
@@ -58,30 +59,48 @@ type Response struct {
 
 // AddQueryParameters adds query parameters to the URL.
 func AddQueryParameters(baseURL string, queryParams map[string]string) string {
-	baseURL += "?"
-	params := url.Values{}
+	if len(queryParams) == 0 {
+		return baseURL
+	}
+	params := make(url.Values, len(queryParams))
 	for key, value := range queryParams {
 		params.Add(key, value)
 	}
-	return baseURL + params.Encode()
+	return baseURL + "?" + params.Encode()
 }
 
-// BuildRequestObject creates the HTTP request object.
+// BuildRequestObject builds an http.Request given a rest.Request
 func BuildRequestObject(request Request) (*http.Request, error) {
 	// Add any query parameters to the URL.
 	if len(request.QueryParams) != 0 {
 		request.BaseURL = AddQueryParameters(request.BaseURL, request.QueryParams)
 	}
-	req, err := http.NewRequest(string(request.Method), request.BaseURL, bytes.NewBuffer(request.Body))
+	const contentType = "Content-Type"
+	const jsonMIME = "application/json"
+	_, hasContentType := request.Headers[contentType]
+	var setToJSON bool
+	switch {
+	case !hasContentType && len(request.Body) > 0:
+		setToJSON = true
+		fallthrough
+	case request.Headers[contentType] == jsonMIME:
+		// it is semantically okay to trim leading and trailing space around JSON
+		request.Body = bytes.TrimSpace(request.Body)
+	}
+	var body io.Reader
+	if len(request.Body) > 0 {
+		body = bytes.NewReader(request.Body)
+	}
+	method := string(request.Method)
+	req, err := http.NewRequest(method, request.BaseURL, body)
 	if err != nil {
 		return req, err
 	}
 	for key, value := range request.Headers {
 		req.Header.Set(key, value)
 	}
-	_, exists := req.Header["Content-Type"]
-	if len(request.Body) > 0 && !exists {
-		req.Header.Set("Content-Type", "application/json")
+	if setToJSON {
+		req.Header.Set(contentType, jsonMIME)
 	}
 	return req, err
 }
@@ -92,15 +111,17 @@ func MakeRequest(req *http.Request) (*http.Response, error) {
 }
 
 // BuildResponse builds the response struct.
-func BuildResponse(res *http.Response) (*Response, error) {
-	body, err := ioutil.ReadAll(res.Body)
-	response := Response{
-		StatusCode: res.StatusCode,
-		Body:       string(body),
-		Headers:    res.Header,
+func BuildResponse(resp *http.Response) (*Response, error) {
+	body, err := ioutil.ReadAll(resp.Body)
+	if err == nil {
+		err = resp.Body.Close()
 	}
-	res.Body.Close() // nolint
-	return &response, err
+	rr := &Response{
+		StatusCode: resp.StatusCode,
+		Body:       string(body),
+		Headers:    resp.Header,
+	}
+	return rr, err
 }
 
 // API supports old implementation (deprecated)
@@ -108,7 +129,7 @@ func API(request Request) (*Response, error) {
 	return Send(request)
 }
 
-// Send uses the DefaultClient to send your request
+// Send uses the DefaultClient to send a request.
 func Send(request Request) (*Response, error) {
 	return DefaultClient.Send(request)
 }
@@ -116,7 +137,7 @@ func Send(request Request) (*Response, error) {
 // The following functions enable the ability to define a
 // custom HTTP Client
 
-// MakeRequest makes the API call.
+// MakeRequest is equivalent to http.Do.
 func (c *Client) MakeRequest(req *http.Request) (*http.Response, error) {
 	return c.HTTPClient.Do(req)
 }
@@ -126,7 +147,7 @@ func (c *Client) API(request Request) (*Response, error) {
 	return c.Send(request)
 }
 
-// Send will build your request, make the request, and build your response.
+// Send sends a REST request and returns a REST response.
 func (c *Client) Send(request Request) (*Response, error) {
 	// Build the HTTP request object.
 	req, err := BuildRequestObject(request)

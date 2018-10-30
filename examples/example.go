@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"os"
+	"path"
 
 	"github.com/sendgrid/rest"
 )
@@ -21,146 +22,133 @@ func main() {
 	Headers["Authorization"] = "Bearer " + key
 
 	// GET Collection
-	method := rest.Get
-
 	// Build the query parameters
-	queryParams := make(map[string]string)
-	queryParams["limit"] = "100"
-	queryParams["offset"] = "0"
+	queryParams := map[string]string{
+		"limit":  "100",
+		"offset": "0",
+	}
 
 	// Make the API call
-	request := rest.Request{
-		Method:      method,
+	req := rest.Request{
+		Method:      rest.Get,
 		BaseURL:     baseURL,
 		Headers:     Headers,
 		QueryParams: queryParams,
 	}
-	response, err := rest.Send(request)
+	resp, err := rest.Send(req)
 	if err != nil {
 		fmt.Println(err)
 	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.Body)
-		fmt.Println(response.Headers)
+		fmt.Println(resp.StatusCode)
+		fmt.Println(resp.Body)
+		fmt.Println(resp.Headers)
 	}
 
 	// POST
-	method = rest.Post
-
-	var Body = []byte(` {
-        "name": "My API Key",
-        "scopes": [
-            "mail.send",
-            "alerts.create",
-            "alerts.read"
-        ]
-    }`)
-	request = rest.Request{
-		Method:      method,
+	body := `
+		{
+		    "name": "My API Key",
+		    "scopes": [
+		        "mail.send",
+		        "alerts.create",
+		        "alerts.read"
+		    ]
+		}`
+	req = rest.Request{
+		Method:      rest.Post,
 		BaseURL:     baseURL,
 		Headers:     Headers,
 		QueryParams: queryParams,
-		Body:        Body,
+		Body:        []byte(body),
 	}
-	response, err = rest.Send(request)
+	resp, err = rest.Send(req)
 	if err != nil {
 		fmt.Println(err)
 	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.Body)
-		fmt.Println(response.Headers)
+		fmt.Println(resp.StatusCode)
+		fmt.Println(resp.Body)
+		fmt.Println(resp.Headers)
 	}
 
 	// Get a particular return value.
-	// Note that you can unmarshall into a struct if
-	// you know the JSON structure in advance.
-	b := []byte(response.Body)
-	var f interface{}
-	err = json.Unmarshal(b, &f)
+	var data struct {
+		APIKeyID string `json:"api_key_id"`
+	}
+	err = json.Unmarshal([]byte(resp.Body), &data)
 	if err != nil {
 		fmt.Println(err)
 	}
-	m := f.(map[string]interface{})
-	apiKey := m["api_key_id"].(string)
+	apiKey := data.APIKeyID
 
 	// GET Single
-	method = rest.Get
-
 	// Make the API call
-	request = rest.Request{
-		Method:  method,
-		BaseURL: baseURL + "/" + apiKey,
+	req = rest.Request{
+		Method:  rest.Get,
+		BaseURL: path.Join(baseURL, apiKey),
 		Headers: Headers,
 	}
-	response, err = rest.Send(request)
+	resp, err = rest.Send(req)
 	if err != nil {
 		fmt.Println(err)
 	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.Body)
-		fmt.Println(response.Headers)
+		fmt.Println(resp.StatusCode)
+		fmt.Println(resp.Body)
+		fmt.Println(resp.Headers)
 	}
 
 	// PATCH
-	method = rest.Patch
-
-	Body = []byte(`{
-        "name": "A New Hope"
-    }`)
-	request = rest.Request{
-		Method:  method,
-		BaseURL: baseURL + "/" + apiKey,
+	body = `{"name": "A New Hope"}`
+	req = rest.Request{
+		Method:  rest.Patch,
+		BaseURL: path.Join(baseURL, apiKey),
 		Headers: Headers,
-		Body:    Body,
+		Body:    []byte(body),
 	}
-	response, err = rest.Send(request)
+	resp, err = rest.Send(req)
 	if err != nil {
 		fmt.Println(err)
 	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.Body)
-		fmt.Println(response.Headers)
+		fmt.Println(resp.StatusCode)
+		fmt.Println(resp.Body)
+		fmt.Println(resp.Headers)
 	}
 
 	// PUT
-	method = rest.Put
-
-	Body = []byte(`{
-        "name": "A New Hope",
-        "scopes": [
-            "user.profile.read",
-            "user.profile.update"
-        ]
-    }`)
-	request = rest.Request{
-		Method:  method,
-		BaseURL: baseURL + "/" + apiKey,
+	body = `
+		{
+		    "name": "A New Hope",
+		    "scopes": [
+		        "user.profile.read",
+		        "user.profile.update"
+		    ]
+		}`
+	req = rest.Request{
+		Method:  rest.Put,
+		BaseURL: path.Join(baseURL, apiKey),
 		Headers: Headers,
-		Body:    Body,
+		Body:    []byte(body),
 	}
-	response, err = rest.Send(request)
+	resp, err = rest.Send(req)
 	if err != nil {
 		fmt.Println(err)
 	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.Body)
-		fmt.Println(response.Headers)
+		fmt.Println(resp.StatusCode)
+		fmt.Println(resp.Body)
+		fmt.Println(resp.Headers)
 	}
 
 	// DELETE
-	method = rest.Delete
-
-	request = rest.Request{
-		Method:      method,
-		BaseURL:     baseURL + "/" + apiKey,
+	req = rest.Request{
+		Method:      rest.Delete,
+		BaseURL:     path.Join(baseURL, apiKey),
 		Headers:     Headers,
 		QueryParams: queryParams,
 	}
-	response, err = rest.Send(request)
+	resp, err = rest.Send(req)
 	if err != nil {
 		fmt.Println(err)
 	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.Headers)
+		fmt.Println(resp.StatusCode)
+		fmt.Println(resp.Headers)
 	}
 }
