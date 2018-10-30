@@ -16,6 +16,8 @@ If you are looking for the SendGrid API client library, please see [this repo](h
 
 All updates to this library is documented in our [CHANGELOG](https://github.com/sendgrid/rest/blob/master/CHANGELOG.md).
 
+If you're a software engineer who is passionate about #DeveloperExperience and/or #OpenSource, this is an incredible opportunity to join our #DX team as a Developer Experience Engineer and work with @thinkingserious and @aroach! Tell your friends :)
+
 # Table of Contents
 - [Installation](#installation)
 - [Quick Start](#quick-start)
