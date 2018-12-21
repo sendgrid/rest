@@ -6,6 +6,8 @@ import (
 	"io/ioutil"
 	"net/http"
 	"net/url"
+
+	"golang.org/x/net/context"
 )
 
 // Method contains the supported HTTP verbs.
@@ -113,6 +115,11 @@ func Send(request Request) (*Response, error) {
 	return DefaultClient.Send(request)
 }
 
+// SendWithContext uses the DefaultClient to send your request with the provided context.
+func SendWithContext(ctx context.Context, request Request) (*Response, error) {
+	return DefaultClient.SendWithContext(ctx, request)
+}
+
 // The following functions enable the ability to define a
 // custom HTTP Client
 
@@ -133,6 +140,26 @@ func (c *Client) Send(request Request) (*Response, error) {
 	if err != nil {
 		return nil, err
 	}
+
+	// Build the HTTP client and make the request.
+	res, err := c.MakeRequest(req)
+	if err != nil {
+		return nil, err
+	}
+
+	// Build Response object.
+	return BuildResponse(res)
+}
+
+// SendWithContext will build your request passing in the provided context, make the request, and build your response.
+func (c *Client) SendWithContext(ctx context.Context, request Request) (*Response, error) {
+	// Build the HTTP request object.
+	req, err := BuildRequestObject(request)
+	if err != nil {
+		return nil, err
+	}
+	// Pass in the user provided context
+	req = req.WithContext(ctx)
 
 	// Build the HTTP client and make the request.
 	res, err := c.MakeRequest(req)
