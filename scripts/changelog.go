@@ -148,6 +148,7 @@ func collectAuthors(prs []pullRequest) []string {
 			continue
 		}
 		if _, ok := seen[pr.Author]; !ok {
+			seen[pr.Author] = true
 			authors = append(authors, pr.Author)
 		}
 	}
