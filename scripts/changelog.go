@@ -26,7 +26,7 @@ const (
 {{ if .Authors -}}
 - Special thanks for these PRs to:
 {{- range .Authors }}
-    - @{{ . }}
+    - [{{ . }}](//github.com/{{ . }})
 {{- end }}
 {{- else -}}
 - No PRs were merged in this release.
