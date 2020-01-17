@@ -3,7 +3,8 @@ All notable changes to this project will be documented in this file.
 
 This project adheres to [Semantic Versioning](http://semver.org/).
 
-## [2.4.1] - 2018-4-09
+[2018-04-09] Version 2.4.1
+--------------------------
 ### Fixed
 - Pull #71, Solves #70
 - Fix Travis CI Build
