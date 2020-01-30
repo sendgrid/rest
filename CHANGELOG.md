@@ -3,6 +3,27 @@ All notable changes to this project will be documented in this file.
 
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+[2020-01-30] Version 2.5.0
+--------------------------
+**Library - Docs**
+- [PR #97](https://github.com/sendgrid/rest/pull/97): baseline all the templated markdown docs. Thanks to [@childish-sambino](https://github.com/childish-sambino)!
+- [PR #88](https://github.com/sendgrid/rest/pull/88): add our Developer Experience Engineer career opportunity to the README. Thanks to [@mptap](https://github.com/mptap)!
+- [PR #65](https://github.com/sendgrid/rest/pull/65): added "Code Review" section to CONTRIBUTING.md. Thanks to [@aleien](https://github.com/aleien)!
+- [PR #80](https://github.com/sendgrid/rest/pull/80): add first timers guide for newcomers. Thanks to [@daniloff200](https://github.com/daniloff200)!
+- [PR #82](https://github.com/sendgrid/rest/pull/82): update contribution guide with new workflow. Thanks to [@radlinskii](https://github.com/radlinskii)!
+- [PR #62](https://github.com/sendgrid/rest/pull/62): update CONTRIBUTING.md with environment variables section. Thanks to [@thepriefy](https://github.com/thepriefy)!
+
+**Library - Chore**
+- [PR #96](https://github.com/sendgrid/rest/pull/96): prep repo for automation. Thanks to [@thinkingserious](https://github.com/thinkingserious)!
+- [PR #94](https://github.com/sendgrid/rest/pull/94): add current Go version to Travis. Thanks to [@pangaunn](https://github.com/pangaunn)!
+- [PR #93](https://github.com/sendgrid/rest/pull/93): add current Go versions to Travis. Thanks to [@gliptak](https://github.com/gliptak)!
+- [PR #83](https://github.com/sendgrid/rest/pull/83): follow godoc deprecation standards. Thanks to [@vaskoz](https://github.com/vaskoz)!
+- [PR #74](https://github.com/sendgrid/rest/pull/74): create README.md in use-cases. Thanks to [@ajloria](https://github.com/ajloria)!
+
+**Library - Feature**
+- [PR #72](https://github.com/sendgrid/rest/pull/72): do not swallow the error code. Thanks to [@Succo](https://github.com/Succo)!
+
+
 [2018-04-09] Version 2.4.1
 --------------------------
 ### Fixed
