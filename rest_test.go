@@ -309,8 +309,8 @@ func TestRestError(t *testing.T) {
 
 func TestRepoFiles(t *testing.T) {
 	files := []string{".env_sample", ".gitignore", ".travis.yml", "CHANGELOG.md",
-		"CODE_OF_CONDUCT.md", "CONTRIBUTING.md", ".github/ISSUE_TEMPLATE",
-		"LICENSE.txt", ".github/PULL_REQUEST_TEMPLATE", "README.md",
+		"CODE_OF_CONDUCT.md", "CONTRIBUTING.md", "ISSUE_TEMPLATE.md",
+		"LICENSE.md", "PULL_REQUEST_TEMPLATE.md", "README.md",
 		"TROUBLESHOOTING.md", "USAGE.md"}
 
 	for _, file := range files {
@@ -322,7 +322,7 @@ func TestRepoFiles(t *testing.T) {
 
 func TestLicenseYear(t *testing.T) {
 	t.Parallel()
-	dat, err := ioutil.ReadFile("LICENSE.txt")
+	dat, err := ioutil.ReadFile("LICENSE.md")
 
 	currentYear := time.Now().Year()
 	r := fmt.Sprintf("%d", currentYear)
