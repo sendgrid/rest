@@ -8,6 +8,9 @@ import (
 	"net/url"
 )
 
+// Version represents the current version of the rest library
+const Version = "2.5.0"
+
 // Method contains the supported HTTP verbs.
 type Method string
 
@@ -103,7 +106,7 @@ func BuildResponse(res *http.Response) (*Response, error) {
 	return &response, err
 }
 
-// API supports old implementation (deprecated)
+// Deprecated: API supports old implementation
 func API(request Request) (*Response, error) {
 	return Send(request)
 }
@@ -121,7 +124,7 @@ func (c *Client) MakeRequest(req *http.Request) (*http.Response, error) {
 	return c.HTTPClient.Do(req)
 }
 
-// API supports old implementation (deprecated)
+// Deprecated: API supports old implementation
 func (c *Client) API(request Request) (*Response, error) {
 	return c.Send(request)
 }
