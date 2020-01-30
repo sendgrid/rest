@@ -8,6 +8,9 @@ import (
 	"net/url"
 )
 
+// Version represents the current version of the rest library
+const Version = "2.4.1"
+
 // Method contains the supported HTTP verbs.
 type Method string
 
