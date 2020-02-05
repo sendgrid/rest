@@ -3,6 +3,13 @@ All notable changes to this project will be documented in this file.
 
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+[2020-02-05] Version 2.5.1
+--------------------------
+**Library - Docs**
+- [PR #77](https://github.com/sendgrid/rest/pull/77): Run Grammarly on *.md files. Thanks to [@obahareth](https://github.com/obahareth)!
+- [PR #86](https://github.com/sendgrid/rest/pull/86): Fixed link to bug report template. Thanks to [@alxshelepenok](https://github.com/alxshelepenok)!
+
+
 [2020-01-30] Version 2.5.0
 --------------------------
 **Library - Docs**
