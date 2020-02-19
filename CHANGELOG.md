@@ -3,6 +3,12 @@ All notable changes to this project will be documented in this file.
 
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+[2020-02-19] Version 2.6.0
+--------------------------
+**Library - Feature**
+- [PR #73](https://github.com/sendgrid/rest/pull/73): Dockerize sendgrid/rest. Thanks to [@graystevens](https://github.com/graystevens)!
+
+
 [2020-02-05] Version 2.5.1
 --------------------------
 **Library - Docs**
