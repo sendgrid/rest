@@ -57,6 +57,46 @@ echo "sendgrid.env" >> .gitignore
 source ./sendgrid.env
 ```
 
+## With Docker
+
+A Docker image has been created to allow you to get started with `rest` right away.
+
+```bash
+docker-compose up -d --build
+
+# Ensure the container is running with 'docker ps'
+docker ps
+CONTAINER ID        IMAGE               COMMAND               CREATED              STATUS              PORTS               NAMES
+40c8d984a620        rest_go             "tail -f /dev/null"   About a minute ago   Up About a minute                       rest_go_1
+```
+
+With the container running, you can execute your local `go` scripts using the following:
+
+```bash
+# docker exec <container_name> <go command>
+docker exec rest_go_1 go run docker/example.go
+200
+{
+  "args": {},
+  "headers": {
+    "Accept-Encoding": "gzip",
+    "Connection": "close",
+    "Host": "httpbin.org",
+    "User-Agent": "Go-http-client/1.1"
+  },
+  "origin": "86.180.177.202",
+  "url": "https://httpbin.org/get"
+}
+
+map[Access-Control-Allow-Origin:[*] Access-Control-Allow-Credentials:[true] Via:[1.1 vegur] Connection:[keep-alive] Server:[gunicorn/19.9.0] Date:[Tue, 02 Oct 2018 18:20:43 GMT] Content-Type:[application/json] Content-Length:[233]]
+
+# You can install libraries too, using the same command
+# NOTE: Any libraries installed will be removed when the container is stopped.
+docker exec rest_go_1 go get github.com/uniplaces/carbon
+```
+
+Your go files will be executed relative to the root of this directory. So in the example above, to execute the `example.go` file within the `docker` directory, we run `docker exec rest_go_1 go run docker/example.go`. If this file was in the root of this repository (next to README.exe, rest.go etc.), you would run `docker exec rest_go_1 go run my_go_script.go`
+
 <a name="quick-start"></a>
 # Quick Start
 
