@@ -13,8 +13,6 @@
 If you are looking for the SendGrid API client library, please see [this repo](https://github.com/sendgrid/sendgrid-go).
 
 # Announcements
-**NEW:** If you're a software engineer who is passionate about #DeveloperExperience and/or #OpenSource, [this is an incredible opportunity to join our #DX team](https://sendgrid.com/careers/role/1421152/?gh_jid=1421152) as a Developer Experience Engineer and work with [@thinkingserious](https://github.com/thinkingserious) and [@aroach](https://github.com/aroach)! Tell your friends :)
-
 All updates to this library is documented in our [CHANGELOG](https://github.com/sendgrid/rest/blob/master/CHANGELOG.md).
 
 # Table of Contents
@@ -195,9 +193,11 @@ Quick links:
 <a name="about"></a>
 # About
 
-rest is guided and supported by the SendGrid [Developer Experience Team](mailto:dx@sendgrid.com).
+rest is maintained and funded by Twilio SendGrid, Inc. The names and logos for rest are trademarks of Twilio SendGrid, Inc.
 
-rest is maintained and funded by SendGrid, Inc. The names and logos for rest are trademarks of SendGrid, Inc.
+If you need help installing or using the library, please check the [Twilio SendGrid Support Help Center](https://support.sendgrid.com).
+
+If you've instead found a bug in the library or would like new features added, go ahead and open issues or pull requests against this repo!
 
 <a name="license"></a>
 # License
