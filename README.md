@@ -13,6 +13,8 @@
 If you are looking for the SendGrid API client library, please see [this repo](https://github.com/sendgrid/sendgrid-go).
 
 # Announcements
+**The default branch name for this repository has been changed to `main` as of 07/27/2020.**
+
 All updates to this library is documented in our [CHANGELOG](https://github.com/sendgrid/rest/blob/master/CHANGELOG.md).
 
 # Table of Contents
