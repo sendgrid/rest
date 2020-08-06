@@ -1,4 +1,4 @@
-![SendGrid Logo](https://uiux.s3.amazonaws.com/2016-logos/email-logo%402x.png)
+![SendGrid Logo](twilio_sendgrid_logo.png)
 
 [![Build Status](https://travis-ci.org/sendgrid/rest.svg?branch=main)](https://travis-ci.org/sendgrid/rest)
 [![GoDoc](https://godoc.org/github.com/sendgrid/rest?status.png)](http://godoc.org/github.com/sendgrid/rest)
@@ -15,7 +15,7 @@ If you are looking for the SendGrid API client library, please see [this repo](h
 # Announcements
 **The default branch name for this repository has been changed to `main` as of 07/27/2020.**
 
-All updates to this library is documented in our [CHANGELOG](https://github.com/sendgrid/rest/blob/HEAD/CHANGELOG.md).
+All updates to this library is documented in our [CHANGELOG](CHANGELOG.md).
 
 # Table of Contents
 - [Installation](#installation)
@@ -182,14 +182,14 @@ If you are interested in the future direction of this project, please take a loo
 <a name="contribute"></a>
 # How to Contribute
 
-We encourage contribution to our projects, please see our [CONTRIBUTING](https://github.com/sendgrid/rest/blob/HEAD/CONTRIBUTING.md) guide for details.
+We encourage contribution to our projects, please see our [CONTRIBUTING](CONTRIBUTING.md) guide for details.
 
 Quick links:
 
-- [Feature Request](https://github.com/sendgrid/rest/blob/HEAD/CONTRIBUTING.md#feature-request)
-- [Bug Reports](https://github.com/sendgrid/rest/blob/HEAD/CONTRIBUTING.md#submit-a-bug-report)
-- [Improvements to the Codebase](https://github.com/sendgrid/rest/blob/HEAD/CONTRIBUTING.md#improvements-to-the-codebase)
-- [Code Reviews](https://github.com/sendgrid/rest/blob/HEAD/CONTRIBUTING.md#code-reviews)
+- [Feature Request](CONTRIBUTING.md#feature-request)
+- [Bug Reports](CONTRIBUTING.md#submit-a-bug-report)
+- [Improvements to the Codebase](CONTRIBUTING.md#improvements-to-the-codebase)
+- [Code Reviews](CONTRIBUTING.md#code-reviews)
 
 <a name="about"></a>
 # About
