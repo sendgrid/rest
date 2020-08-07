@@ -73,7 +73,7 @@ go run examples/example.go
 
 ##### Execute: #####
 
-See the [examples folder](https://github.com/sendgrid/rest/tree/master/examples) to get started quickly.
+See the [examples folder](examples) to get started quickly.
 
 <a name="understanding-the-codebase"></a>
 ## Understanding the Code Base
@@ -93,9 +93,9 @@ The main function that does the heavy lifting (and external entry point) is `API
 
 All PRs require passing tests before the PR will be reviewed.
 
-All test files are in [`rest-test.go`](https://github.com/sendgrid/rest/blob/master/rest_test.go).
+All test files are in [`rest-test.go`](rest_test.go).
 
-For the purposes of contributing to this repo, please update the [`rest-test.go`](https://github.com/sendgrid/rest/blob/master/rest_test.go) file with unit tests as you modify the code.
+For the purposes of contributing to this repo, please update the [`rest-test.go`](rest_test.go) file with unit tests as you modify the code.
 
 Run the test:
 
