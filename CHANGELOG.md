@@ -3,6 +3,12 @@ All notable changes to this project will be documented in this file.
 
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+[2020-08-19] Version 2.6.1
+--------------------------
+**Library - Chore**
+- [PR #100](https://github.com/sendgrid/rest/pull/100): update GitHub branch references to use HEAD. Thanks to [@thinkingserious](https://github.com/thinkingserious)!
+
+
 [2020-02-19] Version 2.6.0
 --------------------------
 **Library - Feature**
