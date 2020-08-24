@@ -21,7 +21,6 @@ All updates to this library is documented in our [CHANGELOG](CHANGELOG.md).
 - [Installation](#installation)
 - [Quick Start](#quick-start)
 - [Usage](#usage)
-- [Roadmap](#roadmap)
 - [How to Contribute](#contribute)
 - [About](#about)
 - [License](#license)
@@ -173,11 +172,6 @@ func main() {
 # Usage
 
 - [Usage Examples](USAGE.md)
-
-<a name="roadmap"></a>
-# Roadmap
-
-If you are interested in the future direction of this project, please take a look at our [milestones](https://github.com/sendgrid/rest/milestones). We would love to hear your feedback.
 
 <a name="contribute"></a>
 # How to Contribute
