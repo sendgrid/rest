@@ -43,7 +43,7 @@ func (e *RestError) Error() string {
 }
 
 // DefaultClient is used if no custom HTTP client is defined
-var DefaultClient = &Client{HTTPClient: http.DefaultClient}
+var DefaultClient = &Client{HTTPClient: &http.Client{}}
 
 // Client allows modification of client headers, redirect policy
 // and other settings
