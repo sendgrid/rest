@@ -3,6 +3,12 @@ All notable changes to this project will be documented in this file.
 
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+[2020-10-14] Version 2.6.2
+--------------------------
+**Library - Fix**
+- [PR #101](https://github.com/sendgrid/rest/pull/101): Pass empty client instead of http.DefaultClient. Thanks to [@mateorider](https://github.com/mateorider)!
+
+
 [2020-08-19] Version 2.6.1
 --------------------------
 **Library - Chore**
