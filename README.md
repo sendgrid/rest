@@ -1,6 +1,6 @@
 ![SendGrid Logo](twilio_sendgrid_logo.png)
 
-[![Build Status](https://travis-ci.org/sendgrid/rest.svg?branch=main)](https://travis-ci.org/sendgrid/rest)
+[![Build Status](https://travis-ci.com/sendgrid/rest.svg?branch=main)](https://travis-ci.com/sendgrid/rest)
 [![GoDoc](https://godoc.org/github.com/sendgrid/rest?status.png)](http://godoc.org/github.com/sendgrid/rest)
 [![Go Report Card](https://goreportcard.com/badge/github.com/sendgrid/rest)](https://goreportcard.com/report/github.com/sendgrid/rest)
 [![Email Notifications Badge](https://dx.sendgrid.com/badge/go)](https://dx.sendgrid.com/newsletter/go)
