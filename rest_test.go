@@ -2,6 +2,7 @@ package rest
 
 import (
 	"bytes"
+	"context"
 	"fmt"
 	"io/ioutil"
 	"net/http"
@@ -42,6 +43,45 @@ func TestBuildRequest(t *testing.T) {
 		BaseURL:     baseURL,
 		Headers:     Headers,
 		QueryParams: queryParams,
+	}
+	req, e := BuildRequestObject(request)
+	if e != nil {
+		t.Errorf("Rest failed to BuildRequest. Returned error: %v", e)
+	}
+	if req == nil {
+		t.Errorf("Failed to BuildRequest.")
+	}
+
+	//Start PrintRequest
+	requestDump, err := httputil.DumpRequest(req, true)
+	if err != nil {
+		t.Errorf("Error : %v", err)
+	}
+	fmt.Println("Request : ", string(requestDump))
+	//End Print Request
+}
+
+func TestBuildRequestWithContext(t *testing.T) {
+	t.Parallel()
+	method := Get
+	baseURL := "http://api.test.com"
+	key := "API_KEY"
+	Headers := make(map[string]string)
+	Headers["Content-Type"] = "application/json"
+	Headers["Authorization"] = "Bearer " + key
+	queryParams := make(map[string]string)
+	queryParams["test"] = "1"
+	queryParams["test2"] = "2"
+
+	ctx, cancel := context.WithTimeout(context.Background(), time.Second*2)
+	defer cancel()
+
+	request := Request{
+		Method:      method,
+		BaseURL:     baseURL,
+		Headers:     Headers,
+		QueryParams: queryParams,
+		Ctx:         ctx,
 	}
 	req, e := BuildRequestObject(request)
 	if e != nil {
