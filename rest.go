@@ -174,3 +174,10 @@ func (c *Client) Send(request Request) (*Response, error) {
 	// Build Response object.
 	return BuildResponse(res)
 }
+
+// SendWithContext works as Send but also takes a context that will be used for the request.
+func (c *Client) SendWithContext(ctx context.Context, request Request) (*Response, error) {
+	request.Ctx = ctx
+
+	return c.Send(request)
+}

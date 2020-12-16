@@ -61,45 +61,6 @@ func TestBuildRequest(t *testing.T) {
 	//End Print Request
 }
 
-func TestBuildRequestWithContext(t *testing.T) {
-	t.Parallel()
-	method := Get
-	baseURL := "http://api.test.com"
-	key := "API_KEY"
-	Headers := make(map[string]string)
-	Headers["Content-Type"] = "application/json"
-	Headers["Authorization"] = "Bearer " + key
-	queryParams := make(map[string]string)
-	queryParams["test"] = "1"
-	queryParams["test2"] = "2"
-
-	ctx, cancel := context.WithTimeout(context.Background(), time.Second*2)
-	defer cancel()
-
-	request := Request{
-		Method:      method,
-		BaseURL:     baseURL,
-		Headers:     Headers,
-		QueryParams: queryParams,
-		Ctx:         ctx,
-	}
-	req, e := BuildRequestObject(request)
-	if e != nil {
-		t.Errorf("Rest failed to BuildRequest. Returned error: %v", e)
-	}
-	if req == nil {
-		t.Errorf("Failed to BuildRequest.")
-	}
-
-	//Start PrintRequest
-	requestDump, err := httputil.DumpRequest(req, true)
-	if err != nil {
-		t.Errorf("Error : %v", err)
-	}
-	fmt.Println("Request : ", string(requestDump))
-	//End Print Request
-}
-
 func TestBuildBadRequest(t *testing.T) {
 	t.Parallel()
 	request := Request{
@@ -373,5 +334,37 @@ func TestLicenseYear(t *testing.T) {
 	}
 	if !match {
 		t.Error("Incorrect Year in License Copyright")
+	}
+}
+
+func TestSendWithContext(t *testing.T) {
+	t.Parallel()
+	fakeServer := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		time.Sleep(time.Millisecond * 20)
+		fmt.Fprintln(w, "{\"message\": \"success\"}")
+	}))
+	defer fakeServer.Close()
+	host := fakeServer.URL
+	endpoint := "/test_endpoint"
+	baseURL := host + endpoint
+	method := Get
+
+	ctx, cancel := context.WithTimeout(context.Background(), time.Second*0)
+	defer cancel()
+
+	request := Request{
+		Method:  method,
+		BaseURL: baseURL,
+		Ctx:     ctx,
+	}
+
+	customClient := &Client{HTTPClient: &http.Client{}}
+	_, err := customClient.Send(request)
+	if err == nil {
+		t.Error("Context deadline did not trigger as expected")
+		return
+	}
+	if !strings.Contains(err.Error(), "context deadline exceeded") {
+		t.Error("We did not receive the context deadline error")
 	}
 }
