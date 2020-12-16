@@ -1,5 +1,0 @@
-{
-  "go.toolsEnvVars": {
-    "GO111MODULE": "off"
-  }
-}
