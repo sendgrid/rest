@@ -3,6 +3,7 @@ package rest
 
 import (
 	"bytes"
+	"context"
 	"io/ioutil"
 	"net/http"
 	"net/url"
@@ -30,6 +31,7 @@ type Request struct {
 	Headers     map[string]string
 	QueryParams map[string]string
 	Body        []byte
+	Ctx         context.Context
 }
 
 // RestError is a struct for an error handling.
@@ -75,10 +77,12 @@ func BuildRequestObject(request Request) (*http.Request, error) {
 	if len(request.QueryParams) != 0 {
 		request.BaseURL = AddQueryParameters(request.BaseURL, request.QueryParams)
 	}
-	req, err := http.NewRequest(string(request.Method), request.BaseURL, bytes.NewBuffer(request.Body))
+
+	req, err := newHTTPRequest(request)
 	if err != nil {
 		return req, err
 	}
+
 	for key, value := range request.Headers {
 		req.Header.Set(key, value)
 	}
@@ -86,7 +90,31 @@ func BuildRequestObject(request Request) (*http.Request, error) {
 	if len(request.Body) > 0 && !exists {
 		req.Header.Set("Content-Type", "application/json")
 	}
-	return req, err
+
+	return req, nil
+}
+
+func newHTTPRequest(request Request) (*http.Request, error) {
+	if request.Ctx != nil {
+		req, err := http.NewRequestWithContext(
+			request.Ctx,
+			string(request.Method),
+			request.BaseURL,
+			bytes.NewBuffer(request.Body),
+		)
+		if err != nil {
+			return req, err
+		}
+
+		return req, nil
+	}
+
+	req, err := http.NewRequest(string(request.Method), request.BaseURL, bytes.NewBuffer(request.Body))
+	if err != nil {
+		return req, err
+	}
+
+	return req, nil
 }
 
 // MakeRequest makes the API call.
@@ -145,4 +173,11 @@ func (c *Client) Send(request Request) (*Response, error) {
 
 	// Build Response object.
 	return BuildResponse(res)
+}
+
+// SendWithContext works as Send but also takes a context that will be used for the request.
+func (c *Client) SendWithContext(ctx context.Context, request Request) (*Response, error) {
+	request.Ctx = ctx
+
+	return c.Send(request)
 }

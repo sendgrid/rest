@@ -2,6 +2,7 @@ package rest
 
 import (
 	"bytes"
+	"context"
 	"fmt"
 	"io/ioutil"
 	"net/http"
@@ -333,5 +334,37 @@ func TestLicenseYear(t *testing.T) {
 	}
 	if !match {
 		t.Error("Incorrect Year in License Copyright")
+	}
+}
+
+func TestSendWithContext(t *testing.T) {
+	t.Parallel()
+	fakeServer := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		time.Sleep(time.Millisecond * 20)
+		fmt.Fprintln(w, "{\"message\": \"success\"}")
+	}))
+	defer fakeServer.Close()
+	host := fakeServer.URL
+	endpoint := "/test_endpoint"
+	baseURL := host + endpoint
+	method := Get
+
+	ctx, cancel := context.WithTimeout(context.Background(), time.Second*0)
+	defer cancel()
+
+	request := Request{
+		Method:  method,
+		BaseURL: baseURL,
+		Ctx:     ctx,
+	}
+
+	customClient := &Client{HTTPClient: &http.Client{}}
+	_, err := customClient.Send(request)
+	if err == nil {
+		t.Error("Context deadline did not trigger as expected")
+		return
+	}
+	if !strings.Contains(err.Error(), "context deadline exceeded") {
+		t.Error("We did not receive the context deadline error")
 	}
 }
