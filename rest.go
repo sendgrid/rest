@@ -11,7 +11,7 @@ import (
 )
 
 // Version represents the current version of the rest library
-const Version = "2.6.1"
+const Version = "2.6.2"
 
 // Method contains the supported HTTP verbs.
 type Method string
@@ -45,7 +45,7 @@ func (e *RestError) Error() string {
 }
 
 // DefaultClient is used if no custom HTTP client is defined
-var DefaultClient = &Client{HTTPClient: http.DefaultClient}
+var DefaultClient = &Client{HTTPClient: &http.Client{}}
 
 // Client allows modification of client headers, redirect policy
 // and other settings
