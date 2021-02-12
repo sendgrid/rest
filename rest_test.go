@@ -12,6 +12,8 @@ import (
 	"strings"
 	"testing"
 	"time"
+
+	"golang.org/x/net/context"
 )
 
 func TestBuildURL(t *testing.T) {
@@ -333,5 +335,31 @@ func TestLicenseYear(t *testing.T) {
 	}
 	if !match {
 		t.Error("Incorrect Year in License Copyright")
+	}
+}
+
+func TestSendWithContext(t *testing.T) {
+	t.Parallel()
+	fakeServer := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		time.Sleep(time.Millisecond * 20)
+		fmt.Fprintln(w, "{\"message\": \"success\"}")
+	}))
+	defer fakeServer.Close()
+	host := fakeServer.URL
+	endpoint := "/test_endpoint"
+	baseURL := host + endpoint
+	method := Get
+	request := Request{
+		Method:  method,
+		BaseURL: baseURL,
+	}
+
+	ctx, _ := context.WithTimeout(context.Background(), time.Millisecond*10)
+	_, err := SendWithContext(ctx, request)
+	if err == nil {
+		t.Error("A timeout did not trigger as expected")
+	}
+	if !strings.Contains(err.Error(), "context deadline exceeded") {
+		t.Error("We did not receive the Timeout error")
 	}
 }
