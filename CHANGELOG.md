@@ -3,6 +3,12 @@ All notable changes to this project will be documented in this file.
 
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+[2021-03-15] Version 2.6.3
+--------------------------
+**Library - Fix**
+- [PR #92](https://github.com/sendgrid/rest/pull/92): add SendWithContext function. Thanks to [@someone1](https://github.com/someone1)!
+
+
 [2020-10-14] Version 2.6.2
 --------------------------
 **Library - Fix**
