@@ -3,6 +3,12 @@ All notable changes to this project will be documented in this file.
 
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+[2021-05-05] Version 2.6.4
+--------------------------
+**Library - Chore**
+- [PR #103](https://github.com/sendgrid/rest/pull/103): follow up context.Context support. Thanks to [@johejo](https://github.com/johejo)!
+
+
 [2021-03-15] Version 2.6.3
 --------------------------
 **Library - Fix**
