@@ -29,7 +29,7 @@ All updates to this library is documented in our [CHANGELOG](CHANGELOG.md).
 
 ## Prerequisites
 
-- Go version 1.6.X, 1.7.X, 1.8.X, 1.9.X or 1.10.X
+- Go version 1.14, 1.15 or 1.16
 
 ## Install Package
 

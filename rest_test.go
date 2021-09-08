@@ -1,7 +1,7 @@
 package rest
 
 import (
-	"bytes"
+	"errors"
 	"fmt"
 	"io/ioutil"
 	"net/http"
@@ -136,8 +136,8 @@ func TestBuildResponse(t *testing.T) {
 
 type panicResponse struct{}
 
-func (*panicResponse) Read(p []byte) (n int, err error) {
-	panic(bytes.ErrTooLarge)
+func (*panicResponse) Read([]byte) (n int, err error) {
+	return 0, errors.New("test error")
 }
 
 func (*panicResponse) Close() error {
