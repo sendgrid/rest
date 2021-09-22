@@ -3,6 +3,12 @@ All notable changes to this project will be documented in this file.
 
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+[2021-09-22] Version 2.6.5
+--------------------------
+**Library - Chore**
+- [PR #105](https://github.com/sendgrid/rest/pull/105): add tests against v1.16. Thanks to [@shwetha-manvinkurke](https://github.com/shwetha-manvinkurke)!
+
+
 [2021-05-05] Version 2.6.4
 --------------------------
 **Library - Chore**
