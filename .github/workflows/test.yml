@@ -25,9 +25,6 @@ jobs:
       - name: Setup Go environment
         uses: actions/setup-go@v2
 
-      - name: Build
-        run: make install
-
       - name: Run Tests
         run: make test
       - run: bash <(curl -s https://codecov.io/bash)
