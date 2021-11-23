@@ -26,7 +26,7 @@ jobs:
         uses: actions/setup-go@v2
 
       - name: dummy test, print gopath
-      - run: echo $GOPATH
+        run: echo $GOPATH
 
       - name: Build rest
         run: make install
