@@ -26,7 +26,7 @@ jobs:
         with:
           go-version: ${{ matrix.go }}
 
-      - run: export PATH=$PATH:$(go env GOPATH)/bin
+      - run: go mod init rest && go mod tidy
 
       - name: Build rest
         run: make install
