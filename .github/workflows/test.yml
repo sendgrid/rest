@@ -25,8 +25,11 @@ jobs:
         uses: actions/setup-go@v2
         with:
           go-version: ${{ matrix.go }}
-      - run: export GO111MODULE="auto"
-      - run: export GOBIN=$GOPATH/bin
+      - name: Initialize GOBIN
+        run: export GOBIN=$GOPATH/bin
+
+      - name: Init go mod
+        run: go mod init && go mod tidy
 
       - name: Build rest
         run: make install
