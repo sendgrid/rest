@@ -20,12 +20,10 @@ jobs:
     steps:
       - name: Setup Go environment
         uses: actions/setup-go@v2
+      - run: export GO111MODULE="auto"
 
       - name: Checkout rest
         uses: actions/checkout@v2
-
-      - name: dummy test, print gopath
-        run: echo $GOPATH
 
       - name: Build rest
         run: make install
