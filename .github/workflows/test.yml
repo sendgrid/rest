@@ -18,12 +18,11 @@ jobs:
       matrix:
         go: [ '1.14', '1.15', '1.16' ]
     steps:
-      - uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
-
       - name: Setup Go environment
         uses: actions/setup-go@v2
+
+      - name: Checkout rest
+        uses: actions/checkout@v2
 
       - name: dummy test, print gopath
         run: echo $GOPATH
