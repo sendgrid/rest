@@ -25,6 +25,12 @@ jobs:
       - name: Setup Go environment
         uses: actions/setup-go@v2
 
+      - name: dummy test, print gopath
+      - run: echo $GOPATH
+
+      - name: Build rest
+        run: make install
+
       - name: Run Tests
         run: make test
       - run: bash <(curl -s https://codecov.io/bash)
