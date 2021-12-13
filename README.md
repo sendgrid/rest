@@ -27,7 +27,7 @@ All updates to this library is documented in our [CHANGELOG](CHANGELOG.md).
 <a name="installation"></a>
 # Installation
 
-## Prerequisites
+## Supported Versions
 
 - Go version 1.14, 1.15 or 1.16
 
