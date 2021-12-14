@@ -26,19 +26,14 @@ jobs:
         with:
           go-version: ${{ matrix.go }}
 
-      - name: Set GOPATH
-        run: echo "GOPATH=$HOME" >> $GITHUB_ENV
-      - name: Set GOBIN
-        run: echo "GOBIN=$GOPATH/bin" >> $GITHUB_ENV
-      - name: Set GO111MODULE
-        run: echo "GO111MODULE=off" >> $GITHUB_ENV
-
-      - name: Build rest
-        run: make install
+      - name: Set Go env vars
+        run: |
+          echo "GOPATH=$HOME" >> $GITHUB_ENV
+          echo "GOBIN=$HOME/bin" >> $GITHUB_ENV
+          echo "GO111MODULE=off" >> $GITHUB_ENV
 
       - name: Run Tests
         run: make test
-      - run: bash <(curl -s https://codecov.io/bash)
 
   notify-on-failure:
     name: Slack notify on failure
