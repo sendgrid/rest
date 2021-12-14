@@ -1,6 +1,6 @@
 ![SendGrid Logo](twilio_sendgrid_logo.png)
 
-[![Build Status](https://travis-ci.com/sendgrid/rest.svg?branch=main)](https://travis-ci.com/sendgrid/rest)
+[![BuildStatus](https://github.com/sendgrid/rest/actions/workflows/test.yml/badge.svg)](https://github.com/sendgrid/rest/actions/workflows/test.yml)
 [![GoDoc](https://godoc.org/github.com/sendgrid/rest?status.png)](http://godoc.org/github.com/sendgrid/rest)
 [![Go Report Card](https://goreportcard.com/badge/github.com/sendgrid/rest)](https://goreportcard.com/report/github.com/sendgrid/rest)
 [![Twitter Follow](https://img.shields.io/twitter/follow/sendgrid.svg?style=social&label=Follow)](https://twitter.com/sendgrid)
@@ -27,7 +27,7 @@ All updates to this library is documented in our [CHANGELOG](CHANGELOG.md).
 <a name="installation"></a>
 # Installation
 
-## Prerequisites
+## Supported Versions
 
 - Go version 1.14, 1.15 or 1.16
 
