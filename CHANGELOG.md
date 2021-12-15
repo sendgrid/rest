@@ -3,6 +3,12 @@ All notable changes to this project will be documented in this file.
 
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+[2021-12-15] Version 2.6.6
+--------------------------
+**Library - Chore**
+- [PR #106](https://github.com/sendgrid/rest/pull/106): migrate to gh actions. Thanks to [@beebzz](https://github.com/beebzz)!
+
+
 [2021-09-22] Version 2.6.5
 --------------------------
 **Library - Chore**
