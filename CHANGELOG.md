@@ -3,6 +3,12 @@ All notable changes to this project will be documented in this file.
 
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+[2022-01-12] Version 2.6.7
+--------------------------
+**Library - Chore**
+- [PR #107](https://github.com/sendgrid/rest/pull/107): update license year. Thanks to [@JenniferMah](https://github.com/JenniferMah)!
+
+
 [2021-12-15] Version 2.6.6
 --------------------------
 **Library - Chore**
