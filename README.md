@@ -29,7 +29,12 @@ All updates to this library is documented in our [CHANGELOG](CHANGELOG.md).
 
 ## Supported Versions
 
-- Go version 1.14, 1.15 or 1.16
+This library supports the following Go implementations:
+
+* Go 1.14
+* Go 1.15
+* Go 1.16
+* Go 1.17
 
 ## Install Package
 
