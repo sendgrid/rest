@@ -10,7 +10,7 @@ import (
 )
 
 // Version represents the current version of the rest library
-const Version = "2.6.7"
+const Version = "2.6.8"
 
 // Method contains the supported HTTP verbs.
 type Method string
