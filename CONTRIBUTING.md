@@ -1,40 +1,11 @@
 Hello! Thank you for choosing to help contribute to one of the SendGrid open source projects. There are many ways you can contribute and help is always welcome.  We simply ask that you follow the following contribution policies.
 
-- [Feature Request](#feature-request)
-- [Submit a Bug Report](#submit-a-bug-report)
 - [Improvements to the Codebase](#improvements-to-the-codebase)
 - [Understanding the Code Base](#understanding-the-codebase)
 - [Testing](#testing)
 - [Style Guidelines & Naming Conventions](#style-guidelines-and-naming-conventions)
 - [Creating a Pull Request](#creating-a-pull-request)
 - [Code Reviews](#code-reviews)
-
-<a name="feature-request"></a>
-## Feature Request
-
-If you'd like to make a feature request, please read this section.
-
-The GitHub issue tracker is the preferred channel for library feature requests, but please respect the following restrictions:
-
-- Please **search for existing issues** in order to ensure we don't have duplicate bugs/feature requests.
-- Please be respectful and considerate of others when commenting on issues
-
-<a name="submit-a-bug-report"></a>
-## Submit a Bug Report
-
-Note: DO NOT include your credentials in ANY code examples, descriptions, or media you make public.
-
-A software bug is a demonstrable issue in the code base. In order for us to diagnose the issue and respond as quickly as possible, please add as much detail as possible into your bug report.
-
-Before you decide to create a new issue, please try the following:
-
-1. Check the Github issues tab if the identified issue has already been reported, if so, please add a +1 to the existing post.
-2. Update to the latest version of this code and check if issue has already been fixed
-3. Copy and fill in the Bug Report Template we have provided below
-
-### Please use our Bug Report Template
-
-In order to make the process easier, we've included a [sample bug report template](ISSUE_TEMPLATE.md).
 
 <a name="improvements-to-the-codebase"></a>
 ## Improvements to the Codebase
