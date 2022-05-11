@@ -311,7 +311,7 @@ func TestRestError(t *testing.T) {
 
 func TestRepoFiles(t *testing.T) {
 	files := []string{".env_sample", ".gitignore", ".github/workflows/test.yml", "CHANGELOG.md",
-		"CODE_OF_CONDUCT.md", "CONTRIBUTING.md", "ISSUE_TEMPLATE.md",
+		"CODE_OF_CONDUCT.md", "CONTRIBUTING.md",
 		"LICENSE", "PULL_REQUEST_TEMPLATE.md", "README.md",
 		"TROUBLESHOOTING.md", "USAGE.md"}
 
