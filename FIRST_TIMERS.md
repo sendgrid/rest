@@ -52,7 +52,7 @@ git push origin <topic-branch-name>
 
 Before creating a pull request, make sure that you respect the repository's constraints regarding contributions. You can find them in the [CONTRIBUTING.md](CONTRIBUTING.md) file.
 
-## Repositories with Open, Easy, Help Wanted, Issue Filters
+## Repositories with Open, Easy, Help Wanted
 
 * [Python SDK](https://github.com/sendgrid/sendgrid-python/issues?utf8=%E2%9C%93&q=is%3Aopen+label%3A%22difficulty%3A+easy%22+label%3A%22status%3A+help+wanted%22)
 * [PHP SDK](https://github.com/sendgrid/sendgrid-php/issues?utf8=%E2%9C%93&q=is%3Aopen+label%3A%22difficulty%3A+easy%22+label%3A%22status%3A+help+wanted%22)

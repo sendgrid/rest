@@ -20,6 +20,7 @@ All updates to this library is documented in our [CHANGELOG](CHANGELOG.md).
 - [Usage](#usage)
 - [How to Contribute](#contribute)
 - [About](#about)
+- [Support](#support)
 - [License](#license)
 
 <a name="installation"></a>
@@ -182,8 +183,6 @@ We encourage contribution to our projects, please see our [CONTRIBUTING](CONTRIB
 
 Quick links:
 
-- [Feature Request](CONTRIBUTING.md#feature-request)
-- [Bug Reports](CONTRIBUTING.md#submit-a-bug-report)
 - [Improvements to the Codebase](CONTRIBUTING.md#improvements-to-the-codebase)
 - [Code Reviews](CONTRIBUTING.md#code-reviews)
 
@@ -192,9 +191,10 @@ Quick links:
 
 rest is maintained and funded by Twilio SendGrid, Inc. The names and logos for rest are trademarks of Twilio SendGrid, Inc.
 
-If you need help installing or using the library, please check the [Twilio SendGrid Support Help Center](https://support.sendgrid.com).
+<a name="support"></a>
+# Support
 
-If you've instead found a bug in the library or would like new features added, go ahead and open issues or pull requests against this repo!
+If you need help using SendGrid, please check the [Twilio SendGrid Support Help Center](https://support.sendgrid.com).
 
 <a name="license"></a>
 # License
