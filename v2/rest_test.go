@@ -309,10 +309,10 @@ func TestRestError(t *testing.T) {
 }
 
 func TestRepoFiles(t *testing.T) {
-	files := []string{".env_sample", ".gitignore", ".github/workflows/test.yml", "CHANGELOG.md",
-		"CODE_OF_CONDUCT.md", "CONTRIBUTING.md",
-		"LICENSE", "PULL_REQUEST_TEMPLATE.md", "README.md",
-		"TROUBLESHOOTING.md", "USAGE.md"}
+	files := []string{"../.env_sample", "../.gitignore", "../.github/workflows/test.yml", "../CHANGELOG.md",
+		"../CODE_OF_CONDUCT.md", "../CONTRIBUTING.md",
+		"../LICENSE", "../PULL_REQUEST_TEMPLATE.md", "../README.md",
+		"../TROUBLESHOOTING.md", "../USAGE.md"}
 
 	for _, file := range files {
 		if _, err := os.Stat(file); os.IsNotExist(err) {
@@ -323,7 +323,7 @@ func TestRepoFiles(t *testing.T) {
 
 func TestLicenseYear(t *testing.T) {
 	t.Parallel()
-	dat, err := os.ReadFile("LICENSE")
+	dat, err := os.ReadFile("../LICENSE")
 
 	currentYear := time.Now().Year()
 	r := fmt.Sprintf("%d", currentYear)
