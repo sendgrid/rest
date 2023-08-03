@@ -26,3 +26,4 @@ _testmain.go
 .settings.json
 
 temp.go
+.vscode
