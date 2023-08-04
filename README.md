@@ -39,8 +39,16 @@ This library supports the following Go implementations:
 
 ## Install Package
 
+If you are using Go 1.14 through 1.17:
+
 ```bash
 go get github.com/sendgrid/rest
+```
+
+If you are using Go 1.18 or above:
+
+```bash
+go get github.com/sendgrid/rest/v3
 ```
 
 ## Setup Environment Variables
@@ -109,7 +117,7 @@ Your go files will be executed relative to the root of this directory. So in the
 ```go
 package main
 
-import "github.com/sendgrid/rest"
+import "github.com/sendgrid/rest" // Or github.com/sendgrid/rest/v3 if using Go 1.18 or above
 import "fmt"
 
 func main() {
@@ -138,7 +146,7 @@ func main() {
 ```go
 package main
 
-import "github.com/sendgrid/rest"
+import "github.com/sendgrid/rest" // Or github.com/sendgrid/rest/v3 if using Go 1.18 or above
 import "fmt"
 
 func main() {
