@@ -3,6 +3,7 @@ package rest
 import (
 	"errors"
 	"fmt"
+	"io/ioutil"
 	"net/http"
 	"net/http/httptest"
 	"net/http/httputil"
@@ -323,7 +324,7 @@ func TestRepoFiles(t *testing.T) {
 
 func TestLicenseYear(t *testing.T) {
 	t.Parallel()
-	dat, err := os.ReadFile("LICENSE")
+	dat, err := ioutil.ReadFile("LICENSE")
 
 	currentYear := time.Now().Year()
 	r := fmt.Sprintf("%d", currentYear)

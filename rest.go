@@ -4,7 +4,7 @@ package rest
 import (
 	"bytes"
 	"context"
-	"io"
+	"io/ioutil"
 	"net/http"
 	"net/url"
 )
@@ -97,7 +97,7 @@ func MakeRequest(req *http.Request) (*http.Response, error) {
 
 // BuildResponse builds the response struct.
 func BuildResponse(res *http.Response) (*Response, error) {
-	body, err := io.ReadAll(res.Body)
+	body, err := ioutil.ReadAll(res.Body)
 	response := Response{
 		StatusCode: res.StatusCode,
 		Body:       string(body),
