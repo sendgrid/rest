@@ -1,6 +1,8 @@
 package rest
 
 import (
+	"bytes"
+	"compress/gzip"
 	"errors"
 	"fmt"
 	"io/ioutil"
@@ -60,6 +62,54 @@ func TestBuildRequest(t *testing.T) {
 	}
 	fmt.Println("Request : ", string(requestDump))
 	//End Print Request
+}
+
+func TestBuildRequest_Gzip(t *testing.T) {
+	t.Parallel()
+	method := Get
+	baseURL := "http://api.test.com"
+	key := "API_KEY"
+	Headers := make(map[string]string)
+	Headers["Content-Type"] = "application/json"
+	Headers["Content-Encoding"] = "gzip"
+	Headers["Authorization"] = "Bearer " + key
+	queryParams := make(map[string]string)
+	queryParams["test"] = "1"
+	queryParams["test2"] = "2"
+	body := []byte(`{"Test": "gzip", "Gzip": true}`)
+	request := Request{
+		Method:      method,
+		BaseURL:     baseURL,
+		Headers:     Headers,
+		QueryParams: queryParams,
+		Body:        body,
+	}
+	req, e := BuildRequestObject(request)
+	if e != nil {
+		t.Errorf("Rest failed to BuildRequest. Returned error: %v", e)
+	}
+	if req == nil {
+		t.Errorf("Failed to BuildRequest.")
+	}
+
+	if req.Header.Get("Content-Encoding") != "gzip" {
+		t.Errorf("Wrong content encoding: %s", req.Header.Get("Content-Encoding"))
+	}
+
+	gunzip, err := gzip.NewReader(req.Body)
+	if err != nil {
+		t.Errorf("Error read request body: %v", err)
+	}
+
+	decompressed, err := ioutil.ReadAll(gunzip)
+	if err != nil {
+		t.Errorf("Error read decomrpessed result")
+	}
+
+	if !bytes.Equal(body, decompressed) {
+		t.Errorf("Request body is not properly compressed")
+	}
+
 }
 
 func TestBuildBadRequest(t *testing.T) {

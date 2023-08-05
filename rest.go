@@ -3,6 +3,7 @@ package rest
 
 import (
 	"bytes"
+	"compress/gzip"
 	"context"
 	"io/ioutil"
 	"net/http"
@@ -76,7 +77,21 @@ func BuildRequestObject(request Request) (*http.Request, error) {
 	if len(request.QueryParams) != 0 {
 		request.BaseURL = AddQueryParameters(request.BaseURL, request.QueryParams)
 	}
-	req, err := http.NewRequest(string(request.Method), request.BaseURL, bytes.NewBuffer(request.Body))
+
+	// If content-encoding is set to gzip, gzip compress the request body
+	var body *bytes.Buffer
+	if request.Headers["Content-Encoding"] == "gzip" {
+		body = &bytes.Buffer{}
+		gz := gzip.NewWriter(body)
+		defer gz.Close()
+		if _, err := gz.Write(request.Body); err != nil {
+			return nil, err
+		}
+	} else {
+		body = bytes.NewBuffer(request.Body)
+	}
+
+	req, err := http.NewRequest(string(request.Method), request.BaseURL, body)
 	if err != nil {
 		return req, err
 	}
