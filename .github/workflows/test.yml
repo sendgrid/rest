@@ -20,10 +20,10 @@ jobs:
         go: [ '1.14', '1.15', '1.16', '1.17' ]
     steps:
       - name: Checkout rest
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Setup Go environment
-        uses: actions/setup-go@v2
+        uses: actions/setup-go@v4
         with:
           go-version: ${{ matrix.go }}
 
@@ -36,6 +36,31 @@ jobs:
       - name: Run Tests
         run: make test
 
+  test-v3:
+    name: Build & Test
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    strategy:
+      matrix:
+        go: [ '1.18', '1.19', '1.20' ]
+    steps:
+      - name: Checkout rest
+        uses: actions/checkout@v3
+
+      - name: Setup Go environment
+        uses: actions/setup-go@v4
+        with:
+          go-version: ${{ matrix.go }}
+
+      - name: Set Go env vars
+        run: |
+          echo "GOPATH=$HOME" >> $GITHUB_ENV
+          echo "GOBIN=$HOME/bin" >> $GITHUB_ENV
+          echo "GO111MODULE=off" >> $GITHUB_ENV
+
+      - name: Run Tests
+        run: cd v3 && make test
+
   deploy:
     name: Deploy
     if: success() && github.ref_type == 'tag'
@@ -43,7 +68,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout rest
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Create GitHub Release
         uses: sendgrid/dx-automator/actions/release@main
