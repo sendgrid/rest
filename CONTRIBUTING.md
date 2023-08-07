@@ -18,7 +18,7 @@ We welcome direct contributions to the rest code base. Thank you!
 
 ##### Supported Versions #####
 
-- Go version 1.14, 1.15, 1.16, 1.17, 1.18, or 1.19
+- Go version 1.14, 1.15, 1.16, 1.17, 1.18, 1.19, or 1.20
 
 ##### Initial setup: #####
 
